@@ -1,0 +1,1852 @@
+
+----- switch ------
+1 : VP(VB(switch),PP(IN(to),NP(X0)))
+ ==> switch_to(NP(X0))
+
+2 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+3 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+4 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+5 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+6 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+7 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+8 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+9 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+10 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+11 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+12 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+13 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+14 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+15 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+16 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+17 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+18 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+19 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+20 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+21 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+22 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+23 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+24 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+25 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+26 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+27 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+28 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+29 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+30 : VP(VB(switch),PP(IN(to),NP(X0)))
+ ==> switch_to(NP(X0))
+
+31 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+32 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+33 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+34 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+35 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+36 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+37 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+38 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+39 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+40 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+41 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+42 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+43 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+44 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+45 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+46 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+47 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+48 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+49 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+50 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+51 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+52 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+53 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+54 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+55 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+56 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+57 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+58 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+59 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+60 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+61 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+62 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+63 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+64 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+65 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+66 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+67 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+68 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+69 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+70 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+71 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+72 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+73 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+74 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+75 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+76 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+77 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+78 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+79 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+80 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+81 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+82 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+83 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+84 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+85 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+86 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+87 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+88 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+89 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+90 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+91 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+92 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+93 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+94 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+95 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+96 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+97 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+98 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+99 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+100 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+101 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+102 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+103 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+104 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+105 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+106 : VP(VB(switch),PP(IN(to),NP(X0)))
+ ==> switch_to(NP(X0))
+
+107 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+108 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+109 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+110 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+111 : VP(VB(switch),PP(IN(to),NP(X0)))
+ ==> switch_to(NP(X0))
+
+112 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+113 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+114 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+115 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+116 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+117 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+118 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+119 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+120 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+121 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+122 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+123 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+124 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+125 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+126 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+127 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+128 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+129 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+130 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+131 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+132 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+133 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+134 : VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+
+
+----- set ------
+1 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+2 : VP(VB(set),NP(z0,NNS(force-quirks),NN(flag)),PP(IN(to),ADVP(RP(on))))
+ ==> set_force-quirks_flag_to_on(z0)
+
+3 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+4 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+5 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+6 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+7 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+8 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+9 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+10 : VP(VB(set),NP(z0,NN(z1),NN(z2)),PP(IN(to),NP(X3)))
+ ==> set_to(z0,z1,z2,NP(X3))
+
+11 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+12 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+13 : VP(X0)
+ ==> (VP(X0))
+
+14 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+15 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+16 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+17 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+18 : VP(VB(set),NP(X0),PP(IN(to),NP(X1)))
+ ==> set_to(NP(X0),NP(X1))
+
+19 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+20 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+21 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+22 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+23 : VP(X0)
+ ==> (VP(X0))
+
+24 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+25 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+26 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+27 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+28 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+29 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+30 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+31 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),NP(DT(the),JJ(empty),NN(string))))
+ ==> set_to_the_empty_string(z0,z1,z2)
+
+32 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+33 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+34 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+35 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+36 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+37 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+38 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+
+39 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+40 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+41 : VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),NNS(force-quirks),NN(flag)),PP(IN(to),ADVP(RP(on))))
+ ==> set_the_DOCTYPE_token_'s_force-quirks_flag_to_on
+
+42 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+43 : VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+
+44 : VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+
+
+----- create ------
+1 : VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+
+2 : VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+
+3 : VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+
+4 : VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+
+5 : VP(VB(create),NP(X0))
+ ==> create(NP(X0))
+
+6 : VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+
+
+----- reconsume ------
+1 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+2 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+3 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+4 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+5 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+6 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+7 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+8 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+9 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+10 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+11 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+12 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+13 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+14 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+15 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+16 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+17 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+18 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+19 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+20 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+21 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+22 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+23 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+24 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+25 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+26 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+27 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+28 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+29 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+30 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+31 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+32 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+33 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+34 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+35 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+36 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+37 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+38 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+39 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+40 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+41 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+42 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+43 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+44 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+45 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+46 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+47 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+48 : VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+
+49 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+50 : VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+
+
+----- multiply ------
+1 : VP(VB(multiply),NP(DT(the),NN(character),NN(reference),NN(code)),PP(IN(by),NP(CD(z0))))
+ ==> multiply_the_character_reference_code_by(z0)
+
+2 : VP(VB(multiply),NP(DT(the),NN(character),NN(reference),NN(code)),PP(IN(by),NP(CD(16))))
+ ==> multiply_the_character_reference_code_by_16
+
+
+----- consume ------
+1 : VP(X0)
+ ==> (VP(X0))
+
+2 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+3 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+4 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+5 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+6 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+7 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+8 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+9 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+10 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+11 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+12 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+13 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+14 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+15 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+16 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+17 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+18 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+19 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+20 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+21 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+22 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+23 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+24 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+25 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+26 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+27 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+28 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+29 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+30 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+31 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+32 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+33 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+34 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+35 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+36 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+37 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+38 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+39 : VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+
+40 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+41 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+42 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+43 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+44 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+45 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+46 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+47 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+48 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+49 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+50 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+51 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+52 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+53 : VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+
+54 : VP(X0)
+ ==> (VP(X0))
+
+
+----- start ------
+
+----- add ------
+1 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+2 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+3 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+4 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+5 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+6 : VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+
+
+----- ignore ------
+1 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+2 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+3 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+4 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+5 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+6 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+7 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+8 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+9 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+10 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+11 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+12 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+13 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+14 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+15 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+16 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+17 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+18 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+19 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+20 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+21 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+22 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+23 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+24 : VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+
+
+----- append ------
+1 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+2 : VP(X0)
+ ==> (VP(X0))
+
+3 : VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(X0)))
+ ==> append_the_current_input_character_to(NP(X0))
+
+4 : VP(VB(append),NP(X0),PP(IN(to),NP(NP(DT(the),z1,NN(z2),POS('s)),z3)))
+ ==> append_to_the_'s(NP(X0),z1,z2,z3)
+
+5 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+6 : VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(X0)))
+ ==> append_the_current_input_character_to(NP(X0))
+
+7 : VP(X0)
+ ==> (VP(X0))
+
+8 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+9 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+10 : VP(VB(append),NP(X0),PP(IN(to),NP(z1,z2,NN(z3))))
+ ==> append_to(NP(X0),z1,z2,z3)
+
+11 : VP(X0)
+ ==> (VP(X0))
+
+12 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+13 : VP(VB(append),NP(z0,z1,z2,z3),PP(IN(to),NP(X4)))
+ ==> append_to(z0,z1,z2,z3,NP(X4))
+
+14 : VP(VB(append),NP(z0,z1,z2,z3),PP(IN(to),NP(X4)))
+ ==> append_to(z0,z1,z2,z3,NP(X4))
+
+15 : VP(X0)
+ ==> (VP(X0))
+
+16 : VP(VB(append),NP(X0),PP(IN(to),NP(NP(X1),z2)))
+ ==> append_to(NP(X0),NP(X1),z2)
+
+17 : VP(X0)
+ ==> (VP(X0))
+
+18 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+19 : VP(X0)
+ ==> (VP(X0))
+
+20 : VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(X0)))
+ ==> append_the_current_input_character_to(NP(X0))
+
+21 : VP(VB(append),NP(z0,z1,z2,z3),PP(IN(to),NP(X4)))
+ ==> append_to(z0,z1,z2,z3,NP(X4))
+
+22 : VP(VB(append),NP(z0,z1,z2,z3),PP(IN(to),NP(NP(X4),z5)))
+ ==> append_to(z0,z1,z2,z3,NP(X4),z5)
+
+23 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+24 : VP(X0)
+ ==> (VP(X0))
+
+25 : VP(X0)
+ ==> (VP(X0))
+
+26 : VP(VB(append),NP(X0),PP(IN(to),NP(NP(DT(the),z1,NN(z2),POS('s)),z3)))
+ ==> append_to_the_'s(NP(X0),z1,z2,z3)
+
+27 : VP(X0)
+ ==> (VP(X0))
+
+28 : VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(X0)))
+ ==> append_the_current_input_character_to(NP(X0))
+
+29 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+30 : VP(VB(append),NP(X0),PP(IN(to),NP(NP(DT(the),z1,NN(z2),POS('s)),z3)))
+ ==> append_to_the_'s(NP(X0),z1,z2,z3)
+
+31 : VP(X0)
+ ==> (VP(X0))
+
+32 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+33 : VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(z0,z1,NN(z2))))
+ ==> append_the_current_input_character_to(z0,z1,z2)
+
+34 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+35 : VP(X0)
+ ==> (VP(X0))
+
+36 : VP(X0)
+ ==> (VP(X0))
+
+37 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+38 : VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+
+
+----- _other ------
+1 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+2 : VP(z0,z1)
+ ==> (z0,z1)
+
+3 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+4 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+5 : VP(z0,z1)
+ ==> (z0,z1)
+
+6 : VP(VBZ(is),NP(DT(z0),z1,NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+7 : VP(z0,z1)
+ ==> (z0,z1)
+
+8 : VP(z0,z1)
+ ==> (z0,z1)
+
+9 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+10 : VP(X0)
+ ==> (VP(X0))
+
+11 : VP(X0)
+ ==> (VP(X0))
+
+12 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+13 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+14 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+15 : VP(X0)
+ ==> (VP(X0))
+
+16 : VP(z0,z1)
+ ==> (z0,z1)
+
+17 : VP(z0,z1)
+ ==> (z0,z1)
+
+18 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+19 : VP(X0)
+ ==> (VP(X0))
+
+20 : VP(z0,NP(X1))
+ ==> (z0,NP(X1))
+
+21 : VP(X0)
+ ==> (VP(X0))
+
+22 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+23 : VP(X0)
+ ==> (VP(X0))
+
+24 : VP(z0,z1)
+ ==> (z0,z1)
+
+25 : VP(z0,NP(X1))
+ ==> (z0,NP(X1))
+
+26 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+27 : VP(z0,z1)
+ ==> (z0,z1)
+
+28 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+29 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+30 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+31 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+32 : VP(VBZ(is),NP(z0,z1,z2,z3))
+ ==> is(z0,z1,z2,z3)
+
+33 : VP(X0)
+ ==> (VP(X0))
+
+34 : VP(z0,z1)
+ ==> (z0,z1)
+
+35 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+36 : VP(X0)
+ ==> (VP(X0))
+
+37 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+38 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+39 : VP(X0)
+ ==> (VP(X0))
+
+40 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+41 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+42 : VP(z0,z1)
+ ==> (z0,z1)
+
+43 : VP(z0,z1)
+ ==> (z0,z1)
+
+44 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+45 : VP(z0,z1)
+ ==> (z0,z1)
+
+46 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+47 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+48 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+49 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+50 : VP(X0)
+ ==> (VP(X0))
+
+51 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+52 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+53 : VP(z0,z1)
+ ==> (z0,z1)
+
+54 : VP(X0)
+ ==> (VP(X0))
+
+55 : VP(z0,z1)
+ ==> (z0,z1)
+
+56 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+57 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+58 : VP(z0,z1)
+ ==> (z0,z1)
+
+59 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+60 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+61 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+62 : VP(z0,z1)
+ ==> (z0,z1)
+
+63 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+64 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+65 : VP(X0)
+ ==> (VP(X0))
+
+66 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+67 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+68 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+69 : VP(z0,z1)
+ ==> (z0,z1)
+
+70 : VP(z0,NP(X1))
+ ==> (z0,NP(X1))
+
+71 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+72 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+73 : VP(z0,z1)
+ ==> (z0,z1)
+
+74 : VP(z0,z1)
+ ==> (z0,z1)
+
+75 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+76 : VP(z0,z1)
+ ==> (z0,z1)
+
+77 : VP(z0,z1)
+ ==> (z0,z1)
+
+78 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+79 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+80 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+81 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+82 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+83 : VP(z0,z1)
+ ==> (z0,z1)
+
+84 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+85 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+86 : VP(X0)
+ ==> (VP(X0))
+
+87 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+88 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+89 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+90 : VP(X0)
+ ==> (VP(X0))
+
+91 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+92 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+93 : VP(z0,z1)
+ ==> (z0,z1)
+
+94 : VP(X0)
+ ==> (VP(X0))
+
+95 : VP(X0)
+ ==> (VP(X0))
+
+96 : VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+
+97 : VP(z0,z1)
+ ==> (z0,z1)
+
+98 : VP(X0)
+ ==> (VP(X0))
+
+99 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+100 : VP(X0)
+ ==> (VP(X0))
+
+101 : VP(z0,z1)
+ ==> (z0,z1)
+
+102 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+103 : VP(z0,NP(DT(z1),z2,NN(z3),NN(z4)))
+ ==> (z0,z1,z2,z3,z4)
+
+104 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+105 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+106 : VP(z0,z1)
+ ==> (z0,z1)
+
+107 : VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+
+108 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+109 : VP(X0)
+ ==> (VP(X0))
+
+110 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+111 : VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+
+112 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+113 : VP(X0)
+ ==> (VP(X0))
+
+114 : VP(z0,z1)
+ ==> (z0,z1)
+
+115 : VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+116 : VP(z0,z1)
+ ==> (z0,z1)
+
+117 : VP(z0,z1)
+ ==> (z0,z1)
+
+118 : VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+
+119 : VP(z0,z1)
+ ==> (z0,z1)
+
+120 : VP(VBZ(is),NP(DT(z0),z1,NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+
+121 : VP(z0,z1)
+ ==> (z0,z1)
+
+122 : VP(X0)
+ ==> (VP(X0))
+
+123 : VP(X0)
+ ==> (VP(X0))
+
+124 : VP(X0)
+ ==> (VP(X0))
+
+
+----- emit ------
+1 : VP(X0)
+ ==> (VP(X0))
+
+2 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+3 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+4 : VP(X0)
+ ==> (VP(X0))
+
+5 : VP(VB(emit),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(as),NP(DT(a),NN(character),NN(token))))
+ ==> emit_the_current_input_character_as_a_character_token
+
+6 : VP(X0)
+ ==> (VP(X0))
+
+7 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+8 : VP(X0)
+ ==> (VP(X0))
+
+9 : VP(VB(emit),NP(z0,z1,NN(z2),NN(token)))
+ ==> emit_token(z0,z1,z2)
+
+10 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+11 : VP(VB(emit),NP(z0,z1,z2))
+ ==> emit(z0,z1,z2)
+
+12 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+13 : VP(X0)
+ ==> (VP(X0))
+
+14 : VP(X0)
+ ==> (VP(X0))
+
+15 : VP(X0)
+ ==> (VP(X0))
+
+16 : VP(X0)
+ ==> (VP(X0))
+
+17 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+18 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+19 : VP(X0)
+ ==> (VP(X0))
+
+20 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+21 : VP(X0)
+ ==> (VP(X0))
+
+22 : VP(X0)
+ ==> (VP(X0))
+
+23 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+24 : VP(X0)
+ ==> (VP(X0))
+
+25 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+26 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+27 : VP(X0)
+ ==> (VP(X0))
+
+28 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+29 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+30 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+31 : VP(X0)
+ ==> (VP(X0))
+
+32 : VP(X0)
+ ==> (VP(X0))
+
+33 : VP(X0)
+ ==> (VP(X0))
+
+34 : VP(X0)
+ ==> (VP(X0))
+
+35 : VP(X0)
+ ==> (VP(X0))
+
+36 : VP(X0)
+ ==> (VP(X0))
+
+37 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+38 : VP(VB(emit),NP(z0,z1,z2))
+ ==> emit(z0,z1,z2)
+
+39 : VP(X0)
+ ==> (VP(X0))
+
+40 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+41 : VP(X0)
+ ==> (VP(X0))
+
+42 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+43 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+44 : VP(X0)
+ ==> (VP(X0))
+
+45 : VP(X0)
+ ==> (VP(X0))
+
+46 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+47 : VP(X0)
+ ==> (VP(X0))
+
+48 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+49 : VP(X0)
+ ==> (VP(X0))
+
+50 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+51 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+52 : VP(VB(emit),NP(DT(an),NN(end-of-file),NN(token)))
+ ==> emit_an_end-of-file_token
+
+53 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+54 : VP(X0)
+ ==> (VP(X0))
+
+55 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+56 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+57 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+58 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+59 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+60 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+61 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+62 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+63 : VP(X0)
+ ==> (VP(X0))
+
+64 : VP(X0)
+ ==> (VP(X0))
+
+65 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+66 : VP(X0)
+ ==> (VP(X0))
+
+67 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+68 : VP(X0)
+ ==> (VP(X0))
+
+69 : VP(X0)
+ ==> (VP(X0))
+
+70 : VP(VB(emit),NP(DT(that),NN(DOCTYPE),NN(token)))
+ ==> emit_that_DOCTYPE_token
+
+71 : VP(X0)
+ ==> (VP(X0))
+
+72 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+73 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+74 : VP(X0)
+ ==> (VP(X0))
+
+75 : VP(X0)
+ ==> (VP(X0))
+
+76 : VP(X0)
+ ==> (VP(X0))
+
+77 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+78 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+79 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+80 : VP(X0)
+ ==> (VP(X0))
+
+81 : VP(X0)
+ ==> (VP(X0))
+
+82 : VP(X0)
+ ==> (VP(X0))
+
+83 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+84 : VP(X0)
+ ==> (VP(X0))
+
+85 : VP(X0)
+ ==> (VP(X0))
+
+86 : VP(X0)
+ ==> (VP(X0))
+
+87 : VP(X0)
+ ==> (VP(X0))
+
+88 : VP(X0)
+ ==> (VP(X0))
+
+89 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+90 : VP(X0)
+ ==> (VP(X0))
+
+91 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+92 : VP(X0)
+ ==> (VP(X0))
+
+93 : VP(X0)
+ ==> (VP(X0))
+
+94 : VP(X0)
+ ==> (VP(X0))
+
+95 : VP(VB(emit),NP(z0,z1,z2))
+ ==> emit(z0,z1,z2)
+
+96 : VP(VB(emit),NP(z0,z1,NN(z2),NN(token)))
+ ==> emit_token(z0,z1,z2)
+
+97 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+98 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+99 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+100 : VP(VB(emit),NP(z0,z1,NN(character),NN(token)))
+ ==> emit_character_token(z0,z1)
+
+101 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+102 : VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+
+103 : VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+
+104 : VP(X0)
+ ==> (VP(X0))
+
+105 : VP(X0)
+ ==> (VP(X0))
+
+106 : VP(X0)
+ ==> (VP(X0))
+
+
+----- flush ------
+
+----- treat ------
+1 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+2 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+3 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+4 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+5 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+6 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+7 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+8 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+9 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+10 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+11 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+12 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+13 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+14 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+15 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+16 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+17 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+18 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+19 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+
+20 : VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+

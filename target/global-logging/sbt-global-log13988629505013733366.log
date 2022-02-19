@@ -1,0 +1,6 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(console, Some(0334b216-c929-4021-ba1d-8cb1eea3bab8), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / console[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /mnt/c/Users/ayaka/Desktop/nlpTest/LAL-Parser/scala3_sbt/target/scala-3.1.0/classes ...[0m
+[0m[[0m[32msuccess[0m] [0m[0mTotal time: 53 s, completed Nov 25, 2021, 12:20:35 PM[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m

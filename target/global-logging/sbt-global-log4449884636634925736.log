@@ -1,0 +1,16 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(console, Some(4eea6bf3-d0ea-42c9-867a-a0d6d03bded7), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / console[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /mnt/c/Users/ayaka/Desktop/nlpTest/LAL-Parser/scala3_sbt/target/scala-3.1.0/classes ...[0m
+[0m[[0m[31merror[0m] [0m[0m[31m-- [E000] Syntax Error: /mnt/c/Users/ayaka/Desktop/nlpTest/LAL-Parser/scala3_sbt/src/main/scala/Main.scala:89:8 [0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m89 |[0m      } [33mcatch[0m {[0m
+[0m[[0m[31merror[0m] [0m[0m   |        [31m^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m   |        The [33mcatch[0m block does not contain a valid expression, try[0m
+[0m[[0m[31merror[0m] [0m[0m   |        adding a case like - [33mcase[0m e: Exception => to the block[0m
+[0m[[0m[31merror[0m] [0m[0m[31m90 |[0m        [34m//[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m91 |[0m      }[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 0 s, completed Dec 15, 2021, 7:14:49 PM[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m

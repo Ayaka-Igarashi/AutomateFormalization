@@ -1,0 +1,2 @@
+(S (VP (NN Set) (NP (DT the) (NN attribute) (NN name) (CC and) (NN value)) (PP (TO to) (NP (DT the) (JJ empty) (NN string)))) (. .))
+(S (VP (NN Set) (NP (DT this) (NN name) (CC and) (NN value)) (PP (TO to) (NP (DT this) (JJ empty) (NN string)))) (. .))

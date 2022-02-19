@@ -1,0 +1,1584 @@
+--Data_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0026 AMPERSAND (&amp;) :
+  S(set_to(return_state,Data_state))
+  S(switch_to(Character_reference_state))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Tag_open_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit_the_current_input_character_as_a_character_token)
+ EOF :
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--RCDATA_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0026 AMPERSAND (&amp;) :
+  S(set_to(return_state,RCDATA_state))
+  S(switch_to(Character_reference_state))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(RCDATA_less_than_sign_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--RAWTEXT_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(RAWTEXT_less_than_sign_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_less_than_sign_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--PLAINTEXT_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0021 EXCLAMATION MARK (!) :
+  S(switch_to(Markup_declaration_open_state))
+ U+002F SOLIDUS (/) :
+  S(switch_to(End_tag_open_state))
+ ASCII alpha :
+  S(VP(create(new_start_tag_token),CC(and),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(Tag_name_state))
+ U+003F QUESTION MARK (?) :
+  is(,unexpected-question-mark-instead-of-tag-name_parse_error)
+  S(create((comment_token,(whose_data,(is(empty_string))))))
+  S(reconsume_in(Bogus_comment_state))
+ EOF :
+  is(,eof-before-tag-name_parse_error)
+  S(emit(and((U+003C,character_token(LESS-THAN((SIGN)))),end-of-file_token)))
+ Anything else :
+  is(,invalid-first-character-of-tag-name_parse_error)
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(Data_state))
+
+--End_tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alpha :
+  S(VP(create(new_token(end_tag)),,(,),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(Tag_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-end-tag-name_parse_error)
+  S(switch_to(Data_state))
+ EOF :
+  is(,eof-before-tag-name_parse_error)
+  S(emit(,_and(U+003C_LESS-THAN_SIGN_character_token,U+002F_SOLIDUS_character_token,end-of-file_token)))
+ Anything else :
+  is(,invalid-first-character-of-tag-name_parse_error)
+  S(create((comment_token,(whose_data,(is(empty_string))))))
+  S(reconsume_in(Bogus_comment_state))
+
+--Tag_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_attribute_name_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_attribute_name_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_attribute_name_state))
+ U+0020 SPACE :
+  S(switch_to(Before_attribute_name_state))
+ U+002F SOLIDUS (/) :
+  S(switch_to(Self_closing_start_tag_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),tag_name(current_tag_token_'s))))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),tag_name(current_tag_token_'s)))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,tag_name(current_tag_token_'s)))
+
+--RCDATA_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002F SOLIDUS (/) :
+  S(set_to(temporary_buffer,empty_string))
+  S(switch_to(RCDATA_end_tag_open_state))
+ Anything else :
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(RCDATA_state))
+
+--RCDATA_end_tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alpha :
+  S(VP(create(new_token(end_tag)),,(,),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(RCDATA_end_tag_name_state))
+ Anything else :
+  S(emit(and(SIGN_character_token(U+003C_LESS-THAN),U+002F_SOLIDUS_character_token)))
+  S(reconsume_in(RCDATA_state))
+
+--RCDATA_end_tag_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0020 SPACE :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),tag_name(current_tag_token_'s))))
+  S(append_to(current_input_character,temporary_buffer))
+ ASCII lower alpha :
+  S(append_to(current_input_character,tag_name(current_tag_token_'s)))
+  S(append_to(current_input_character,temporary_buffer))
+ Anything else :
+  S(emit(,_,_and(U+003C_character_token(LESS-THAN_SIGN),U+002F_SOLIDUS_character_token,-LRB-_-RRB-((character_token,for((,of((characters,in(temporary_buffer)))))),in((order,((they,were(added(to(buffer)))))))))))
+  S(reconsume_in(RCDATA_state))
+
+--RAWTEXT_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002F SOLIDUS (/) :
+  S(set_to(temporary_buffer,empty_string))
+  S(switch_to(RAWTEXT_end_tag_open_state))
+ Anything else :
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(RAWTEXT_state))
+
+--RAWTEXT_end_tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alpha :
+  S(VP(create(new_token(end_tag)),,(,),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(RAWTEXT_end_tag_name_state))
+ Anything else :
+  S(emit(and(SIGN_character_token(U+003C_LESS-THAN),U+002F_SOLIDUS_character_token)))
+  S(reconsume_in(RAWTEXT_state))
+
+--RAWTEXT_end_tag_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0020 SPACE :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),tag_name(current_tag_token_'s))))
+  S(append_to(current_input_character,temporary_buffer))
+ ASCII lower alpha :
+  S(append_to(current_input_character,tag_name(current_tag_token_'s)))
+  S(append_to(current_input_character,temporary_buffer))
+ Anything else :
+  S(emit(,_,_and(U+003C_character_token(LESS-THAN_SIGN),U+002F_SOLIDUS_character_token,-LRB-_-RRB-((character_token,for((,of((characters,in(temporary_buffer)))))),in((order,((they,were(added(to(buffer)))))))))))
+  S(reconsume_in(RAWTEXT_state))
+
+--Script_data_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002F SOLIDUS (/) :
+  S(set_to(temporary_buffer,empty_string))
+  S(switch_to(Script_data_end_tag_open_state))
+ U+0021 EXCLAMATION MARK (!) :
+  S(switch_to(Script_data_escape_start_state))
+  S(emit(and(U+003C_LESS-THAN_SIGN_character_token,U+0021_character_token(EXCLAMATION_MARK))))
+ Anything else :
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(Script_data_state))
+
+--Script_data_end_tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alpha :
+  S(VP(create(new_token(end_tag)),,(,),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(Script_data_end_tag_name_state))
+ Anything else :
+  S(emit(and(SIGN_character_token(U+003C_LESS-THAN),U+002F_SOLIDUS_character_token)))
+  S(reconsume_in(Script_data_state))
+
+--Script_data_end_tag_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0020 SPACE :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),tag_name(current_tag_token_'s))))
+  S(append_to(current_input_character,temporary_buffer))
+ ASCII lower alpha :
+  S(append_to(current_input_character,tag_name(current_tag_token_'s)))
+  S(append_to(current_input_character,temporary_buffer))
+ Anything else :
+  S(emit(,_,_and(U+003C_character_token(LESS-THAN_SIGN),U+002F_SOLIDUS_character_token,-LRB-_-RRB-((character_token,for((,of((characters,in(temporary_buffer)))))),in((order,((they,were(added(to(buffer)))))))))))
+  S(reconsume_in(Script_data_state))
+
+--Script_data_escape_start_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_escape_start_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ Anything else :
+  S(reconsume_in(Script_data_state))
+
+--Script_data_escape_start_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_escaped_dash_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ Anything else :
+  S(reconsume_in(Script_data_state))
+
+--Script_data_escaped_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_escaped_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_escaped_less_than_sign_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_escaped_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_escaped_dash_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_escaped_less_than_sign_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(switch_to(Script_data_escaped_state))
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_escaped_dash_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_escaped_less_than_sign_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Script_data_state))
+  S(emit(character_token(U+003E,GREATER-THAN_SIGN)))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(switch_to(Script_data_escaped_state))
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_escaped_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002F SOLIDUS (/) :
+  S(set_to(temporary_buffer,empty_string))
+  S(switch_to(Script_data_escaped_end_tag_open_state))
+ ASCII alpha :
+  S(set_to(temporary_buffer,empty_string))
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(Script_data_double_escape_start_state))
+ Anything else :
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+  S(reconsume_in(Script_data_escaped_state))
+
+--Script_data_escaped_end_tag_open_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alpha :
+  S(VP(create(new_token(end_tag)),,(,),set_to(its_tag_name,empty_string)))
+  S(reconsume_in(Script_data_escaped_end_tag_name_state))
+ Anything else :
+  S(emit(and(SIGN_character_token(U+003C_LESS-THAN),U+002F_SOLIDUS_character_token)))
+  S(reconsume_in(Script_data_escaped_state))
+
+--Script_data_escaped_end_tag_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0020 SPACE :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise_,(treat_it_as_per_the_"_anything_else_"_entry_below)
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),tag_name(current_tag_token_'s))))
+  S(append_to(current_input_character,temporary_buffer))
+ ASCII lower alpha :
+  S(append_to(current_input_character,tag_name(current_tag_token_'s)))
+  S(append_to(current_input_character,temporary_buffer))
+ Anything else :
+  S(emit(,_,_and(U+003C_character_token(LESS-THAN_SIGN),U+002F_SOLIDUS_character_token,-LRB-_-RRB-((character_token,for((,of((characters,in(temporary_buffer)))))),,in((order,((they,were(added(to(buffer)))))))))))
+  S(reconsume_in(Script_data_escaped_state))
+
+--Script_data_double_escape_start_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+0020 SPACE :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise_,(switch_to(Script_data_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ ASCII upper alpha :
+  S(VP(VB(append),(lowercase_version,of(current_input_character)),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),temporary_buffer)))
+  S(emit_the_current_input_character_as_a_character_token)
+ ASCII lower alpha :
+  S(append_to(current_input_character,temporary_buffer))
+  S(emit_the_current_input_character_as_a_character_token)
+ Anything else :
+  S(reconsume_in(Script_data_escaped_state))
+
+--Script_data_double_escaped_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_double_escaped_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_double_escaped_less_than_sign_state))
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_double_escaped_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Script_data_double_escaped_dash_dash_state))
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_double_escaped_less_than_sign_state))
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(switch_to(Script_data_double_escaped_state))
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_double_escaped_dash_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(emit(character_token(U+002D_HYPHEN-MINUS)))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(switch_to(Script_data_double_escaped_less_than_sign_state))
+  S(emit(character_token(U+003C,LESS-THAN_SIGN)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Script_data_state))
+  S(emit(character_token(U+003E,GREATER-THAN_SIGN)))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(switch_to(Script_data_double_escaped_state))
+  S(emit(character_token(U+FFFD_REPLACEMENT_CHARACTER)))
+ EOF :
+  is(,eof-in-script-html-comment-like-text_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+
+--Script_data_double_escaped_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002F SOLIDUS (/) :
+  S(set_to(temporary_buffer,empty_string))
+  S(switch_to(Script_data_double_escape_end_state))
+  S(emit(character_token(U+002F_SOLIDUS)))
+ Anything else :
+  S(reconsume_in(Script_data_double_escaped_state))
+
+--Script_data_double_escape_end_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+000A LINE FEED (LF) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+000C FORM FEED (FF) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+0020 SPACE :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+002F SOLIDUS (/) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  if_,_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise_,(switch_to(Script_data_double_escaped_state))
+  S(emit_the_current_input_character_as_a_character_token)
+ ASCII upper alpha :
+  S(VP(VB(append),(lowercase_version,of(current_input_character)),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),temporary_buffer)))
+  S(emit_the_current_input_character_as_a_character_token)
+ ASCII lower alpha :
+  S(append_to(current_input_character,temporary_buffer))
+  S(emit_the_current_input_character_as_a_character_token)
+ Anything else :
+  S(reconsume_in(Script_data_double_escaped_state))
+
+--Before_attribute_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+002F SOLIDUS (/) :
+  S(reconsume_in(After_attribute_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(reconsume_in(After_attribute_name_state))
+ EOF :
+  S(reconsume_in(After_attribute_name_state))
+ U+003D EQUALS SIGN (=) :
+  is(,unexpected-equals-sign-before-attribute-name_parse_error)
+  S(VP(VB(start),new_attribute,PP(IN(in),current_tag_token)))
+  S(VP(set_to(name(attribute_'s),current_input_character),,(,),CC(and),VP(its_value,PP(IN(to),empty_string))))
+  S(switch_to(Attribute_name_state))
+ Anything else :
+  S(VP(VB(start),new_attribute,PP(IN(in),current_tag_token)))
+  S(set_to(attribute_name_and_value,empty_string))
+  S(reconsume_in(Attribute_name_state))
+
+--Attribute_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(reconsume_in(After_attribute_name_state))
+ U+000A LINE FEED (LF) :
+  S(reconsume_in(After_attribute_name_state))
+ U+000C FORM FEED (FF) :
+  S(reconsume_in(After_attribute_name_state))
+ U+0020 SPACE :
+  S(reconsume_in(After_attribute_name_state))
+ U+002F SOLIDUS (/) :
+  S(reconsume_in(After_attribute_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(reconsume_in(After_attribute_name_state))
+ EOF :
+  S(reconsume_in(After_attribute_name_state))
+ U+003D EQUALS SIGN (=) :
+  S(switch_to(Before_attribute_value_state))
+ ASCII upper alpha :
+  S(VP(S(VP(VB(append),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)),PP(IN(to),name(current_attribute_'s))))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),name(current_attribute_'s)))
+ U+0022 QUOTATION MARK (") :
+  is(,unexpected-character-in-attribute-name_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0027 APOSTROPHE (') :
+  is(,unexpected-character-in-attribute-name_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003C LESS-THAN SIGN (&lt;) :
+  is(,unexpected-character-in-attribute-name_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ Anything else :
+  S(append_to(current_input_character,name(current_attribute_'s)))
+
+--After_attribute_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+002F SOLIDUS (/) :
+  S(switch_to(Self_closing_start_tag_state))
+ U+003D EQUALS SIGN (=) :
+  S(switch_to(Before_attribute_value_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(VP(VB(start),new_attribute,PP(IN(in),current_tag_token)))
+  S(set_to(attribute_name_and_value,empty_string))
+  S(reconsume_in(Attribute_name_state))
+
+--Before_attribute_value_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+0022 QUOTATION MARK (") :
+  S(switch_to(Attribute_value_double_quoted_state))
+ U+0027 APOSTROPHE (') :
+  S(switch_to(Attribute_value_single_quoted_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-attribute-value_parse_error)
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ Anything else :
+  S(reconsume_in(Attribute_value_unquoted_state))
+
+--Attribute_value_double_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0022 QUOTATION MARK (") :
+  S(switch_to(After_attribute_value_quoted_state))
+ U+0026 AMPERSAND (&amp;) :
+  S(set_to(return_state,Attribute_value_double_quoted_state))
+  S(switch_to(Character_reference_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),value(current_attribute_'s)))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,value(current_attribute_'s)))
+
+--Attribute_value_single_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0027 APOSTROPHE (') :
+  S(switch_to(After_attribute_value_quoted_state))
+ U+0026 AMPERSAND (&amp;) :
+  S(set_to(return_state,Attribute_value_single_quoted_state))
+  S(switch_to(Character_reference_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),value(current_attribute_'s)))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,value(current_attribute_'s)))
+
+--Attribute_value_unquoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_attribute_name_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_attribute_name_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_attribute_name_state))
+ U+0020 SPACE :
+  S(switch_to(Before_attribute_name_state))
+ U+0026 AMPERSAND (&amp;) :
+  S(set_to(return_state,Attribute_value_unquoted_state))
+  S(switch_to(Character_reference_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),value(current_attribute_'s)))
+ U+0022 QUOTATION MARK (") :
+  is(,unexpected-character-in-unquoted-attribute-value_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0027 APOSTROPHE (') :
+  is(,unexpected-character-in-unquoted-attribute-value_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003C LESS-THAN SIGN (&lt;) :
+  is(,unexpected-character-in-unquoted-attribute-value_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+003D EQUALS SIGN (=) :
+  is(,unexpected-character-in-unquoted-attribute-value_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ U+0060 GRAVE ACCENT (`) :
+  is(,unexpected-character-in-unquoted-attribute-value_parse_error)
+  S(treat_it_as_per_the_"_anything_else_"_entry_below)
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,value(current_attribute_'s)))
+
+--After_attribute_value_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_attribute_name_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_attribute_name_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_attribute_name_state))
+ U+0020 SPACE :
+  S(switch_to(Before_attribute_name_state))
+ U+002F SOLIDUS (/) :
+  S(switch_to(Self_closing_start_tag_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-whitespace-between-attributes_parse_error)
+  S(reconsume_in(Before_attribute_name_state))
+
+--Self_closing_start_tag_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(VP(VB(set),(self-closing_flag,of(current_tag_token))))
+  S(switch_to(Data_state))
+  S(emit(current_tag_token))
+ EOF :
+  is(,eof-in-tag_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,unexpected-solidus-in-tag_parse_error)
+  S(reconsume_in(Before_attribute_name_state))
+
+--Bogus_comment_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(comment_token))
+ EOF :
+  S(emit(comment))
+  S(emit(end-of-file_token))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),data(comment_token_'s)))
+ Anything else :
+  S(append_to(current_input_character,data(comment_token_'s)))
+
+--Markup_declaration_open_state--
+prev: 
+ SBAR(IN(if),S(next_few_characters,VP(VBP(are))),:(:))
+trans: 
+ Two U+002D HYPHEN-MINUS characters (-) :
+  S(VP(consume(two_characters),,(,),create((comment_token,(whose_data,(is(empty_string))))),,(,),CC(and),switch_to(Comment_start_state)))
+ ASCII case-insensitive match for the word "DOCTYPE" :
+  S(VP(consume(characters),CC(and),switch_to(DOCTYPE_state)))
+ The string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after) :
+  S(consume(characters))
+  if_,_then(S(is(there,adjusted_current_node),CC(and),S(it,VP(VBZ(is),RB(not),(element,in(HTML_namespace))))),switch_to(CDATA_section_state))
+  S(ADVP(RB(otherwise)),,(,),,is(cdata-in-html-content_parse_error))
+  S(create((comment_token,(whose_data,(is("_-LSB-_CDATA_-LSB-_"_string))))))
+  S(switch_to(Bogus_comment_state))
+ Anything else :
+  is(,incorrectly-opened-comment_parse_error)
+  S(create((comment_token,(whose_data,(is(empty_string))))))
+  S(VP(S(switch_to(Bogus_comment_state)),PRN(-LRB-(-LRB-),S(VP(VBP(do),RB(n't),VP(VB(consume),anything,PP(IN(in),current_state)))),-RRB-(-RRB-))))
+
+--Comment_start_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_start_dash_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-closing-of-empty-comment_parse_error)
+  S(switch_to(Data_state))
+  S(emit(comment_token))
+ Anything else :
+  S(reconsume_in(Comment_state))
+
+--Comment_start_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_end_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-closing-of-empty-comment_parse_error)
+  S(switch_to(Data_state))
+  S(emit(comment_token))
+ EOF :
+  is(,eof-in-comment_parse_error)
+  S(emit(comment_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(-LRB-_-RRB-(character(U+002D_HYPHEN-MINUS),-),data(comment_token_'s)))
+  S(reconsume_in(Comment_state))
+
+--Comment_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(append_to(current_input_character,data(comment_token_'s)))
+  S(switch_to(Comment_less_than_sign_state))
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_end_dash_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),data(comment_token_'s)))
+ EOF :
+  is(,eof-in-comment_parse_error)
+  S(emit(comment_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,data(comment_token_'s)))
+
+--Comment_less_than_sign_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0021 EXCLAMATION MARK (!) :
+  S(append_to(current_input_character,data(comment_token_'s)))
+  S(switch_to(Comment_less_than_sign_bang_state))
+ U+003C LESS-THAN SIGN (&lt;) :
+  S(append_to(current_input_character,data(comment_token_'s)))
+ Anything else :
+  S(reconsume_in(Comment_state))
+
+--Comment_less_than_sign_bang_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_less_than_sign_bang_dash_state))
+ Anything else :
+  S(reconsume_in(Comment_state))
+
+--Comment_less_than_sign_bang_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_less_than_sign_bang_dash_dash_state))
+ Anything else :
+  S(reconsume_in(Comment_end_dash_state))
+
+--Comment_less_than_sign_bang_dash_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(reconsume_in(Comment_end_state))
+ EOF :
+  S(reconsume_in(Comment_end_state))
+ Anything else :
+  is(,nested-comment_parse_error)
+  S(reconsume_in(Comment_end_state))
+
+--Comment_end_dash_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(switch_to(Comment_end_state))
+ EOF :
+  is(,eof-in-comment_parse_error)
+  S(emit(comment_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(-LRB-_-RRB-(character(U+002D_HYPHEN-MINUS),-),data(comment_token_'s)))
+  S(reconsume_in(Comment_state))
+
+--Comment_end_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(comment_token))
+ U+0021 EXCLAMATION MARK (!) :
+  S(switch_to(Comment_end_bang_state))
+ U+002D HYPHEN-MINUS (-) :
+  S(append_to(-LRB-_-RRB-(U+002D_HYPHEN-MINUS_character,-),data(comment_token_'s)))
+ EOF :
+  is(,eof-in-comment_parse_error)
+  S(emit(comment_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(-LRB-_-RRB-(two_U+002D_HYPHEN-MINUS_characters,-),data(comment_token_'s)))
+  S(reconsume_in(Comment_state))
+
+--Comment_end_bang_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+002D HYPHEN-MINUS (-) :
+  S(append_to(and(-LRB-_-RRB-(two_U+002D_HYPHEN-MINUS_characters,-),-LRB-_-EXC-_-RRB-(U+0021_character(EXCLAMATION_MARK))),data(comment_token_'s)))
+  S(switch_to(Comment_end_dash_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,incorrectly-closed-comment_parse_error)
+  S(switch_to(Data_state))
+  S(emit(comment_token))
+ EOF :
+  is(,eof-in-comment_parse_error)
+  S(emit(comment_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  VP(VB(append),-RRB-(and(-LRB-_-_-RRB-(two_U+002D_HYPHEN-MINUS_characters),-LRB-_!(U+0021_character(EXCLAMATION_MARK)))))
+  FRAG(IN(to),data(comment_token_'s))
+  S(reconsume_in(Comment_state))
+
+--DOCTYPE_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_DOCTYPE_name_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_DOCTYPE_name_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_DOCTYPE_name_state))
+ U+0020 SPACE :
+  S(switch_to(Before_DOCTYPE_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(reconsume_in(Before_DOCTYPE_name_state))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(create(new_DOCTYPE_token))
+  S(set_to(its_force-quirks_flag,ADVP(RP(on))))
+  S(emit(token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-whitespace-before-doctype-name_parse_error)
+  S(reconsume_in(Before_DOCTYPE_name_state))
+
+--Before_DOCTYPE_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ ASCII upper alpha :
+  S(create(new_DOCTYPE_token))
+  S(S(set_to(name(token_'s),(lowercase_version,of(current_input_character)))),PRN(-LRB-(-LRB-),S(add_0x0020_to_the_character_'s_code_point),-RRB-(-RRB-)))
+  S(switch_to(DOCTYPE_name_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(create(new_DOCTYPE_token))
+  S(set_to(name(token_'s),character(U+FFFD_REPLACEMENT_CHARACTER)))
+  S(switch_to(DOCTYPE_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-doctype-name_parse_error)
+  S(create(new_DOCTYPE_token))
+  S(set_to(its_force-quirks_flag,ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(create(new_DOCTYPE_token))
+  S(set_to(its_flag(force-quirks()),ADVP(RP(on))))
+  S(emit(token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(create(new_DOCTYPE_token))
+  S(set_to(name(token_'s),current_input_character))
+  S(switch_to(DOCTYPE_name_state))
+
+--DOCTYPE_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(After_DOCTYPE_name_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(After_DOCTYPE_name_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(After_DOCTYPE_name_state))
+ U+0020 SPACE :
+  S(switch_to(After_DOCTYPE_name_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_DOCTYPE_token))
+ ASCII upper alpha :
+  S(append_to(((lowercase_version,of(current_input_character)),-LRB-_-RRB-((add(0x0020,to(code_point(character_'s)))))),name(current_DOCTYPE_token_'s)))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),name(current_DOCTYPE_token_'s)))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,name(current_DOCTYPE_token_'s)))
+
+--After_DOCTYPE_name_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(SBAR(IN(if),S((six_characters,starting(from(current_input_character))),VP(VBP(are),(ASCII_case-insensitive_match,for(word_"_PUBLIC))))),,("),''(,),ADVP(RB(then)),VP(consume(characters),CC(and),switch_to(After_DOCTYPE_public_keyword_state)))
+  S(ADVP(RB(otherwise)),,(,),SBAR(SBAR(IN(if),S((six_characters,starting(from(current_input_character))),VP(VBP(are),(ASCII_case-insensitive_match,for(word_"_SYSTEM))))),,(")),,(,),ADVP(RB(then)),VP(consume(characters),CC(and),switch_to(After_DOCTYPE_system_keyword_state)))
+  S(ADVP(RB(otherwise)),,(,),,is(invalid-character-sequence-after-doctype-name_parse_error))
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--After_DOCTYPE_public_keyword_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_DOCTYPE_public_identifier_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_DOCTYPE_public_identifier_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_DOCTYPE_public_identifier_state))
+ U+0020 SPACE :
+  S(switch_to(Before_DOCTYPE_public_identifier_state))
+ U+0022 QUOTATION MARK (") :
+  is(,missing-whitespace-after-doctype-public-keyword_parse_error)
+  S(VP(set_to(public_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_public_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  is(,missing-whitespace-after-doctype-public-keyword_parse_error)
+  S(VP(set_to(public_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_public_identifier_single_quoted_state)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--Before_DOCTYPE_public_identifier_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+0022 QUOTATION MARK (") :
+  S(VP(set_to(public_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_public_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  S(VP(set_to(public_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_public_identifier_single_quoted_state)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--DOCTYPE_public_identifier_double_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0022 QUOTATION MARK (") :
+  S(switch_to(After_DOCTYPE_public_identifier_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),public_identifier(current_DOCTYPE_token_'s)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,public_identifier(current_DOCTYPE_token_'s)))
+
+--DOCTYPE_public_identifier_single_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0027 APOSTROPHE (') :
+  S(switch_to(After_DOCTYPE_public_identifier_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),public_identifier(current_DOCTYPE_token_'s)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-doctype-public-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,public_identifier(current_DOCTYPE_token_'s)))
+
+--After_DOCTYPE_public_identifier_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Between_DOCTYPE_public_and_system_identifiers_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Between_DOCTYPE_public_and_system_identifiers_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Between_DOCTYPE_public_and_system_identifiers_state))
+ U+0020 SPACE :
+  S(switch_to(Between_DOCTYPE_public_and_system_identifiers_state))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_DOCTYPE_token))
+ U+0022 QUOTATION MARK (") :
+  is(,parse_error(missing-whitespace-between-doctype-public-and-system-identifiers))
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  is(,parse_error(missing-whitespace-between-doctype-public-and-system-identifiers))
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_single_quoted_state)))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--Between_DOCTYPE_public_and_system_identifiers_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_DOCTYPE_token))
+ U+0022 QUOTATION MARK (") :
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_single_quoted_state)))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--After_DOCTYPE_system_keyword_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(switch_to(Before_DOCTYPE_system_identifier_state))
+ U+000A LINE FEED (LF) :
+  S(switch_to(Before_DOCTYPE_system_identifier_state))
+ U+000C FORM FEED (FF) :
+  S(switch_to(Before_DOCTYPE_system_identifier_state))
+ U+0020 SPACE :
+  S(switch_to(Before_DOCTYPE_system_identifier_state))
+ U+0022 QUOTATION MARK (") :
+  is(,missing-whitespace-after-doctype-system-keyword_parse_error)
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  is(,missing-whitespace-after-doctype-system-keyword_parse_error)
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_single_quoted_state)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--Before_DOCTYPE_system_identifier_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+0022 QUOTATION MARK (") :
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_double_quoted_state)))
+ U+0027 APOSTROPHE (') :
+  S(VP(set_to(system_identifier(DOCTYPE_token_'s),-LRB-_-RRB-(empty_string,not_missing)),,(,),ADVP(RB(then)),switch_to(DOCTYPE_system_identifier_single_quoted_state)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,missing-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,missing-quote-before-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(reconsume_in(Bogus_DOCTYPE_state))
+
+--DOCTYPE_system_identifier_double_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0022 QUOTATION MARK (") :
+  S(switch_to(After_DOCTYPE_system_identifier_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),system_identifier(current_DOCTYPE_token_'s)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,system_identifier(current_DOCTYPE_token_'s)))
+
+--DOCTYPE_system_identifier_single_quoted_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0027 APOSTROPHE (') :
+  S(switch_to(After_DOCTYPE_system_identifier_state))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(append_to(character(U+FFFD_REPLACEMENT_CHARACTER),system_identifier(current_DOCTYPE_token_'s)))
+ U+003E GREATER-THAN SIGN (&gt;) :
+  is(,abrupt-doctype-system-identifier_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(append_to(current_input_character,system_identifier(current_DOCTYPE_token_'s)))
+
+--After_DOCTYPE_system_identifier_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+0009 CHARACTER TABULATION (tab) :
+  S(ignore_the_character)
+ U+000A LINE FEED (LF) :
+  S(ignore_the_character)
+ U+000C FORM FEED (FF) :
+  S(ignore_the_character)
+ U+0020 SPACE :
+  S(ignore_the_character)
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(current_DOCTYPE_token))
+ EOF :
+  is(,eof-in-doctype_parse_error)
+  S(set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on))))
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  is(,unexpected-character-after-doctype-system-identifier_parse_error)
+  S(reconsume_in(Bogus_DOCTYPE_state))
+  S(-LRB-(-LRB-),,VP(VBZ(does),RB(not),set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on)))),.(.),-RRB-(-RRB-))
+
+--Bogus_DOCTYPE_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+003E GREATER-THAN SIGN (&gt;) :
+  S(switch_to(Data_state))
+  S(emit(DOCTYPE_token))
+ U+0000 NULL :
+  is(,unexpected-null-character_parse_error)
+  S(ignore_the_character)
+ EOF :
+  S(emit(DOCTYPE_token))
+  S(emit(end-of-file_token))
+ Anything else :
+  S(ignore_the_character)
+
+--CDATA_section_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+005D RIGHT SQUARE BRACKET (]) :
+  S(switch_to(CDATA_section_bracket_state))
+ EOF :
+  is(,eof-in-cdata_parse_error)
+  S(emit(end-of-file_token))
+ Anything else :
+  S(emit_the_current_input_character_as_a_character_token)
+
+--CDATA_section_bracket_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+005D RIGHT SQUARE BRACKET (]) :
+  S(switch_to(CDATA_section_end_state))
+ Anything else :
+  S(emit(U+005D_RIGHT_SQUARE_BRACKET_character_token))
+  S(reconsume_in(CDATA_section_state))
+
+--CDATA_section_end_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ U+005D RIGHT SQUARE BRACKET (]) :
+  S(emit(U+005D_character_token(RIGHT_SQUARE_BRACKET)))
+ U+003E GREATER-THAN SIGN character :
+  S(switch_to(Data_state))
+ Anything else :
+  S(emit(two_U+005D_RIGHT_SQUARE_BRACKET_character_tokens))
+  S(reconsume_in(CDATA_section_state))
+
+--Character_reference_state--
+prev: 
+ S(set_to(temporary_buffer,empty_string))
+ S(append_to(U+0026_AMPERSAND_-LRB-_&_amp_;-RRB-_character,temporary_buffer))
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alphanumeric :
+  S(reconsume_in(Named_character_reference_state))
+ U+0023 NUMBER SIGN (#) :
+  S(append_to(current_input_character,temporary_buffer))
+  S(switch_to(Numeric_character_reference_state))
+ Anything else :
+  (points(flush_code),consumed(as(character_reference)))
+  S(reconsume_in(return_state))
+
+--Named_character_reference_state--
+prev: 
+ S(VP(VB(consume),((maximum_number,of(characters)),possible),,(,),SBAR(WHADVP(WRB(where)),S(consumed_characters,VP(VBP(are),(one,of((identifiers,in((first_column,of(named_character_references_table)))))))))))
+ S(VP(VB(append),character,PP(IN(to),temporary_buffer),SBAR(WHADVP(WRB(when)),S(it,VP(VBZ('s),VP(VBN(consumed)))))))
+trans: 
+ If there is a match :
+  S(SBAR(IN(if),S(S(character_reference,VP(VBD(was),VP(VBN(consumed),PP(IN(as),(part,of(attribute)))))),,(,),CC(and),S(S((last_character,matched),VP(VBZ(is),RB(not),U+003B_SEMICOLON_character,-LRB-(-LRB-),-LRB-(;-RRB-),-RRB-(,))),CC(and),is(next_input_character,either_or(-LRB-_=-RRB-(U+003D_EQUALS_SIGN_character),ASCII_alphanumeric))))),,(,),ADVP(RB(then)),,(,),PP(IN(for),historical_reasons),,(,),VP(VP(VB(flush),(code_points,consumed(as(character_reference)))),CC(and),switch_to(return_state)))
+  ()
+  FRAG(ADVP(RB(otherwise)),:(:),SBAR(IN(If),S((last_character,matched),VP(VBZ(is),RB(not),U+003B_SEMICOLON_character))),-LRB-(-LRB-),:(;-RRB-),-RRB-(,),ADVP(RB(then)),,is(missing-semicolon-after-character-reference_parse_error.Set(temporary_buffer,to(empty_string))))
+  S(append_to(-LRB-_-RRB-((characters(one_or_two),corresponding(to(name(character_reference)))),as((given(by((second_column,of(named_character_references_table))))))),(temporary_buffer.Flush_code_points,consumed(as(character_reference)))))
+  S(switch_to(return_state))
+ Otherwise :
+  (points(flush_code),consumed(as(character_reference)))
+  S(switch_to(Ambiguous_ampersand_state))
+
+--Ambiguous_ampersand_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII alphanumeric :
+  if_,_then(S(character_reference,VP(VBD(was),VP(VBN(consumed),PP(IN(as),(part,of(attribute)))))),append_to(current_input_character,value(current_attribute_'s)))
+  otherwise_,(VP(VB(emit),current_input_character,PP(IN(as),character_token)))
+ U+003B SEMICOLON (;) :
+  is(,unknown-named-character-reference_parse_error)
+  S(reconsume_in(return_state))
+ Anything else :
+  S(reconsume_in(return_state))
+
+--Numeric_character_reference_state--
+prev: 
+ S(VP(VB(set),character_reference_code,PP(IN(to),zero_-LRB-),VP(VB(0-RRB-.Consume),next_input_character)),:(:))
+trans: 
+ U+0078 LATIN SMALL LETTER X :
+  S(append_to(current_input_character,temporary_buffer))
+  S(switch_to(Hexadecimal_character_reference_start_state))
+ U+0058 LATIN CAPITAL LETTER X :
+  S(append_to(current_input_character,temporary_buffer))
+  S(switch_to(Hexadecimal_character_reference_start_state))
+ Anything else :
+  S(reconsume_in(Decimal_character_reference_start_state))
+
+--Hexadecimal_character_reference_start_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII hex digit :
+  S(reconsume_in(Hexadecimal_character_reference_state))
+ Anything else :
+  is(,absence-of-digits-in-numeric-character-reference_parse_error)
+  (points(flush_code),consumed(as(character_reference)))
+  S(reconsume_in(return_state))
+
+--Decimal_character_reference_start_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII digit :
+  S(reconsume_in(Decimal_character_reference_state))
+ Anything else :
+  is(,absence-of-digits-in-numeric-character-reference_parse_error)
+  (points(flush_code),consumed(as(character_reference)))
+  S(reconsume_in(return_state))
+
+--Hexadecimal_character_reference_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII digit :
+  S(multiply_the_character_reference_code_by(16))
+  S(VP(VB(add),-LRB-_-RRB-((numeric_version,of(current_input_character)),(subtract(0x0030,from(code_point(character_'s))))),PP(IN(to),character_reference_code)))
+ ASCII upper hex digit :
+  S(multiply_the_character_reference_code_by(16))
+  S(VP(VB(add),((numeric_version,of((current_input_character,as(hexadecimal_digit)))),-LRB-_-RRB-((subtract(0x0037,from(code_point(character_'s)))))),PP(IN(to),character_reference_code)))
+ ASCII lower hex digit :
+  S(multiply_the_character_reference_code_by(16))
+  S(VP(VB(add),((numeric_version,of((current_input_character,as(hexadecimal_digit)))),-LRB-_-RRB-((subtract(0x0057,from(code_point(character_'s)))))),PP(IN(to),character_reference_code)))
+ U+003B SEMICOLON :
+  S(switch_to(Numeric_character_reference_end_state))
+ Anything else :
+  is(,parse_error(missing-semicolon-after-character-reference))
+  S(reconsume_in(Numeric_character_reference_end_state))
+
+--Decimal_character_reference_state--
+prev: 
+ S(consume(next_input_character),:(:))
+trans: 
+ ASCII digit :
+  S(multiply_the_character_reference_code_by(10))
+  S(VP(VB(add),-LRB-_-RRB-((numeric_version,of(current_input_character)),(subtract(0x0030,from(code_point(character_'s))))),PP(IN(to),character_reference_code)))
+ U+003B SEMICOLON :
+  S(switch_to(Numeric_character_reference_end_state))
+ Anything else :
+  is(,parse_error(missing-semicolon-after-character-reference))
+  S(reconsume_in(Numeric_character_reference_end_state))
+

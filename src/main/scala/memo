@@ -1,0 +1,15 @@
+DNode(Set,List((DNode(name,List((DNode(that,List()),amod), 
+                                (DNode(attribute,List()),nn), 
+                                (DNode(and,List()),cc), 
+                                (DNode(value,List()),conj)
+                                )
+                     ),dobj), 
+               (DNode(to,List((DNode(string,List((DNode(the,List()),det), 
+                                                 (DNode(empty,List()),amod)
+                                                )
+                                    ),pobj)
+                             )
+                     ),prep), 
+               (DNode(.,List()),punct)
+              )
+     )
