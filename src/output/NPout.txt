@@ -1,32 +1,33 @@
 
 ----- switch ------
+NP(NN(Comment_end_state))
+NP(NN(Script_data_escaped_state))
+NP(NN(After_DOCTYPE_public_identifier_state))
 NP(NN(Data_state))
 NP(NN(Script_data_double_escaped_state))
 NP(NN(Before_attribute_name_state))
 
 ----- set ------
-NP(NP(JJ(empty),NN(string)),-LRB-(-LRB-),ADJP(RB(not),VBG(missing)),-RRB-(-RRB-))
+NP(PRP$(its),z0,NN(z1))
+NP(z0,NNS(force-quirks),NN(flag))
+NP(NN(return),NN(state))
 NP(NP(NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1))
-NP(JJ(empty),NN(string))
-NP(z0,z1,NN(flag))
 
 ----- create ------
 NP(JJ(new),z0,NN(token))
 
 ----- reconsume ------
 NP(NN(After_attribute_name_state))
-NP(NN(Script_data_double_escaped_state))
-NP(NN(RAWTEXT_state))
 NP(NN(Bogus_DOCTYPE_state))
 
 ----- multiply ------
 NP(NN(character),NN(reference),NN(code))
+NP(CD(16))
 
 ----- consume ------
 NP(JJ(next),NN(input),NN(character))
 
 ----- start ------
-NP(JJ(current),NN(tag),NN(token))
 NP(JJ(new),NN(attribute))
 
 ----- add ------
@@ -38,22 +39,20 @@ NP(NN(character))
 
 ----- append ------
 NP(NP(JJ(current),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(identifier))
-NP(NP(JJ(lowercase),NN(version)),PP(IN(of),NP(JJ(current),NN(input),NN(character))))
-NP(NP(z0,NN(z1),POS('s)),z2)
+NP(NP(JJ(current),NN(tag),NN(token),POS('s)),NN(tag),NN(name))
+NP(JJ(temporary),NN(buffer))
 NP(JJ(current),NN(input),NN(character))
 NP(NML(NNP(U+FFFD),NNP(REPLACEMENT),NNP(CHARACTER)),NN(character))
 
 ----- _other ------
 NP(NN(string),NN("script"))
 NP(JJ(appropriate),NML(NN(end),NN(tag)),NN(token))
-NP(NP(NN(character),POS('s)),NN(code),NN(point))
-NP(z0,z1,NN(character))
 NP(z0,NN(parse),NN(error))
 
 ----- emit ------
 NP(JJ(current),z0,NN(z1))
 NP(z0,z1,NN(token))
-NP(NP(NNP(z0)),PP(IN(z1),z2),NN(character),NN(token))
+NP(NP(NNP(U+003C)),PP(IN(LESS-THAN),VB(SIGN)),NN(character),NN(token))
 NP(NN(z0),NN(token))
 
 ----- flush ------

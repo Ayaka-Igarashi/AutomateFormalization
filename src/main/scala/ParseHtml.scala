@@ -29,7 +29,7 @@ object ParseHtml {
     htmlOut = new PrintWriter(new BufferedWriter(new FileWriter(new File("src/outputHTML.txt"))))
 
     // htmlのparse
-    val doc: Document = Jsoup.parse(new File("src/inputHTML.txt"),null)
+    val doc: Document = Jsoup.parse(new File("src/input/inputHTML.txt"),null)
 
     // 必要なものを取り出す
     val rootNode: Node = doc.body()

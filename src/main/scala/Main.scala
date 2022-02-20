@@ -10,7 +10,7 @@ object Main {
   import ExtractRule._
   import StateStructure._
 
-  def main() = {
+  @main def keisikika() = {
     // htmlParse()
     
     // println("> parse_start")
@@ -24,7 +24,7 @@ object Main {
     // })
     
     // NLP結果読み込み
-    var outputline = load_file("src/nlpOut.txt")
+    var outputline = load_file("src/input/nlpOut.txt")
     var o = outputline.head
     outputline = outputline.tail
     var states: List[(String, List[Contree], List[(String, List[Contree])])] = Nil
@@ -68,13 +68,14 @@ object Main {
     val allStatement = states.flatMap(s => {List(s._2)++s._3.map(t => t._2)}).flatten
     // val nprules = npAUnif(allStatement)
     val rules = generateRules(allStatement)
-    val rulesOut = new PrintWriter("src/rulesOut.txt")
+    val rulesOut = new PrintWriter("src/rules.txt")
     rules.foreach(r => rulesOut.println(displayTerm(r)))
     // rulesOut.println("")
     // nprules.foreach(r => rulesOut.println(displayTerm(r)))
     rulesOut.close()
     
     // コマンドに変換
+    println("> convert_to_command")
     val state_c = states.map(state => {
       var prev = convertTerms(state._2.map(s =>contreeToTerm(removePeriod(toLowerFirstChar(s)))), rules)
       prev = prev.map(convertNorm(_))
@@ -87,6 +88,7 @@ object Main {
     })
     
     // output
+    println("> outputting...")
     val convertOut = new PrintWriter("src/convertOut.txt")
     state_c.foreach(state => {
       convertOut.println("--" + state._1 + "--")
@@ -118,7 +120,7 @@ object Main {
     })
     
     // 出力
-    val htmlParseOut = new PrintWriter("src/htmlParseOut.txt")
+    val htmlParseOut = new PrintWriter("src/input/htmlParseOut.txt")
     states_r.foreach(state => {
       htmlParseOut.println("#name:" + state._1)
       htmlParseOut.println("#prev:")
@@ -180,7 +182,7 @@ object Main {
   // auVTerms
   def generateRules(contree: List[Contree]): List[Term] = {
     val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificaationOut.txt")
-    val out = new PrintWriter("src/out.txt")
+    val out = new PrintWriter("src/CandidateRules.txt")
     val npout = new PrintWriter("src/npout.txt")
     
     val vptrees = extractVPTree(contree)

@@ -1,0 +1,252 @@
+
+----- switch ------
+1: VP(VB(switch),PP(IN(to),NP(DT(the),NN(z0))))
+ ==> switch_to_the(z0)
+match : 201/203
+
+2: VP(VB(switch),PP(IN(to),NP(X0)))
+ ==> switch_to(NP(X0))
+match : 203/203
+
+3: VP(VB(switch),PP(IN(to),NP(DT(the),NN(Data_state))))
+ ==> switch_to_the_Data_state
+match : 32/203
+
+
+----- set ------
+1: VP(VB(set),NP(z0,z1,NN(z2)),PP(IN(to),z3))
+ ==> set_to(z0,z1,z2,z3)
+match : 62/69
+
+2: VP(VB(set),NP(X0),PP(IN(to),NP(X1)))
+ ==> set_to(NP(X0),NP(X1))
+match : 36/69
+
+3: VP(VB(set),NP(X0),PP(IN(to),z1))
+ ==> set_to(NP(X0),z1)
+match : 68/69
+
+4: VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),z0,NN(z1)),PP(IN(to),z2))
+ ==> set_the_DOCTYPE_token_'s_to(z0,z1,z2)
+match : 41/69
+
+5: VP(VB(set),NP(z0,JJ(z1),NN(z2)),PP(IN(to),NP(X3)))
+ ==> set_to(z0,z1,z2,NP(X3))
+match : 11/69
+
+6: VP(X0)
+ ==> (VP(X0))
+match : 69/69
+
+7: VP(VB(set),NP(z0,NNS(force-quirks),NN(flag)),PP(IN(to),ADVP(RP(on))))
+ ==> set_force-quirks_flag_to_on(z0)
+match : 31/69
+
+8: VP(VB(set),NP(z0,z1,NN(flag)),PP(IN(to),ADVP(RP(on))))
+ ==> set_flag_to_on(z0,z1)
+match : 32/69
+
+9: VP(VB(set),NP(NP(DT(the),NNP(DOCTYPE),NN(token),POS('s)),NNS(force-quirks),NN(flag)),PP(IN(to),ADVP(RP(on))))
+ ==> set_the_DOCTYPE_token_'s_force-quirks_flag_to_on
+match : 29/69
+
+10: VP(VB(set),NP(z0,NN(z1),NN(z2)),PP(IN(to),NP(X3)))
+ ==> set_to(z0,z1,z2,NP(X3))
+match : 19/69
+
+
+----- create ------
+1: VP(VB(create),NP(DT(a),JJ(new),z0,NN(token)))
+ ==> create_a_new_token(z0)
+match : 11/12
+
+2: VP(VB(create),NP(X0))
+ ==> create(NP(X0))
+match : 12/12
+
+
+----- reconsume ------
+1: VP(VB(reconsume),PP(IN(in),NP(DT(the),NN(z0))))
+ ==> reconsume_in_the(z0)
+match : 71/76
+
+2: VP(VB(reconsume),PP(IN(in),NP(X0)))
+ ==> reconsume_in(NP(X0))
+match : 76/76
+
+
+----- multiply ------
+1: VP(VB(multiply),NP(DT(the),NN(character),NN(reference),NN(code)),PP(IN(by),NP(CD(z0))))
+ ==> multiply_the_character_reference_code_by(z0)
+match : 4/4
+
+2: VP(VB(multiply),NP(DT(the),NN(character),NN(reference),NN(code)),PP(IN(by),NP(CD(16))))
+ ==> multiply_the_character_reference_code_by_16
+match : 3/4
+
+
+----- consume ------
+1: VP(VB(consume),NP(DT(the),JJ(next),NN(input),NN(character)))
+ ==> consume_the_next_input_character
+match : 76/82
+
+2: VP(VB(consume),NP(X0))
+ ==> consume(NP(X0))
+match : 81/82
+
+3: VP(X0)
+ ==> (VP(X0))
+match : 82/82
+
+
+----- start ------
+
+----- add ------
+1: VP(VB(add),NP(CD(0x0020)),PP(IN(to),NP(NP(DT(the),NN(character),POS('s)),NN(code),NN(point))))
+ ==> add_0x0020_to_the_character_'s_code_point
+match : 10/10
+
+
+----- ignore ------
+1: VP(VB(ignore),NP(DT(the),NN(character)))
+ ==> ignore_the_character
+match : 38/38
+
+
+----- append ------
+1: VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(NP(DT(the),JJ(current),z0,NN(token),POS('s)),NN(z1),NN(z2))))
+ ==> append_the_current_input_character_to_the_current_token_'s(z0,z1,z2)
+match : 7/58
+
+2: VP(VB(append),NP(X0),PP(IN(to),NP(z1,z2,NN(z3))))
+ ==> append_to(NP(X0),z1,z2,z3)
+match : 28/58
+
+3: VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(X0)))
+ ==> append_the_current_input_character_to(NP(X0))
+match : 33/58
+
+4: VP(VB(append),NP(X0),PP(IN(to),NP(z1,JJ(z2),NN(z3))))
+ ==> append_to(NP(X0),z1,z2,z3)
+match : 18/58
+
+5: VP(VB(append),NP(X0),PP(IN(to),NP(NP(DT(the),z1,NN(z2),POS('s)),z3)))
+ ==> append_to_the_'s(NP(X0),z1,z2,z3)
+match : 21/58
+
+6: VP(VB(append),NP(z0,z1,z2,z3),PP(IN(to),NP(X4)))
+ ==> append_to(z0,z1,z2,z3,NP(X4))
+match : 37/58
+
+7: VP(VB(append),NP(DT(the),JJ(current),NN(input),NN(character)),PP(IN(to),NP(z0,z1,NN(z2))))
+ ==> append_the_current_input_character_to(z0,z1,z2)
+match : 22/58
+
+8: VP(X0)
+ ==> (VP(X0))
+match : 58/58
+
+9: VP(VB(append),NP(X0),PP(IN(to),NP(X1)))
+ ==> append_to(NP(X0),NP(X1))
+match : 51/58
+
+
+----- _other ------
+1: VP(VBZ(is),NP(DT(z0),z1,z2,NN(z3)))
+ ==> is(z0,z1,z2,z3)
+match : 137/189
+
+2: VP(z0,NP(DT(z1),z2,NN(z3),NN(z4)))
+ ==> (z0,z1,z2,z3,z4)
+match : 113/189
+
+3: VP(VBZ(is),NP(DT(z0),NN(z1),NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+match : 107/189
+
+4: VP(z0,z1)
+ ==> (z0,z1)
+match : 177/189
+
+5: VP(VBZ(is),NP(z0,z1,z2,z3))
+ ==> is(z0,z1,z2,z3)
+match : 138/189
+
+6: VP(VBZ(is),NP(X0))
+ ==> is(NP(X0))
+match : 156/189
+
+7: VP(X0)
+ ==> (VP(X0))
+match : 189/189
+
+8: VP(VBZ(is),NP(DT(an),NN(z0),NN(parse),NN(error)))
+ ==> is_an_parse_error(z0)
+match : 87/189
+
+9: VP(z0,NP(X1))
+ ==> (z0,NP(X1))
+match : 160/189
+
+10: VP(VBZ(is),NP(DT(a),NN(z0),NN(parse),NN(error)))
+ ==> is_a_parse_error(z0)
+match : 20/189
+
+11: VP(VBZ(is),NP(DT(an),z0,z1,NN(z2)))
+ ==> is_an(z0,z1,z2)
+match : 112/189
+
+12: VP(z0,NP(DT(z1),z2,z3,NN(z4)))
+ ==> (z0,z1,z2,z3,z4)
+match : 138/189
+
+13: VP(VBZ(is),NP(DT(z0),z1,NN(parse),NN(error)))
+ ==> is_parse_error(z0,z1)
+match : 112/189
+
+
+----- emit ------
+1: VP(VB(emit),NP(z0,z1,z2,NN(token)))
+ ==> emit_token(z0,z1,z2)
+match : 45/162
+
+2: VP(VB(emit),NP(DT(the),JJ(current),z0,NN(character)),PP(IN(as),NP(DT(a),NN(character),NN(token))))
+ ==> emit_the_current_character_as_a_character_token(z0)
+match : 30/162
+
+3: VP(VB(emit),NP(DT(z0),z1,NN(z2),NN(token)))
+ ==> emit_token(z0,z1,z2)
+match : 29/162
+
+4: VP(VB(emit),NP(X0))
+ ==> emit(NP(X0))
+match : 132/162
+
+5: VP(VB(emit),NP(DT(an),NN(end-of-file),NN(token)))
+ ==> emit_an_end-of-file_token
+match : 41/162
+
+6: VP(X0)
+ ==> (VP(X0))
+match : 162/162
+
+7: VP(VB(emit),NP(DT(z0),NN(z1),NN(token)))
+ ==> emit_token(z0,z1)
+match : 74/162
+
+8: VP(VB(emit),NP(z0,z1,z2))
+ ==> emit(z0,z1,z2)
+match : 79/162
+
+9: VP(VB(emit),NP(DT(a),NML(NNP(U+FFFD),NNP(REPLACEMENT),NNP(CHARACTER)),NN(character),NN(token)))
+ ==> emit_a_U+FFFD_REPLACEMENT_CHARACTER_character_token
+match : 10/162
+
+
+----- flush ------
+
+----- treat ------
+1: VP(VB(treat),NP(PRP(it)),PP(IN(as),PP(IN(per),NP(NP(DT(the),``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below))))))
+ ==> treat_it_as_per_the_"_anything_else_"_entry_below
+match : 32/32
+

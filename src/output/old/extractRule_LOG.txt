@@ -17,12 +17,21 @@ leafCount == 0
 ------------------
 rule: 
 term: 
+NP(NN(Script_data_escaped_state))
+------------------
+add
+
+------------------
+rule: 
+NP(NN(Script_data_escaped_state))
+term: 
 NP(NN(Data_state))
 ------------------
 add
 
 ------------------
 rule: 
+NP(NN(Script_data_escaped_state))
 NP(NN(Data_state))
 term: 
 NP(NN(Script_data_double_escaped_state))
@@ -31,6 +40,7 @@ add
 
 ------------------
 rule: 
+NP(NN(Script_data_escaped_state))
 NP(NN(Data_state))
 NP(NN(Script_data_double_escaped_state))
 term: 

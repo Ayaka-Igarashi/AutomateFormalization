@@ -13,26 +13,26 @@
 5 : NP(PRP(it))
  ==> it
 
-6 : NP(X0)
- ==> (NP(X0))
+6 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
-7 : NP(X0)
- ==> (NP(X0))
+7 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 8 : NP(PRP(it))
  ==> it
 
-9 : NP(X0)
- ==> (NP(X0))
-
-10 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+9 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
  ==> "_anything_else_"_entry_below
 
-11 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
+10 : NP(PRP(it))
+ ==> it
 
-12 : NP(X0)
+11 : NP(X0)
  ==> (NP(X0))
+
+12 : NP(PRP(it))
+ ==> it
 
 13 : NP(X0)
  ==> (NP(X0))
@@ -43,77 +43,77 @@
 15 : NP(PRP(it))
  ==> it
 
-16 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-17 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-18 : NP(X0)
+16 : NP(X0)
  ==> (NP(X0))
 
-19 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
+17 : NP(X0)
+ ==> (NP(X0))
 
-20 : NP(PRP(it))
+18 : NP(PRP(it))
  ==> it
+
+19 : NP(X0)
+ ==> (NP(X0))
+
+20 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 21 : NP(X0)
  ==> (NP(X0))
 
-22 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-23 : NP(PRP(it))
+22 : NP(PRP(it))
  ==> it
 
-24 : NP(PRP(it))
- ==> it
-
-25 : NP(X0)
+23 : NP(X0)
  ==> (NP(X0))
+
+24 : NP(X0)
+ ==> (NP(X0))
+
+25 : NP(PRP(it))
+ ==> it
 
 26 : NP(X0)
  ==> (NP(X0))
 
-27 : NP(X0)
+27 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
+
+28 : NP(X0)
  ==> (NP(X0))
 
-28 : NP(PRP(it))
- ==> it
+29 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
-29 : NP(X0)
- ==> (NP(X0))
-
-30 : NP(PRP(it))
- ==> it
+30 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 31 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
  ==> "_anything_else_"_entry_below
 
-32 : NP(X0)
- ==> (NP(X0))
+32 : NP(PRP(it))
+ ==> it
 
 33 : NP(X0)
  ==> (NP(X0))
 
-34 : NP(X0)
- ==> (NP(X0))
+34 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 35 : NP(X0)
  ==> (NP(X0))
 
-36 : NP(X0)
- ==> (NP(X0))
+36 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 37 : NP(X0)
  ==> (NP(X0))
 
-38 : NP(X0)
- ==> (NP(X0))
+38 : NP(PRP(it))
+ ==> it
 
-39 : NP(X0)
- ==> (NP(X0))
+39 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 40 : NP(PRP(it))
  ==> it
@@ -121,23 +121,23 @@
 41 : NP(X0)
  ==> (NP(X0))
 
-42 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-43 : NP(PRP(it))
- ==> it
-
-44 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-45 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-46 : NP(PRP(it))
- ==> it
-
-47 : NP(X0)
+42 : NP(X0)
  ==> (NP(X0))
+
+43 : NP(X0)
+ ==> (NP(X0))
+
+44 : NP(PRP(it))
+ ==> it
+
+45 : NP(X0)
+ ==> (NP(X0))
+
+46 : NP(X0)
+ ==> (NP(X0))
+
+47 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 48 : NP(X0)
  ==> (NP(X0))
@@ -145,38 +145,38 @@
 49 : NP(X0)
  ==> (NP(X0))
 
-50 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
+50 : NP(X0)
+ ==> (NP(X0))
 
-51 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
+51 : NP(X0)
+ ==> (NP(X0))
 
-52 : NP(PRP(it))
+52 : NP(X0)
+ ==> (NP(X0))
+
+53 : NP(X0)
+ ==> (NP(X0))
+
+54 : NP(PRP(it))
  ==> it
 
-53 : NP(PRP(it))
- ==> it
+55 : NP(X0)
+ ==> (NP(X0))
 
-54 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-55 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
- ==> "_anything_else_"_entry_below
-
-56 : NP(PRP(it))
- ==> it
+56 : NP(X0)
+ ==> (NP(X0))
 
 57 : NP(X0)
  ==> (NP(X0))
 
-58 : NP(PRP(it))
- ==> it
+58 : NP(X0)
+ ==> (NP(X0))
 
 59 : NP(X0)
  ==> (NP(X0))
 
-60 : NP(PRP(it))
- ==> it
+60 : NP(NP(``("),NML(NN(anything),RB(else)),''("),NN(entry)),ADVP(RB(below)))
+ ==> "_anything_else_"_entry_below
 
 61 : NP(X0)
  ==> (NP(X0))
