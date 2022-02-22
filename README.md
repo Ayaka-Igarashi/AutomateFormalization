@@ -7,7 +7,7 @@
 自動で生成したパターンマッチのルール一覧
 
 <h5>convertOut.txt</h5>
-<p>rules.txtのルールから字句解析仕様全体の形式化を行った結果</p>
+rules.txtのルールから字句解析仕様全体の形式化を行った結果
 
 <h5>antiUnificationOut.txt</h5>
 動詞ごとのanti-unificationの結果

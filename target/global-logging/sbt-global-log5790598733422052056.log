@@ -1,5 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0m> Exec(console, Some(5244e453-9d28-46d3-8a66-af2c61ab13b4), Some(CommandSource(console0)))[0m
-[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / console[0m
-[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
-[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to /mnt/c/Users/ayaka/Desktop/nlpTest/LAL-Parser/scala3_sbt/target/scala-3.1.0/classes ...[0m
-[0m[[0m[0minfo[0m] [0m[0mshutting down sbt server[0m
