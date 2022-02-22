@@ -3,12 +3,23 @@
 > sbt run
 
 ## 出力ファイル
-antiUnificationOut.txt -> 動詞ごとのanti-unificationの結果
-cnadidateRules.txt -> anti-unificationの結果から絞り込んでる
-rules.txt -> 自動で生成したパターンマッチのルール一覧
+<h5>rules.txt</h5>
+自動で生成したパターンマッチのルール一覧
 
-convertOut.txt -> rules.txtのルールから字句解析仕様全体の形式化を行った結果
+<h5>convertOut.txt</h5>
+<p>rules.txtのルールから字句解析仕様全体の形式化を行った結果</p>
+
+<h5>antiUnificationOut.txt</h5>
+動詞ごとのanti-unificationの結果
+
+<h5>candidateRules.txt</h5>
+anti-unificationの結果を絞り込んだもの
 
 
-extractRule_LOG.txt -> cnadidateRules.txtの結果からrules.txtを生成するまでのログ
+
+
+
+
+<h5>extractRule_LOG.txt</h5>
+cnadidateRules.txtの結果からrules.txtを生成するまでのログ
 
