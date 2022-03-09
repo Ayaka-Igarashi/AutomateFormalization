@@ -4,7 +4,7 @@ object Convert {
     def convertTerms(terms: List[Term], rules: List[Term]): List[Term] = {
         terms.flatMap(t => {
             //if (t != convertTerm(t, rules)) println(displayTerm(convertTerm(t, rules)))
-            val ruleSymbols = ExtractRule.rulesSymbols(rules)
+            val ruleSymbols = ExtractRule.rulesSymbols(rules++stermRules)
             val converted = convertTerm(t, rules)
             val onlyConverted = extractOnlyConverted(converted, ruleSymbols)
             // List(converted)
@@ -146,7 +146,7 @@ object Convert {
         var child: List[Term] = List()
         leaves.foreach(t => {
             t match {
-                case s: String => sym += "_"+s
+                case s: String => if (s != ",") sym += "_"+s
                 case Function(s, HedgeVariable(h)) => child :+= Function(s, HedgeVariable(h))
                 case TermVariable(x) => child :+= TermVariable(x)
             }
