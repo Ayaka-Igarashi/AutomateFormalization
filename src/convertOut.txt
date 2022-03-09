@@ -9,11 +9,11 @@ trans:
   switch_to(Tag_open_state)
  U+0000 NULL :
   is(this,unexpected-null-character_parse_error)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
  EOF :
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --RCDATA_state--
 prev: 
@@ -30,7 +30,7 @@ trans:
  EOF :
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --RAWTEXT_state--
 prev: 
@@ -44,7 +44,7 @@ trans:
  EOF :
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_state--
 prev: 
@@ -58,7 +58,7 @@ trans:
  EOF :
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --PLAINTEXT_state--
 prev: 
@@ -70,7 +70,7 @@ trans:
  EOF :
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Tag_open_state--
 prev: 
@@ -171,30 +171,23 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000A LINE FEED (LF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000C FORM FEED (FF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+0020 SPACE :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+002F SOLIDUS (/) :
-  is(current_end_tag_token,appropriate_token(end_tag))
-  switch_to(Self_closing_start_tag_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Data_state)
-  emit(current_tag_token)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
   append_to(current_input_character,temporary_buffer)
@@ -233,30 +226,23 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000A LINE FEED (LF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000C FORM FEED (FF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+0020 SPACE :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+002F SOLIDUS (/) :
-  is(current_end_tag_token,appropriate_token(end_tag))
-  switch_to(Self_closing_start_tag_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Data_state)
-  emit(current_tag_token)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
   append_to(current_input_character,temporary_buffer)
@@ -298,30 +284,23 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000A LINE FEED (LF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000C FORM FEED (FF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+0020 SPACE :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+002F SOLIDUS (/) :
-  is(current_end_tag_token,appropriate_token(end_tag))
-  switch_to(Self_closing_start_tag_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Data_state)
-  emit(current_tag_token)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
   append_to(current_input_character,temporary_buffer)
@@ -368,7 +347,7 @@ trans:
   is(this,eof-in-script-html-comment-like-text_parse_error)
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_escaped_dash_state--
 prev: 
@@ -388,7 +367,7 @@ trans:
   emit(end-of-file_token)
  Anything else :
   switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_escaped_dash_dash_state--
 prev: 
@@ -410,7 +389,7 @@ trans:
   emit(end-of-file_token)
  Anything else :
   switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_escaped_less_than_sign_state--
 prev: 
@@ -444,30 +423,23 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000A LINE FEED (LF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+000C FORM FEED (FF) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+0020 SPACE :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Before_attribute_name_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),switch_to(Before_attribute_name_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+002F SOLIDUS (/) :
-  is(current_end_tag_token,appropriate_token(end_tag))
-  switch_to(Self_closing_start_tag_state)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_end_tag_token,appropriate_token(end_tag)),switch_to(Self_closing_start_tag_state))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(current_token(end_tag),appropriate_token(end_tag))
-  switch_to(Data_state)
-  emit(current_tag_token)
-  treat_it_as_per_the_"_anything_else_"_entry_below
+  if_then(is(current_token(end_tag),appropriate_token(end_tag)),VP(switch_to(Data_state),CC(and),emit(current_tag_token)))
+  otherwise(treat_it_as_per_the_"_anything_else_"_entry_below)
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
   append_to(current_input_character,temporary_buffer)
@@ -483,41 +455,35 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+000A LINE FEED (LF) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+000C FORM FEED (FF) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+0020 SPACE :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+002F SOLIDUS (/) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_double_escaped_state)
-  switch_to(Script_data_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_double_escaped_state))
+  otherwise(switch_to(Script_data_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
  ASCII lower alpha :
   append_to(current_input_character,temporary_buffer)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
  Anything else :
   reconsume_in(Script_data_escaped_state)
 
@@ -538,7 +504,7 @@ trans:
   is(this,eof-in-script-html-comment-like-text_parse_error)
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_double_escaped_dash_state--
 prev: 
@@ -559,7 +525,7 @@ trans:
   emit(end-of-file_token)
  Anything else :
   switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_double_escaped_dash_dash_state--
 prev: 
@@ -582,7 +548,7 @@ trans:
   emit(end-of-file_token)
  Anything else :
   switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --Script_data_double_escaped_less_than_sign_state--
 prev: 
@@ -600,41 +566,35 @@ prev:
  consume(next_input_character)
 trans: 
  U+0009 CHARACTER TABULATION (tab) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+000A LINE FEED (LF) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+000C FORM FEED (FF) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+0020 SPACE :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+002F SOLIDUS (/) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  U+003E GREATER-THAN SIGN (&gt;) :
-  is(temporary_buffer,string_"script")
-  switch_to(Script_data_escaped_state)
-  switch_to(Script_data_double_escaped_state)
-  emit_the_current_character_as_a_character_token(NN(input))
+  if_then(is(temporary_buffer,string_"script"),switch_to(Script_data_escaped_state))
+  otherwise(switch_to(Script_data_double_escaped_state))
+  emit_the_current_input_character_as_a_character_token
  ASCII upper alpha :
   add_0x0020_to_the_character_'s_code_point
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
  ASCII lower alpha :
   append_to(current_input_character,temporary_buffer)
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
  Anything else :
   reconsume_in(Script_data_double_escaped_state)
 
@@ -899,9 +859,8 @@ trans:
   switch_to(DOCTYPE_state)
  The string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after) :
   consume(characters)
-  is(there,adjusted_current_node)
-  is
-  switch_to(CDATA_section_state)
+  if_then(S(is(there,adjusted_current_node),CC(and),S(it,VP(VBZ(is),RB(not),(element,in(HTML_namespace))))),switch_to(CDATA_section_state))
+  otherwise
   is(cdata-in-html-content_parse_error)
   create((comment_token,(whose_data,(is("_-LSB-_CDATA_-LSB-_"_string)))))
   switch_to(Bogus_comment_state)
@@ -1170,8 +1129,10 @@ trans:
  Anything else :
   consume(characters)
   switch_to(After_DOCTYPE_public_keyword_state)
+  otherwise
   consume(characters)
   switch_to(After_DOCTYPE_system_keyword_state)
+  otherwise
   is(invalid-character-sequence-after-doctype-name_parse_error)
   set_to(force-quirks_flag(DOCTYPE_token_'s),ADVP(RP(on)))
   reconsume_in(Bogus_DOCTYPE_state)
@@ -1515,7 +1476,7 @@ trans:
   is(this,eof-in-cdata_parse_error)
   emit(end-of-file_token)
  Anything else :
-  emit_the_current_character_as_a_character_token(NN(input))
+  emit_the_current_input_character_as_a_character_token
 
 --CDATA_section_bracket_state--
 prev: 
@@ -1564,6 +1525,7 @@ trans:
   is(next_input_character,either_or(-LRB-_=-RRB-(U+003D_EQUALS_SIGN_character),ASCII_alphanumeric))
   switch_to(return_state)
   FAIL
+  otherwise
   is
   is(missing-semicolon-after-character-reference_parse_error.Set(temporary_buffer,to(empty_string)))
   append_to(-LRB-_-RRB-((characters(one_or_two),corresponding(to(name(character_reference)))),as((given(by((second_column,of(named_character_references_table))))))),(temporary_buffer.Flush_code_points,consumed(as(character_reference))))
@@ -1577,8 +1539,8 @@ prev:
  consume(next_input_character)
 trans: 
  ASCII alphanumeric :
-  append_to(current_input_character,value(current_attribute_'s))
-  emit_the_current_character_as_a_character_token(JJ(input))
+  if_then(S(character_reference,VP(VBD(was),VP(VBN(consumed),PP(IN(as),(part,of(attribute)))))),append_to(current_input_character,value(current_attribute_'s)))
+  otherwise(VP(VB(emit),current_input_character,PP(IN(as),character_token)))
  U+003B SEMICOLON (;) :
   is(this,unknown-named-character-reference_parse_error)
   reconsume_in(return_state)
