@@ -120,4 +120,17 @@ object Terms {
   def displaySymbol(symbol: Symbol): String = {
     symbol
   }
+
+  def getFirstLeaf(term: Term): String = {
+    term match{
+      case Function(s, Nil) => s
+      case Function(s, child) => {
+        child match {
+          case list: List[Term] => getFirstLeaf(list.head)
+          case _ => ""
+        }
+      }
+      case _ => ""
+    }
+  }
 }

@@ -48,6 +48,15 @@ object ExtractRule{
         log1.println("fin\n")
         rules.map(_._1)
     }
+
+    def rulesSymbols(rules: List[Term]): List[String] = {
+        rules.map(rule => {
+            Convert.toCommand(rule) match {
+                case Function(s, _) => s
+                case _ => ""
+            }
+        })
+    }
     
     def leafCount(term: Term): Int = {
         term match {

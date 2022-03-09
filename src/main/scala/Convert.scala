@@ -2,9 +2,16 @@ import Terms._
 
 object Convert {
     def convertTerms(terms: List[Term], rules: List[Term]): List[Term] = {
-        terms.map(t => {
+        terms.flatMap(t => {
             //if (t != convertTerm(t, rules)) println(displayTerm(convertTerm(t, rules)))
-            convertTerm(t, rules)
+            val ruleSymbols = ExtractRule.rulesSymbols(rules)
+            val converted = convertTerm(t, rules)
+            val onlyConverted = extractOnlyConverted(converted, ruleSymbols)
+            // List(converted)
+            if (onlyConverted.isEmpty) {
+                val fail: Term = Function("FAIL", Nil)
+                List(fail)
+            } else onlyConverted
         })
     }
     // 返り値List[Term]の方がいい？
@@ -43,8 +50,7 @@ object Convert {
                     conv(r, term) match {
                         case None => 
                         case Some(sub) => {
-                            // println(displayTerm(Terms.substitution(toCommand(r), sub)))
-                            return Terms.substitution(toCommand(r), sub)//list
+                            return Terms.substitution(toCommand(r), sub)
                         }
                     }
                 })
@@ -107,6 +113,7 @@ object Convert {
                     case list: List[Term] => {
                         Function(l, list.flatMap(t => {
                         t match {
+                            case Function("DT", List(Function("this", Nil))) => List(t)
                             case Function("DT", _) => List()
                             case Function(cl, clist) => List(removeDT(t))
                             case _ => List(t)
@@ -258,6 +265,21 @@ object Convert {
             }
             case (TermVariable(x), Function(s2, lst2)) => Some(Map((x, Function(s2, lst2))))
             case _ => None
+        }
+    }
+
+    def extractOnlyConverted(term: Term, ruleSymbols: List[String]): List[Term] = {
+        term match {
+            case Function(s, child) => {
+                if (ruleSymbols.contains(s)) List(term)
+                else {
+                    child match {
+                        case HedgeVariable(_) => Nil
+                        case list: List[Term] => list.flatMap(c => extractOnlyConverted(c, ruleSymbols))
+                    }
+                }
+            }
+            case TermVariable(x) => Nil
         }
     }
     

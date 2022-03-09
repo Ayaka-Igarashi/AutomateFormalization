@@ -3,12 +3,21 @@
 ------------------
 rule: 
 term: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
+------------------
+add
+
+------------------
+rule: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
+term: 
 NP(NN(z0))
 ------------------
 leafCount == 0
 
 ------------------
 rule: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
 term: 
 NP(X0)
 ------------------
@@ -16,6 +25,7 @@ leafCount == 0
 
 ------------------
 rule: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
 term: 
 NP(NN(Data_state))
 ------------------
@@ -23,6 +33,7 @@ add
 
 ------------------
 rule: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
 NP(NN(Data_state))
 term: 
 NP(NN(Script_data_double_escaped_state))
@@ -31,6 +42,7 @@ add
 
 ------------------
 rule: 
+NP(NN(DOCTYPE_system_identifier_single_quoted_state))
 NP(NN(Data_state))
 NP(NN(Script_data_double_escaped_state))
 term: 

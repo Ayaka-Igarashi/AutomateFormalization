@@ -73,6 +73,7 @@ object Main {
     // rulesOut.println("")
     // nprules.foreach(r => rulesOut.println(displayTerm(r)))
     rulesOut.close()
+    println(rulesSymbols(rules))
     
     // コマンドに変換
     println("> convert_to_command")
