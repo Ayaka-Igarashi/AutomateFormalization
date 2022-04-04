@@ -1,0 +1,184 @@
+
+----- switch ------
+1: switch(X0)
+ ==> (switch(X0))
+match : 186/186
+
+2: switch(obl(z0))
+ ==> (z0)
+match : 136/186
+
+3: switch(obl(Data_state(case(to),det(the))))
+ ==> to_the
+match : 28/186
+
+
+----- set ------
+1: set(obj(flag(nmod:poss(token(det(the),compound(DOCTYPE),case('s))),compound(force-quirks))),obl(on(case(to))))
+ ==> the_DOCTYPE_'s_force-quirks_to
+match : 28/64
+
+2: set(obj(flag(nmod:poss(z0),compound(force-quirks))),obl(on(case(to))))
+ ==> force-quirks_to(z0)
+match : 31/64
+
+3: set(obj(z0),obl(z1))
+ ==> (z0,z1)
+match : 48/64
+
+4: set(obj(z0),obl(z1),z2)
+ ==> (z0,z1,z2)
+match : 13/64
+
+5: set(X0)
+ ==> (set(X0))
+match : 64/64
+
+6: set(obj(z0),z1)
+ ==> (z0,z1)
+match : 49/64
+
+
+----- create ------
+1: create(X0)
+ ==> (create(X0))
+match : 16/16
+
+2: create(obj(token(det(a),z0,z1)))
+ ==> a(z0,z1)
+match : 10/16
+
+
+----- reconsume ------
+1: reconsume(nmod(z0))
+ ==> (z0)
+match : 76/76
+
+2: reconsume(nmod(After_attribute_name_state(case(in),det(the))))
+ ==> in_the
+match : 10/76
+
+3: reconsume(nmod(Script_data_state(case(in),det(the))))
+ ==> in_the
+match : 5/76
+
+
+----- multiply ------
+1: multiply(obj(code(det(the),compound(character),compound(reference))),obl(z0))
+ ==> the_character_reference(z0)
+match : 4/4
+
+
+----- consume ------
+1: consume(obj(character(det(the),amod(next),compound(input))))
+ ==> the_next_input
+match : 76/82
+
+2: consume(X0)
+ ==> (consume(X0))
+match : 82/82
+
+3: consume(obj(z0))
+ ==> (z0)
+match : 77/82
+
+
+----- start ------
+
+----- add ------
+1: add(X0)
+ ==> (add(X0))
+match : 4/4
+
+
+----- ignore ------
+1: ignore(obj(character(det(the))))
+ ==> the
+match : 38/38
+
+
+----- append ------
+1: append(obj(z0),z1)
+ ==> (z0,z1)
+match : 53/63
+
+2: append(obj(character(det(the),amod(current),compound(input))),obl(z0))
+ ==> the_current_input(z0)
+match : 32/63
+
+3: append(obj(character(X0)),obl(z1))
+ ==> (character(X0),z1)
+match : 44/63
+
+4: append(obj(character(det(the),amod(current),compound(input))),obl(buffer(case(to),det(the),amod(temporary))))
+ ==> the_current_input_to_the_temporary
+match : 13/63
+
+5: append(X0)
+ ==> (append(X0))
+match : 63/63
+
+
+----- _other ------
+1: error(nsubj(this),cop(is),det(an),amod(z0),compound(parse))
+ ==> this_is_an_parse(z0)
+match : 86/131
+
+2: error(nsubj(this),cop(is),det(an),amod(unexpected-null-character),compound(parse))
+ ==> this_is_an_unexpected-null-character_parse
+match : 25/131
+
+3: error(X0)
+ ==> (error(X0))
+match : 112/131
+
+4: error(nsubj(this),cop(is),det(a),amod(z0),compound(parse))
+ ==> this_is_a_parse(z0)
+match : 24/131
+
+5: error(nsubj(this),cop(is),det(z0),amod(z1),compound(parse))
+ ==> this_is_parse(z0,z1)
+match : 110/131
+
+6: z0
+ ==> (z0)
+match : 131/131
+
+
+----- emit ------
+1: emit(obj(token(det(z0),z1)))
+ ==> (z0,z1)
+match : 74/163
+
+2: emit(obj(token(det(an),amod(end-of-file))))
+ ==> an_end-of-file
+match : 41/163
+
+3: emit(obj(token(X0)))
+ ==> (token(X0))
+match : 121/163
+
+4: emit(X0)
+ ==> (emit(X0))
+match : 163/163
+
+5: emit(obj(z0))
+ ==> (z0)
+match : 133/163
+
+
+----- flush ------
+1: flush(obj(points(compound(code),acl(consumed(obl(reference(case(as),det(a),compound(character))))))))
+ ==> code_as_a_character
+match : 4/4
+
+
+----- treat ------
+1: treat(X0)
+ ==> (treat(X0))
+match : 32/32
+
+2: treat(advmod(otherwise),punct(,),obj(it),obl(entry(case(as),case(per),det(the),compound(anything(punct("),amod(else),punct("))),advmod(below))))
+ ==> otherwise_it_as_per_the_"_else_"_below
+match : 24/32
+

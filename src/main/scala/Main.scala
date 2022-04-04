@@ -105,6 +105,84 @@ object Main {
     convertOut.close
     
   }
+
+  def dependency_keisikika() = {
+    // NLP結果読み込み
+    var outputline = load_file("src/input/nlpOut_dep.txt")
+    var o = outputline.head
+    outputline = outputline.tail
+    var states: List[(String, List[DNode], List[(String, List[DNode])])] = Nil
+    while (o.startsWith("name:")) {
+      val statename = o.substring(5, o.length)
+      o = outputline.tail.head
+      outputline = outputline.tail.tail
+      var prev: List[DNode] = List()
+      while (o != "trans:") {
+        // println(o)
+        val dep_format = o.split("  ").toList.map(s => {
+          val sp = s.split(" ");
+          (sp(0).toInt, sp(1), sp(2).toInt, sp(3))
+        })
+        prev :+= constructDeptree(dep_format)
+        o = outputline.head
+        outputline = outputline.tail
+      }
+      var trans: List[(String, List[DNode])] = List()
+      while (o != "") {
+        o = outputline.head
+        outputline = outputline.tail
+        val char = o.substring(5, o.length)
+        var trees: List[DNode] = List()
+        o = outputline.head
+        outputline = outputline.tail
+        while (!o.startsWith("char:") && o != "") {
+          // println(o)
+          val dep_format = o.split("  ").toList.map(s => {
+            val sp = s.split(" ");
+            (sp(0).toInt, sp(1), sp(2).toInt, sp(3))
+          })
+          trees :+= constructDeptree(dep_format)
+          o = outputline.head
+          outputline = outputline.tail
+        }
+        trans :+= (char, trees)
+        outputline = o::outputline
+      }
+      states :+= (statename, prev, trans)
+      if (outputline.tail != Nil) {
+        o = outputline.tail.head
+        outputline = outputline.tail.tail
+      }
+    }
+
+    println("> generating_rules")
+    val allStatement = states.flatMap(s => {List(s._2)++s._3.map(t => t._2)}).flatten
+
+    val rules = generateRules_dep(allStatement)
+    val rulesOut = new PrintWriter("src/rules_dep.txt")
+    rules.foreach(r => rulesOut.println(displayTerm(r)))
+    rulesOut.close()
+    println(rulesSymbols(rules))
+
+    // 結果表示
+    val deptreeOut = new PrintWriter("src/deptreeOut.txt")
+    println("> output")
+    for (ss <- states) {
+      deptreeOut.println("state: " + ss._1)
+      deptreeOut.println("prev: ")
+      for (dt <- ss._2) {
+        deptreeOut.println(" " + displayTerm(deptreeToTerm(dt)))
+      }
+      deptreeOut.println("trans: ")
+      for (tr <- ss._3) {
+        deptreeOut.println("char: " + tr._1)
+        for (dt <- tr._2) {
+          deptreeOut.println(" " + displayTerm(deptreeToTerm(dt)))
+        }
+      }
+    }
+    deptreeOut.close()
+  }
   
   def htmlParse() = {
     // HTMLをパースする
@@ -212,6 +290,42 @@ object Main {
     antiUnificationOut.close
     out.close
     npout.close
+    log1.close
+    
+    rules
+  }
+
+  def generateRules_dep(deptree: List[DNode]): List[Term] = {
+    val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificationOut_dep.txt")
+    val out = new PrintWriter("src/CandidateRules_dep.txt")
+    // val npout = new PrintWriter("src/npout_dep.txt")
+    
+    // val vptrees = extractVPTree(deptree)
+    // val replaced = vptrees.map(t => (toLowerFirstChar(t)))
+    val dividedTrees = divideByVerb_dep(deptree)
+    val n = 3
+    var matchlist_note: List[List[String]] = List()
+    var rules: List[Term] = Nil
+    dividedTrees.foreach { case (v, treelist) => {
+      antiUnificationOut.println("\n----- " + v + " ------")
+      // antiUnificationの結果リストを計算
+      val aulist = antiUnification_shuffle(treelist.map(deptreeToTerm(_)), n, antiUnificationOut)
+      out.println("\n----- " + v + " ------")
+      val (candidates, mlist) = extractCandidates(treelist.map(deptreeToTerm(_)), aulist, out)
+      
+      matchlist_note :+= mlist
+      
+      // val nprules = npAUnif(treelist)
+      // npout.println("\n----- " + v + " ------")
+      // nprules.foreach(r => npout.println(displayTerm(r)))
+      // println("--" + v +"--")
+      // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
+      rules ++= extractRules(candidates)
+    }}
+    
+    antiUnificationOut.close
+    out.close
+    // npout.close
     log1.close
     
     rules

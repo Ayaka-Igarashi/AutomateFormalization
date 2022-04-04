@@ -2,7 +2,14 @@
 ## 実行方法
 > sbt run
 
+## dependency parseの実行
+> sbt console
+> Main.dependency_keisikika()
+
 ## 出力ファイルについて(src直下のファイル)
+<h5>deptreeOut.txt</h5>
+仕様書全体のdependency parse結果
+
 <h5>rules.txt</h5>
 自動で生成したパターンマッチのルール一覧
 

@@ -12,11 +12,11 @@ object ConstructDeptree {
             constructDeptree(f)
         })
     }
-
+    // (wordindex(from 1), word, headidx, label)
     def constructDeptree(format: List[(Int, String, Int, String)]): DNode = {
-        val (found, rst) = findhead(0, format)
+        val (found, rst) = findroot(format)
         found match {
-            case List((i, w, 0, "root")) => {
+            case List((i, w, _, "root")) => {
                 constructDeptree_sub(i, w, rst)._1
             }
             case _ => println("wrong");DNode("", List())
@@ -37,6 +37,10 @@ object ConstructDeptree {
 
     def findhead(n: Int, format: List[(Int, String, Int, String)]): (List[(Int, String, Int, String)], List[(Int, String, Int, String)]) = {
         format.partition(t => t._3 == n)
+    }
+
+    def findroot(format: List[(Int, String, Int, String)]): (List[(Int, String, Int, String)], List[(Int, String, Int, String)]) = {
+        format.partition(t => t._4 == "root")
     }
 
     def format(parsed: (Contree, List[(Int, String)])): List[(Int, String, Int, String)] = {
