@@ -1,0 +1,1597 @@
+name:Data_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0026 AMPERSAND (&amp;)
+(S (VP (VB Set) (NP (state (det the) (compound return))) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Character_reference_state (det the))))) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Tag_open_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:RCDATA_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0026 AMPERSAND (&amp;)
+(S (VP (VB Set) (NP (state (det the) (compound return))) (PP (IN to) (NP (RCDATA_state (det the))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Character_reference_state (det the))))) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (RCDATA_less_than_sign_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:RAWTEXT_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (RAWTEXT_less_than_sign_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_less_than_sign_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:PLAINTEXT_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0021 EXCLAMATION MARK (!)
+(S (VP (VB Switch) (PP (IN to) (NP (Markup_declaration_open_state (det the))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Switch) (PP (IN to) (NP (End_tag_open_state (det the))))) (. .))
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound start) (compound tag)))) (CC and) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Tag_name_state (det the))))) (. .))
+char:U+003F QUESTION MARK (?)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-question-mark-instead-of-tag-name) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (compound comment) (acl:relcl (string (nsubj (data (nmod:poss whose))) (cop is) (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_comment_state (det the))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-before-tag-name) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character) (conj (token (cc and) (det an) (amod end-of-file)))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod invalid-first-character-of-tag-name) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Data_state (det the))))) (. .))
+
+name:End_tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound end) (compound tag)))) (, ,) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Tag_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-end-tag-name) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-before-tag-name) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character) (punct ,) (appos (token (det a) (compound (character (compound (SOLIDUS (nummod U+002F))))))) (conj (token (cc and) (det an) (amod end-of-file)))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod invalid-first-character-of-tag-name) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (compound comment) (acl:relcl (string (nsubj (data (nmod:poss whose))) (cop is) (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_comment_state (det the))))) (. .))
+
+name:Tag_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+
+name:RCDATA_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002F SOLIDUS (/)
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (RCDATA_end_tag_open_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RCDATA_state (det the))))) (. .))
+
+name:RCDATA_end_tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound end) (compound tag)))) (, ,) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RCDATA_end_tag_name_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (amod LESS-THAN) (compound (SIGN (nummod U+003C))) (compound character) (conj (token (cc and) (det a) (nummod U+002F) (compound SOLIDUS) (compound character)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RCDATA_state (det the))))) (. .))
+
+name:RCDATA_end_tag_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VP (VB switch) (PP (IN to) (NP (Data_state (det the))))) (CC and) (VP (VB emit) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound (character (compound SIGN))) (appos (token (punct ,) (det a) (nummod U+002F) (compound SOLIDUS) (compound character))) (conj (token (punct ,) (cc and) (det a) (compound character) (nmod (each (case for) (nmod (characters (case of) (det the) (nmod (buffer (case in) (det the) (amod temporary) (nmod (order (punct -LRB-) (case in) (det the) (acl:relcl (added (nsubj:pass they) (aux:pass were) (obl (buffer (case to) (det the))) (punct -RRB-)))))))))))))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RCDATA_state (det the))))) (. .))
+
+name:RAWTEXT_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002F SOLIDUS (/)
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (RAWTEXT_end_tag_open_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RAWTEXT_state (det the))))) (. .))
+
+name:RAWTEXT_end_tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound end) (compound tag)))) (, ,) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RAWTEXT_end_tag_name_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (amod LESS-THAN) (compound (SIGN (nummod U+003C))) (compound character) (conj (token (cc and) (det a) (nummod U+002F) (compound SOLIDUS) (compound character)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RAWTEXT_state (det the))))) (. .))
+
+name:RAWTEXT_end_tag_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VP (VB switch) (PP (IN to) (NP (Data_state (det the))))) (CC and) (VP (VB emit) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound (character (compound SIGN))) (appos (token (punct ,) (det a) (nummod U+002F) (compound SOLIDUS) (compound character))) (conj (token (punct ,) (cc and) (det a) (compound character) (nmod (each (case for) (nmod (characters (case of) (det the) (nmod (buffer (case in) (det the) (amod temporary) (nmod (order (punct -LRB-) (case in) (det the) (acl:relcl (added (nsubj:pass they) (aux:pass were) (obl (buffer (case to) (det the))) (punct -RRB-)))))))))))))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (RAWTEXT_state (det the))))) (. .))
+
+name:Script_data_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002F SOLIDUS (/)
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_end_tag_open_state (det the))))) (. .))
+char:U+0021 EXCLAMATION MARK (!)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escape_start_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (amod LESS-THAN) (compound (SIGN (nummod U+003C))) (compound character) (conj (token (cc and) (det a) (compound (MARK (compound (EXCLAMATION (nummod U+0021))))) (compound character)))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_state (det the))))) (. .))
+
+name:Script_data_end_tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound end) (compound tag)))) (, ,) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_end_tag_name_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (amod LESS-THAN) (compound (SIGN (nummod U+003C))) (compound character) (conj (token (cc and) (det a) (nummod U+002F) (compound SOLIDUS) (compound character)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_state (det the))))) (. .))
+
+name:Script_data_end_tag_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VP (VB switch) (PP (IN to) (NP (Data_state (det the))))) (CC and) (VP (VB emit) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound (character (compound SIGN))) (appos (token (punct ,) (det a) (nummod U+002F) (compound SOLIDUS) (compound character))) (conj (token (punct ,) (cc and) (det a) (compound character) (nmod (each (case for) (nmod (characters (case of) (det the) (nmod (buffer (case in) (det the) (amod temporary) (nmod (order (punct -LRB-) (case in) (det the) (acl:relcl (added (nsubj:pass they) (aux:pass were) (obl (buffer (case to) (det the))) (punct -RRB-)))))))))))))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_state (det the))))) (. .))
+
+name:Script_data_escape_start_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escape_start_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_state (det the))))) (. .))
+
+name:Script_data_escape_start_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_dash_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_state (det the))))) (. .))
+
+name:Script_data_escaped_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_less_than_sign_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_escaped_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_dash_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_less_than_sign_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_escaped_dash_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_less_than_sign_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+003E))))
+(PP (IN GREATER-THAN) (S (VB SIGN) (NP (token (compound character)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_escaped_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002F SOLIDUS (/)
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_escaped_end_tag_open_state (det the))))) (. .))
+char:ASCII alpha
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_double_escape_start_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_escaped_state (det the))))) (. .))
+
+name:Script_data_escaped_end_tag_open_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alpha
+(S (VP (VP (VB Create) (NP (token (det a) (amod new) (compound end) (compound tag)))) (, ,) (VP (VB set) (NP (name (nmod:poss its) (compound tag))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_escaped_end_tag_name_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (amod LESS-THAN) (compound (SIGN (nummod U+003C))) (compound character) (conj (token (cc and) (det a) (nummod U+002F) (compound SOLIDUS) (compound character)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_escaped_state (det the))))) (. .))
+
+name:Script_data_escaped_end_tag_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (token (det the) (amod current) (compound end) (compound tag))) (VP (VBZ is) (NP (token (det an) (amod appropriate) (compound end) (compound tag)))))) (, ,) (ADVP (RB then)) (VP (VP (VB switch) (PP (IN to) (NP (Data_state (det the))))) (CC and) (VP (VB emit) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound tag) (case 's))) (compound tag))))) (. .))
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound (character (compound SIGN))) (appos (token (punct ,) (det a) (nummod U+002F) (compound SOLIDUS) (compound character))) (conj (token (punct ,) (cc and) (det a) (compound character) (nmod (each (case for) (nmod (characters (case of) (det the) (nmod (buffer (case in) (det the) (amod temporary) (nmod (order (punct -LRB-) (case in) (det the) (acl:relcl (added (nsubj:pass they) (aux:pass were) (obl (buffer (case to) (det the))) (punct -RRB-)))))))))))))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_escaped_state (det the))))) (. .))
+
+name:Script_data_double_escape_start_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:ASCII upper alpha
+(S (VP (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_escaped_state (det the))))) (. .))
+
+name:Script_data_double_escaped_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_less_than_sign_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_double_escaped_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_dash_dash_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_less_than_sign_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_double_escaped_dash_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Emit) (NP (a (nmod:tmod U+002D))))
+(NP (NNP HYPHEN-MINUS) (NN character) (NN token) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_less_than_sign_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+003C) (amod LESS-THAN) (compound SIGN) (compound character)))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_state (det the))))) (. .))
+(S (VB Emit) (NP (a (nmod:tmod U+003E))))
+(PP (IN GREATER-THAN) (S (VB SIGN) (NP (token (compound character)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (compound U+FFFD) (compound (CHARACTER (compound REPLACEMENT))) (compound character)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-script-html-comment-like-text) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:Script_data_double_escaped_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002F SOLIDUS (/)
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Script_data_double_escape_end_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det a) (nummod U+002F) (compound SOLIDUS) (compound character)))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_double_escaped_state (det the))))) (. .))
+
+name:Script_data_double_escape_end_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+0020 SPACE
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (SBAR (IN If) (S (NP (buffer (det the) (amod temporary))) (VP (VBZ is) (NP ("script" (det the) (compound string)))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (Script_data_escaped_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB switch) (PP (IN to) (NP (Script_data_double_escaped_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:ASCII upper alpha
+(S (VP (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:ASCII lower alpha
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Script_data_double_escaped_state (det the))))) (. .))
+
+name:Before_attribute_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:EOF
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+003D EQUALS SIGN (=)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-equals-sign-before-attribute-name) (compound parse)))) (. .))
+(S (VP (VB Start) (NP (attribute (det a) (amod new))) (PP (IN in) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (VP (VP (VB Set) (NP (name (nmod:poss (attribute (det that) (case 's))))) (PP (IN to) (NP (character (det the) (amod current) (compound input))))) (, ,) (CC and) (VP (NP (value (nmod:poss its))) (PP (IN to) (NP (string (det the) (amod empty)))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Attribute_name_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Start) (NP (attribute (det a) (amod new))) (PP (IN in) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (VP (VB Set) (NP (name (det that) (compound attribute) (conj (value (cc and))))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Attribute_name_state (det the))))) (. .))
+
+name:Attribute_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:EOF
+(S (VP (VB Reconsume) (PP (IN in) (NP (After_attribute_name_state (det the))))) (. .))
+char:U+003D EQUALS SIGN (=)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_value_state (det the))))) (. .))
+char:ASCII upper alpha
+(S (VP (S (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input)))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (PP (IN to) (NP (name (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (name (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-attribute-name) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-attribute-name) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-attribute-name) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+
+name:After_attribute_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+char:U+003D EQUALS SIGN (=)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_value_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Start) (NP (attribute (det a) (amod new))) (PP (IN in) (NP (token (det the) (amod current) (compound tag))))) (. .))
+(S (VP (VB Set) (NP (name (det that) (compound attribute) (conj (value (cc and))))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Attribute_name_state (det the))))) (. .))
+
+name:Before_attribute_value_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (VP (VB Switch) (PP (IN to) (NP (Attribute_value_double_quoted_state (det the))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (VP (VB Switch) (PP (IN to) (NP (Attribute_value_single_quoted_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Attribute_value_unquoted_state (det the))))) (. .))
+
+name:Attribute_value_double_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0022 QUOTATION MARK (")
+(S (VP (VB Switch) (PP (IN to) (NP (After_attribute_value_quoted_state (det the))))) (. .))
+char:U+0026 AMPERSAND (&amp;)
+(S (VP (VB Set) (NP (state (det the) (compound return))) (PP (IN to) (NP (Attribute_value_double_quoted_state (det the))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Character_reference_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+
+name:Attribute_value_single_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0027 APOSTROPHE (')
+(S (VP (VB Switch) (PP (IN to) (NP (After_attribute_value_quoted_state (det the))))) (. .))
+char:U+0026 AMPERSAND (&amp;)
+(S (VP (VB Set) (NP (state (det the) (compound return))) (PP (IN to) (NP (Attribute_value_single_quoted_state (det the))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Character_reference_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+
+name:Attribute_value_unquoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+0026 AMPERSAND (&amp;)
+(S (VP (VB Set) (NP (state (det the) (compound return))) (PP (IN to) (NP (Attribute_value_unquoted_state (det the))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Character_reference_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-unquoted-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-unquoted-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-unquoted-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+003D EQUALS SIGN (=)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-unquoted-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:U+0060 GRAVE ACCENT (`)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-in-unquoted-attribute-value) (compound parse)))) (. .))
+(S (VP (VB Treat) (NP it) (PP (IN as) (PP (IN per) (NP (entry (det the) (compound (anything (punct ") (amod else) (punct "))) (advmod below)))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+
+name:After_attribute_value_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_attribute_name_state (det the))))) (. .))
+char:U+002F SOLIDUS (/)
+(S (VP (VB Switch) (PP (IN to) (NP (Self_closing_start_tag_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-between-attributes) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Before_attribute_name_state (det the))))) (. .))
+
+name:Self_closing_start_tag_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Set) (NP (flag (det the) (compound self-closing) (nmod (token (case of) (det the) (amod current) (compound tag)))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound tag)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-tag) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-solidus-in-tag) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Before_attribute_name_state (det the))))) (. .))
+
+name:Bogus_comment_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (comment (det the)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+
+name:Markup_declaration_open_state
+prev:
+(SBAR (IN If) (S (NP (characters (det the) (amod next) (amod few))) VP) (: :))
+trans:
+char:Two U+002D HYPHEN-MINUS characters (-)
+(S (VP (VP (VB Consume) (NP (characters (det those) (nummod two)))) (, ,) (VP (VB create) (NP (token (det a) (compound comment) (acl:relcl (string (nsubj (data (nmod:poss whose))) (cop is) (det the) (amod empty)))))) (, ,) (CC and) (VP (VB switch) (PP (IN to) (NP (Comment_start_state (det the)))))) (. .))
+char:ASCII case-insensitive match for the word "DOCTYPE"
+(S (VP (VP (VB Consume) (NP (characters (det those)))) (CC and) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_state (det the)))))) (. .))
+char:The string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after)
+(S (VP (VB Consume) (NP (characters (det those)))) (. .))
+(S (SBAR (IN If) (S (S (NP there) (VP (VBZ is) (NP (node (det an) (amod adjusted) (amod current))))) (CC and) (S (NP it) (VP (VBZ is) (RB not) (NP (element (det an) (nmod (namespace (case in) (det the) (compound HTML))))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (CDATA_section_state (det the))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (NP this) (VP (VBZ is) (NP (error (det a) (amod cdata-in-html-content) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (compound comment) (acl:relcl (string (nsubj (data (nmod:poss whose))) (cop is) (det the) (punct ") (compound (CDATA (punct [) (punct [) (punct ")))))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Bogus_comment_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod incorrectly-opened-comment) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (compound comment) (acl:relcl (string (nsubj (data (nmod:poss whose))) (cop is) (det the) (amod empty)))))) (. .))
+(S (VP (S (VB Switch) (PP (IN to) (NP (Bogus_comment_state (det the))))) (PRN (-LRB- -LRB-) (S (VBP do) (RB n't) (VP (VB consume) (NP anything) (PP (IN in) (NP (state (det the) (amod current)))))) (-RRB- -RRB-))) (. .))
+
+name:Comment_start_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_start_dash_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-closing-of-empty-comment) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_start_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Switch) (PP (IN to) (NP (Comment_end_state (det the)))))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-closing-of-empty-comment) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-comment) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VB Append) (NP (a (nmod:tmod U+002D))))
+(NP (NP (character (amod HYPHEN-MINUS))) (-LRB- -LRB-) (-RRB- -) (-RRB- -RRB-) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_less_than_sign_state (det the))))) (. .))
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_end_dash_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-comment) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+
+name:Comment_less_than_sign_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0021 EXCLAMATION MARK (!)
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_less_than_sign_bang_state (det the))))) (. .))
+char:U+003C LESS-THAN SIGN (&lt;)
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's))))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_less_than_sign_bang_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_less_than_sign_bang_dash_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_less_than_sign_bang_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_less_than_sign_bang_dash_dash_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_end_dash_state (det the))))) (. .))
+
+name:Comment_less_than_sign_bang_dash_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_end_state (det the))))) (. .))
+char:EOF
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_end_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod nested-comment) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_end_state (det the))))) (. .))
+
+name:Comment_end_dash_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Switch) (PP (IN to) (NP (Comment_end_state (det the)))))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-comment) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VB Append) (NP (a (nmod:tmod U+002D))))
+(NP (NP (character (amod HYPHEN-MINUS))) (-LRB- -LRB-) (-RRB- -) (-RRB- -RRB-) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_end_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+char:U+0021 EXCLAMATION MARK (!)
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_end_bang_state (det the))))) (. .))
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Append) (NP (a (nmod:tmod U+002D))))
+(NP (NP (character (amod HYPHEN-MINUS))) (-LRB- -LRB-) (SYM -) (-RRB- -RRB-) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-comment) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VB Append) (NP (U+002D (nummod two))))
+(NP (NP (characters (amod HYPHEN-MINUS))) (-LRB- -LRB-) (SYM -) (-RRB- -RRB-) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:Comment_end_bang_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+002D HYPHEN-MINUS (-)
+(S (VB Append) (NP (U+002D (nummod two))))
+(NP (NP (characters (amod HYPHEN-MINUS) (punct -LRB-) (punct -) (punct -RRB-) (conj (character (cc and) (det a) (compound (MARK (nummod U+0021) (compound EXCLAMATION))) (appos (-EXC- (punct -LRB-) (punct -RRB-))))))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Comment_end_dash_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod incorrectly-closed-comment) (compound parse)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-comment) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound comment)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VB Append) (NP (U+002D (nummod two))))
+(NP (NP (characters (amod HYPHEN-MINUS) (punct -LRB-) (punct -) (punct -RRB-))) (CC and) (NP (character (det a) (compound (MARK (compound (EXCLAMATION (nummod U+0021))))) (punct -LRB-) (punct !) (punct -RRB-))) (PP (IN to) (NP (data (nmod:poss (token (det the) (compound comment) (case 's)))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Comment_state (det the))))) (. .))
+
+name:DOCTYPE_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Reconsume) (PP (IN in) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss its) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det the)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-before-doctype-name) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Before_DOCTYPE_name_state (det the))))) (. .))
+
+name:Before_DOCTYPE_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:ASCII upper alpha
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (S (VB Set) (NP (name (nmod:poss (token (det the) (case 's))))) (PP (IN to) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input))))))) (PRN (-LRB- -LRB-) (S (VB add) (NP 0x0020) (PP (IN to) (NP (point (nmod:poss (character (det the) (case 's))) (compound code))))) (-RRB- -RRB-)) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (DOCTYPE_name_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (VP (VB Set) (NP (name (nmod:poss (token (det the) (case 's))))) (PP (IN to) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (DOCTYPE_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-doctype-name) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss its) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss its) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det the)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Create) (NP (token (det a) (amod new) (compound DOCTYPE)))) (. .))
+(S (VP (VB Set) (NP (name (nmod:poss (token (det the) (case 's))))) (PP (IN to) (NP (character (det the) (amod current) (compound input))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (DOCTYPE_name_state (det the))))) (. .))
+
+name:DOCTYPE_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_name_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_name_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_name_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_name_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound DOCTYPE)))) (. .))
+char:ASCII upper alpha
+(S (VP (VB Append) (NP (version (det the) (amod lowercase) (nmod (character (case of) (det the) (amod current) (compound input))) (parataxis (add (punct -LRB-) (obj 0x0020) (obl (point (case to) (nmod:poss (character (det the) (case 's))) (compound code))) (punct -RRB-))))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (name (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))))))) (. .))
+
+name:After_DOCTYPE_name_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (SBAR (IN If) (S (NP (characters (det the) (nummod six) (acl (starting (obl (character (case from) (det the) (amod current) (compound input))))))) (VP (VBP are) (NP (match (det an) (compound ASCII) (amod case-insensitive) (nmod (word (case for) (det the) (appos (PUBLIC (punct ")))))))))) (, ") ('' ,) (ADVP (RB then)) (VP (VP (VB consume) (NP (characters (det those)))) (CC and) (VP (VB switch) (PP (IN to) (NP (After_DOCTYPE_public_keyword_state (det the)))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (SBAR (SBAR (IN if) (S (NP (characters (det the) (nummod six) (acl (starting (obl (character (case from) (det the) (amod current) (compound input))))))) (VP (VBP are) (NP (match (det an) (compound ASCII) (amod case-insensitive) (nmod (word (case for) (det the) (appos (SYSTEM (punct ")))))))))) (, ")) (, ,) (ADVP (RB then)) (VP (VP (VB consume) (NP (characters (det those)))) (CC and) (VP (VB switch) (PP (IN to) (NP (After_DOCTYPE_system_keyword_state (det the)))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (NP this) (VP (VBZ is) (NP (error (det an) (amod invalid-character-sequence-after-doctype-name) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:After_DOCTYPE_public_keyword_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-after-doctype-public-keyword) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (amod public))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_public_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-after-doctype-public-keyword) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (amod public))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_public_identifier_single_quoted_state (det the)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:Before_DOCTYPE_public_identifier_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (amod public))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_public_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (amod public))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_public_identifier_single_quoted_state (det the)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:DOCTYPE_public_identifier_double_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0022 QUOTATION MARK (")
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (amod public))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (amod public))))) (. .))
+
+name:DOCTYPE_public_identifier_single_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0027 APOSTROPHE (')
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_public_identifier_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (amod public))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-doctype-public-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (amod public))))) (. .))
+
+name:After_DOCTYPE_public_identifier_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Between_DOCTYPE_public_and_system_identifiers_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Between_DOCTYPE_public_and_system_identifiers_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Between_DOCTYPE_public_and_system_identifiers_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Between_DOCTYPE_public_and_system_identifiers_state (det the))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound DOCTYPE)))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-between-doctype-public-and-system-identifiers) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-between-doctype-public-and-system-identifiers) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_single_quoted_state (det the)))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:Between_DOCTYPE_public_and_system_identifiers_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound DOCTYPE)))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_single_quoted_state (det the)))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:After_DOCTYPE_system_keyword_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Switch) (PP (IN to) (NP (Before_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-after-doctype-system-keyword) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-whitespace-after-doctype-system-keyword) (compound parse)))) (. .))
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_single_quoted_state (det the)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:Before_DOCTYPE_system_identifier_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0022 QUOTATION MARK (")
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_double_quoted_state (det the)))))) (. .))
+char:U+0027 APOSTROPHE (')
+(S (VP (VP (VB Set) (NP (identifier (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound system))) (PP (IN to) (NP (string (det the) (amod empty) (amod (missing (punct -LRB-) (advmod not) (punct -RRB-))))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DOCTYPE_system_identifier_single_quoted_state (det the)))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-quote-before-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+
+name:DOCTYPE_system_identifier_double_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0022 QUOTATION MARK (")
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (compound system))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (compound system))))) (. .))
+
+name:DOCTYPE_system_identifier_single_quoted_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0027 APOSTROPHE (')
+(S (VP (VB Switch) (PP (IN to) (NP (After_DOCTYPE_system_identifier_state (det the))))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Append) (NP (character (det a) (compound U+FFFD) (compound REPLACEMENT) (compound CHARACTER))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (compound system))))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod abrupt-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (identifier (nmod:poss (token (det the) (amod current) (compound DOCTYPE) (case 's))) (compound system))))) (. .))
+
+name:After_DOCTYPE_system_identifier_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000A LINE FEED (LF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+000C FORM FEED (FF)
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+0020 SPACE
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (amod current) (compound DOCTYPE)))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-doctype) (compound parse)))) (. .))
+(S (VP (VB Set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on)))) (. .))
+(S (VP (VB Emit) (NP (token (det that) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-character-after-doctype-system-identifier) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Bogus_DOCTYPE_state (det the))))) (. .))
+(S (-LRB- -LRB-) (NP This) (VP (VBZ does) (RB not) (VP (VB set) (NP (flag (nmod:poss (token (det the) (compound DOCTYPE) (case 's))) (compound force-quirks))) (PP (IN to) (ADVP (RP on))))) (. .) (-RRB- -RRB-))
+
+name:Bogus_DOCTYPE_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+(S (VP (VB Emit) (NP (token (det the) (compound DOCTYPE)))) (. .))
+char:U+0000 NULL
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unexpected-null-character) (compound parse)))) (. .))
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+char:EOF
+(S (VP (VB Emit) (NP (token (det the) (compound DOCTYPE)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Ignore) (NP (character (det the)))) (. .))
+
+name:CDATA_section_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+(S (VP (VB Switch) (PP (IN to) (NP (CDATA_section_bracket_state (det the))))) (. .))
+char:EOF
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod eof-in-cdata) (compound parse)))) (. .))
+(S (VP (VB Emit) (NP (token (det an) (amod end-of-file)))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+
+name:CDATA_section_bracket_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+(S (VP (VB Switch) (PP (IN to) (NP (CDATA_section_end_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (token (det a) (nummod U+005D) (amod RIGHT) (compound SQUARE) (compound BRACKET) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (CDATA_section_state (det the))))) (. .))
+
+name:CDATA_section_end_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+(S (VP (VB Emit) (NP (token (det a) (nummod U+005D) (amod RIGHT) (compound SQUARE) (compound BRACKET) (compound character)))) (. .))
+char:U+003E GREATER-THAN SIGN character
+(S (VP (VB Switch) (PP (IN to) (NP (Data_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Emit) (NP (tokens (nummod two) (nummod U+005D) (amod RIGHT) (compound SQUARE) (compound BRACKET) (compound character)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (CDATA_section_state (det the))))) (. .))
+
+name:Character_reference_state
+prev:
+(S (VP (VB Set) (NP (buffer (det the) (amod temporary))) (PP (IN to) (NP (string (det the) (amod empty))))) (. .))
+(S (VP (VB Append) (NP (AMPERSAND (det a) (nummod U+0026) (punct -LRB-) (conj (amp (cc &) (punct ;)))) (conj character))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alphanumeric
+(S (VP (VB Reconsume) (PP (IN in) (NP (Named_character_reference_state (det the))))) (. .))
+char:U+0023 NUMBER SIGN (#)
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Numeric_character_reference_state (det the))))) (. .))
+char:Anything else
+(NP (NP (points (compound (code (compound Flush))))) (VP (VBN consumed) (PP (IN as) (NP (reference (det a) (compound character))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (state (det the) (compound return))))) (. .))
+
+name:Named_character_reference_state
+prev:
+(S (VP (VB Consume) (NP (number (det the) (amod maximum) (nmod (characters (case of) (amod possible))))) (, ,) (SBAR (S (NP (characters (det the) (amod consumed))) (VP (VBP are) (NP (one (nmod (identifiers (case of) (det the) (nmod (column (case in) (det the) (amod first) (nmod (table (case of) (det the) (amod named) (compound (references (compound character))))))))))))))) (. .))
+(S (VP (VB Append) (NP (character (det each))) (PP (IN to) (NP (buffer (det the) (amod temporary)))) (SBAR (S (NP it) (VP (VBZ 's) VP)))) (. .))
+trans:
+char:If there is a match
+(S (SBAR (IN If) (S (S (NP (reference (det the) (compound character))) (VP (VBD was) (VP (VBN consumed) (PP (IN as) (NP (part (nmod (attribute (case of) (det an))))))))) (, ,) (CC and) (S (S (NP (character (det the) (amod last) (acl matched))) (VP (VBZ is) (RB not) (NP (character (det a) (nummod U+003B) (compound SEMICOLON))) (-LRB- -LRB-) (-LRB- ;)) (-RRB- ,))) (CC and) (S (NP (character (det the) (amod next) (compound input))) (VP (VBZ is) (NP (EQUALS (nsubj (U+003D (cc:preconj either) (det a))) (obj (character (compound SIGN) (conj (alphanumeric (punct -LRB-) (discourse =)) (cc or) (det an) (compound ASCII)))))))))))) (, ,) (ADVP (RB then)) (, ,) (PP (IN for) (NP (reasons (amod historical)))) (, ,) (VP (VP (VB flush) (NP (points (compound code) (acl (consumed (obl (reference (case as) (det a) (compound character)))))))) (CC and) (VP (VB switch) (PP (IN to) (NP (state (det the) (compound return)))))) (. .))
+(S (VP (VB Append) (NP (characters (nummod (one (conj (two (cc or))))) (acl (corresponding (obl (name (case to) (det the) (compound character) (compound reference))) (advcl (given (punct -LRB-) (mark as) (obl (column (case by) (det the) (amod second) (nmod (table (case of) (det the) (amod named) (compound (references (compound character))))))) (punct -RRB-))))))) (PP (IN to) (NP (points (nsubj (code (det the) (amod temporary) (compound buffer.Flush))) (xcomp (consumed (obl (reference (case as) (det a) (compound character))))))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (state (det the) (compound return))))) (. .))
+char:Otherwise
+(NP (NP (points (compound (code (compound Flush))))) (VP (VBN consumed) (PP (IN as) (NP (reference (det a) (compound character))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Ambiguous_ampersand_state (det the))))) (. .))
+
+name:Ambiguous_ampersand_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII alphanumeric
+(S (SBAR (IN If) (S (NP (reference (det the) (compound character))) (VP (VBD was) (VP (VBN consumed) (PP (IN as) (NP (part (nmod (attribute (case of) (det an)))))))))) (, ,) (ADVP (RB then)) (VP (VB append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (value (nmod:poss (attribute (det the) (amod current) (case 's))))))) (. .))
+(S (ADVP (RB Otherwise)) (, ,) (VP (VB emit) (NP (character (det the) (amod current) (compound input))) (PP (IN as) (NP (token (det a) (compound character))))) (. .))
+char:U+003B SEMICOLON (;)
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod unknown-named-character-reference) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (state (det the) (compound return))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (state (det the) (compound return))))) (. .))
+
+name:Numeric_character_reference_state
+prev:
+(S (VP (VB Set) (NP (code (det the) (compound (reference (compound character))))) (PP (IN to) (NP (zero (punct -LRB-)))) (VP (VB 0).Consume) (NP (character (det the) (amod next) (compound input))))) (: :))
+trans:
+char:U+0078 LATIN SMALL LETTER X
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Hexadecimal_character_reference_start_state (det the))))) (. .))
+char:U+0058 LATIN CAPITAL LETTER X
+(S (VP (VB Append) (NP (character (det the) (amod current) (compound input))) (PP (IN to) (NP (buffer (det the) (amod temporary))))) (. .))
+(S (VP (VB Switch) (PP (IN to) (NP (Hexadecimal_character_reference_start_state (det the))))) (. .))
+char:Anything else
+(S (VP (VB Reconsume) (PP (IN in) (NP (Decimal_character_reference_start_state (det the))))) (. .))
+
+name:Hexadecimal_character_reference_start_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII hex digit
+(S (VP (VB Reconsume) (PP (IN in) (NP (Hexadecimal_character_reference_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod absence-of-digits-in-numeric-character-reference) (compound parse)))) (. .))
+(NP (NP (points (compound (code (compound Flush))))) (VP (VBN consumed) (PP (IN as) (NP (reference (det a) (compound character))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (state (det the) (compound return))))) (. .))
+
+name:Decimal_character_reference_start_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII digit
+(S (VP (VB Reconsume) (PP (IN in) (NP (Decimal_character_reference_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det an) (amod absence-of-digits-in-numeric-character-reference) (compound parse)))) (. .))
+(NP (NP (points (compound (code (compound Flush))))) (VP (VBN consumed) (PP (IN as) (NP (reference (det a) (compound character))))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (state (det the) (compound return))))) (. .))
+
+name:Hexadecimal_character_reference_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII digit
+(S (VP (VB Multiply) (NP (code (det the) (compound (reference (compound character))))) (PP (IN by) (NP 16))) (. .))
+(S (VP (VB Add) (NP (version (det a) (amod numeric) (nmod (character (case of) (det the) (amod current) (compound input) (parataxis (subtract (punct -LRB-) (obj 0x0030) (obl (point (case from) (nmod:poss (character (det the) (case 's))) (compound code))) (punct -RRB-))))))) (PP (IN to) (NP (code (det the) (compound (reference (compound character))))))) (. .))
+char:ASCII upper hex digit
+(S (VP (VB Multiply) (NP (code (det the) (compound (reference (compound character))))) (PP (IN by) (NP 16))) (. .))
+(S (VP (VB Add) (NP (version (det a) (amod numeric) (nmod (character (case of) (det the) (amod current) (compound input) (nmod (digit (case as) (det a) (amod hexadecimal))))) (parataxis (subtract (punct -LRB-) (obj 0x0037) (obl (point (case from) (nmod:poss (character (det the) (case 's))) (compound code))) (punct -RRB-))))) (PP (IN to) (NP (code (det the) (compound (reference (compound character))))))) (. .))
+char:ASCII lower hex digit
+(S (VP (VB Multiply) (NP (code (det the) (compound (reference (compound character))))) (PP (IN by) (NP 16))) (. .))
+(S (VP (VB Add) (NP (version (det a) (amod numeric) (nmod (character (case of) (det the) (amod current) (compound input) (nmod (digit (case as) (det a) (amod hexadecimal))))) (parataxis (subtract (punct -LRB-) (obj 0x0057) (obl (point (case from) (nmod:poss (character (det the) (case 's))) (compound code))) (punct -RRB-))))) (PP (IN to) (NP (code (det the) (compound (reference (compound character))))))) (. .))
+char:U+003B SEMICOLON
+(S (VP (VB Switch) (PP (IN to) (NP (Numeric_character_reference_end_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-semicolon-after-character-reference) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Numeric_character_reference_end_state (det the))))) (. .))
+
+name:Decimal_character_reference_state
+prev:
+(S (VP (VB Consume) (NP (character (det the) (amod next) (compound input)))) (: :))
+trans:
+char:ASCII digit
+(S (VP (VB Multiply) (NP (code (det the) (compound (reference (compound character))))) (PP (IN by) (NP 10))) (. .))
+(S (VP (VB Add) (NP (version (det a) (amod numeric) (nmod (character (case of) (det the) (amod current) (compound input) (parataxis (subtract (punct -LRB-) (obj 0x0030) (obl (point (case from) (nmod:poss (character (det the) (case 's))) (compound code))) (punct -RRB-))))))) (PP (IN to) (NP (code (det the) (compound (reference (compound character))))))) (. .))
+char:U+003B SEMICOLON
+(S (VP (VB Switch) (PP (IN to) (NP (Numeric_character_reference_end_state (det the))))) (. .))
+char:Anything else
+(S (NP This) (VP (VBZ is) (NP (error (det a) (amod missing-semicolon-after-character-reference) (compound parse)))) (. .))
+(S (VP (VB Reconsume) (PP (IN in) (NP (Numeric_character_reference_end_state (det the))))) (. .))
+

@@ -1,0 +1,192 @@
+
+----- switch ------
+1: VP(VB(switch),PP(IN(to),NP(z0)))
+ ==> switch_to(z0)
+match : 200/200
+
+2: VP(VB(switch),PP(IN(to),NP(Before_attribute_name_state(det(the)))))
+ ==> switch_to_the
+match : 28/200
+
+
+----- set ------
+1: VP(VB(set),NP(flag(nmod:poss(token(det(the),compound(DOCTYPE),case('s))),compound(force-quirks))),PP(IN(to),ADVP(RP(on))))
+ ==> set_the_DOCTYPE_'s_force-quirks_to_on
+match : 29/68
+
+2: VP(X0)
+ ==> (VP(X0))
+match : 68/68
+
+3: VP(VB(set),NP(z0),PP(IN(to),NP(string(X1))))
+ ==> set_to(z0,string(X1))
+match : 27/68
+
+4: VP(VB(set),NP(z0),PP(IN(to),z1))
+ ==> set_to(z0,z1)
+match : 67/68
+
+5: VP(VB(set),NP(z0),PP(IN(to),NP(z1)))
+ ==> set_to(z0,z1)
+match : 35/68
+
+
+----- create ------
+1: VP(VB(create),NP(token(X0)))
+ ==> create(token(X0))
+match : 17/17
+
+2: VP(VB(create),NP(token(det(a),z0,z1)))
+ ==> create_a(z0,z1)
+match : 11/17
+
+3: VP(VB(create),NP(token(det(a),amod(new),compound(DOCTYPE))))
+ ==> create_a_new_DOCTYPE
+match : 6/17
+
+4: VP(VB(create),NP(token(det(a),amod(new),compound(end),compound(tag))))
+ ==> create_a_new_end_tag
+match : 5/17
+
+
+----- reconsume ------
+1: VP(VB(reconsume),PP(IN(in),NP(z0)))
+ ==> reconsume_in(z0)
+match : 76/76
+
+
+----- multiply ------
+1: VP(VB(multiply),NP(code(det(the),compound(reference(compound(character))))),PP(IN(by),NP(z0)))
+ ==> multiply_the_character_by(z0)
+match : 4/4
+
+
+----- consume ------
+1: VP(VB(consume),NP(z0))
+ ==> consume(z0)
+match : 81/82
+
+2: VP(VB(consume),NP(character(det(the),amod(next),compound(input))))
+ ==> consume_the_next_input
+match : 76/82
+
+3: VP(X0)
+ ==> (VP(X0))
+match : 82/82
+
+
+----- start ------
+
+----- add ------
+1: VP(VB(add),NP(version(X0)),PP(IN(to),NP(code(det(the),compound(reference(compound(character)))))))
+ ==> add_to_the_character(version(X0))
+match : 4/4
+
+
+----- ignore ------
+1: VP(VB(ignore),NP(character(det(the))))
+ ==> ignore_the
+match : 38/38
+
+
+----- append ------
+1: VP(VB(append),NP(z0),PP(IN(to),NP(z1)))
+ ==> append_to(z0,z1)
+match : 47/56
+
+2: VP(VB(append),NP(character(X0)),PP(IN(to),NP(name(X1))))
+ ==> append_to(character(X0),name(X1))
+match : 10/56
+
+3: VP(VB(append),NP(character(det(a),compound(U+FFFD),compound(REPLACEMENT),compound(CHARACTER))),PP(IN(to),NP(z0)))
+ ==> append_a_U+FFFD_REPLACEMENT_CHARACTER_to(z0)
+match : 12/56
+
+4: VP(VB(append),NP(character(X0)),PP(IN(to),NP(z1)))
+ ==> append_to(character(X0),z1)
+match : 45/56
+
+5: VP(X0)
+ ==> (VP(X0))
+match : 56/56
+
+6: VP(VB(append),NP(character(det(the),amod(current),compound(input))),PP(IN(to),NP(z0)))
+ ==> append_the_current_input_to(z0)
+match : 33/56
+
+7: VP(z0,z1,PP(IN(to),NP(z2)))
+ ==> to(z0,z1,z2)
+match : 53/56
+
+
+----- _other ------
+1: VP(VBZ(is),NP(z0))
+ ==> is(z0)
+match : 150/165
+
+2: z0
+ ==> (z0)
+match : 165/165
+
+3: VP(z0,z1)
+ ==> (z0,z1)
+match : 161/165
+
+4: VP(VBZ(is),NP(error(det(an),amod(z0),compound(parse))))
+ ==> is_an_parse(z0)
+match : 87/165
+
+5: VP(X0)
+ ==> (VP(X0))
+match : 163/165
+
+6: VP(VBZ(is),NP(error(det(z0),amod(z1),compound(parse))))
+ ==> is_parse(z0,z1)
+match : 112/165
+
+7: VP(z0,NP(z1))
+ ==> (z0,z1)
+match : 154/165
+
+
+----- emit ------
+1: VP(VB(emit),NP(token(det(z0),compound(z1))))
+ ==> emit(z0,z1)
+match : 33/157
+
+2: VP(VB(emit),NP(token(X0)))
+ ==> emit(token(X0))
+match : 125/157
+
+3: VP(VB(emit),NP(z0))
+ ==> emit(z0)
+match : 127/157
+
+4: VP(X0)
+ ==> (VP(X0))
+match : 157/157
+
+5: VP(VB(emit),NP(token(det(z0),z1)))
+ ==> emit(z0,z1)
+match : 74/157
+
+6: VP(VB(emit),NP(token(det(that),compound(DOCTYPE))))
+ ==> emit_that_DOCTYPE
+match : 21/157
+
+7: VP(VB(emit),NP(character(det(the),amod(current),compound(input))),PP(IN(as),NP(token(det(a),compound(character)))))
+ ==> emit_the_current_input_as_a_character
+match : 30/157
+
+8: VP(VB(emit),NP(token(det(an),amod(end-of-file))))
+ ==> emit_an_end-of-file
+match : 41/157
+
+
+----- flush ------
+
+----- treat ------
+1: VP(VB(treat),NP(it),PP(IN(as),PP(IN(per),NP(entry(det(the),compound(anything(punct("),amod(else),punct("))),advmod(below))))))
+ ==> treat_it_as_per_the_"_else_"_below
+match : 32/32
+

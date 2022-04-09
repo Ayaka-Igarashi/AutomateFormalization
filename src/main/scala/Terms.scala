@@ -7,6 +7,16 @@ object Terms {
   case class TermVariable(x: String) extends Term
   case class Function(f: Symbol, args: Hedge) extends Term
   type Hedge = List[Term]|HedgeVariable
+
+  case class NoValTerm(f: Symbol, args: List[NoValTerm])
+
+  def noValTermToTerm(nvTerm: NoValTerm): Term = {
+    nvTerm match {
+      case NoValTerm(s, list) => {
+        return Function(s, list.map(noValTermToTerm(_)))
+      }
+    }
+  }
   
   def substitution(term: Term, sub: Map[String, Term|List[Term]]): Term = {
     term match {
@@ -131,6 +141,13 @@ object Terms {
         }
       }
       case _ => ""
+    }
+  }
+
+  def getFirstLeaf_nv(term: NoValTerm): String = {
+    term match{
+      case NoValTerm(s, Nil) => s
+      case NoValTerm(s, list) => getFirstLeaf_nv(list.head)
     }
   }
 }
