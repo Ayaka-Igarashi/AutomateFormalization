@@ -1,17 +1,36 @@
 import Terms._
 
 object Convert {
-    def convertTerms(terms: List[Term], rules: List[Term]): List[Term] = {
-        terms.flatMap(t => {
+    var count = 0
+    val stermRules: List[Term] = List(
+        Function("S", List(Function("NP", HedgeVariable("x1")), 
+                            Function("VP", List(Function("VBZ", List(Function("is", Nil))),Function("NP", HedgeVariable("x2"))))))  
+    )
+    val ifTermRules: List[Term] = List(
+        Function("S",Function("SBAR", List(Function("IN", List(Function("if", Nil))), TermVariable("x1")))
+                         ::Function(",", List(Function(",", Nil)))
+                         ::Function("ADVP", List(Function("RB", List(Function("then", Nil)))))
+                         ::TermVariable("x2")
+                         ::Nil),
+        Function("S", Function("ADVP", List(Function("RB", List(Function("otherwise", Nil)))))
+                         ::Function(",", List(Function(",", Nil)))
+                         ::TermVariable("x1")
+                         ::Nil)
+    )
+
+    def convertTerms(terms: List[(Term, String)], rules: List[Term]): List[(List[Term], String)] = {
+        terms.map(t => {
             //if (t != convertTerm(t, rules)) println(displayTerm(convertTerm(t, rules)))
-            val ruleSymbols = ExtractRule.rulesSymbols(rules++stermRules)
-            val converted = convertTerm(t, rules)
+            val ruleSymbols = ExtractRule.rulesSymbols(rules++stermRules++ifTermRules)
+            val converted = convertTerm(t._1, rules)
             val onlyConverted = extractOnlyConverted(converted, ruleSymbols)
             // List(converted)
             if (onlyConverted.isEmpty) {
                 val fail: Term = Function("FAIL", Nil)
-                List(fail)
-            } else onlyConverted
+                (List(fail), t._2)
+            } else {
+                (onlyConverted, t._2)
+            }
         })
     }
     // 返り値List[Term]の方がいい？
@@ -20,8 +39,8 @@ object Convert {
             case TermVariable(x) => term
             case Function("S", child) => {
                 // println(toCommandIf(term))
-                stermRules.foreach(r => {
-                    conv(r, term) match {
+                ifTermRules.foreach(r => {
+                    convertNp_insub(conv(r, term),r) match {
                         case None => 
                         case Some(sub) => {
                             val conv_sub = sub.map(m => {
@@ -31,6 +50,14 @@ object Convert {
                                 }
                             })
                             return Terms.substitution(toCommand(r), conv_sub)//list
+                        }
+                    }
+                })
+                stermRules.foreach(r => {
+                    convertNp_insub(conv(r, term),r) match {
+                        case None => 
+                        case Some(sub) => {
+                            return Terms.substitution(toCommand(r), sub)//list
                         }
                     }
                 })
@@ -47,9 +74,10 @@ object Convert {
             }
             case Function("VP", child) => {
                 rules.foreach(r => {
-                    conv(r, term) match {
+                    convertNp_insub(conv(r, term), r) match {
                         case None => 
                         case Some(sub) => {
+
                             return Terms.substitution(toCommand(r), sub)
                         }
                     }
@@ -80,6 +108,7 @@ object Convert {
         }
     }
     
+    // 未使用
     def convertNorm(term: Term): Term = {
         // return removeDT(term)
         term match {
@@ -192,21 +221,6 @@ object Convert {
         list
     }
     
-    val stermRules: List[Term] = List(
-        Function("S",Function("SBAR", List(Function("IN", List(Function("if", Nil))), TermVariable("x1")))
-                         ::Function(",", List(Function(",", Nil)))
-                         ::Function("ADVP", List(Function("RB", List(Function("then", Nil)))))
-                         ::TermVariable("x2")
-                         ::Nil),
-        Function("S", Function("ADVP", List(Function("RB", List(Function("otherwise", Nil)))))
-                         ::Function(",", List(Function(",", Nil)))
-                         ::TermVariable("x1")
-                         ::Nil),
-        Function("S", List(Function("NP", HedgeVariable("x1")), 
-                            Function("VP", List(Function("VBZ", List(Function("is", Nil))),Function("NP", HedgeVariable("x2"))))))
-        
-    )
-    
     def toCommandIf(term: Term): Term = {
         term match {
             //(S (SBAR (IN If) (S (NP (DT the) (JJ current) (NML (NN end) (NN tag)) (NN token)) (VP (VBZ is) (NP (DT an) (JJ appropriate) (NML (NN end) (NN tag)) (NN token))))) (, ,) (ADVP (RB then)) (VP (VB switch) (PP (IN to) (NP (DT the) (NN Before_attribute_name_state)))) (. .))
@@ -293,4 +307,71 @@ object Convert {
     //         }
     //     }
     // }
+
+    def convertNp_insub(sub: Option[Map[String, Term|List[Term]]], ori: Term): Option[Map[String, Term|List[Term]]] = {
+        // return sub
+        sub match {
+            case None => None
+            case Some(m) => {
+                Some(m.map((s,t) => {
+                    if (getParentNode(s, ori) == "NP") {
+                        t match {
+                            case term: Term => s -> convertNP2(term)
+                            case list: List[Term] => s -> list.map(convertNP2(_))
+                        }
+                    } else {
+                        t match {
+                            case Function(sym, List(np)) if sym == "NP" => {//s -> convertNP2(Function(sym, list))
+                                np match {
+                                    case npt: Term => {s -> convertNP2(npt)}
+                                    case _ => s -> t
+                                }
+                            }
+                            case _ => s -> t
+                        }
+                        // t match {
+                        //     case term: Term => s -> convertNP(term)
+                        //     case list: List[Term] => s -> list.map(convertNP(_))
+                        // }
+                        // s -> t
+                    }                    
+                }))
+            }
+        }
+    }
+
+    def convertNP2(term: Term): Term = {
+        val slist = ConvertNp.convert(term)
+        var s = ""
+        slist.foreach(w => s += w + " & ")
+        s = s.slice(0,s.length-3)
+        // println(s)
+        Function(s, Nil)
+    }
+
+    def convertNP(term: Term): Term = {
+        term match {
+            case Function("NP", List(np)) => {
+                np match {
+                    case np_term: Term => {
+                        val slist = ConvertNp.convert(np_term)
+                        var s = ""
+                        slist.foreach(w => s += w + " & ")
+                        s = s.slice(0,s.length-3)
+                        // println(s)
+                        Function(s, Nil)
+                    }
+                    case _ => term
+                }
+                
+            }
+            case Function(s, child) => {
+                child match {
+                    case HedgeVariable(_) => term
+                    case list: List[Term] => Function(s, list.map(convertNP(_)))
+                }
+            }
+            case TermVariable(x) => term
+        }
+    }
 }

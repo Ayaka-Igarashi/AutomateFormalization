@@ -51,15 +51,19 @@ object AntiUnification {
       case None => {
         isAllSameFunction(terms) match {
           case Some((symbol, arity, args)) => { // pattern(8)
-            var sub = substitution
-            var sub_h = substitution_h
-            val auedChildren: List[Term] = args.transpose.map(tlist => {
-              val (s, newsub, newsub_h) = auTheta(tlist, sub, sub_h)
-              sub = newsub
-              sub_h = newsub_h
-              s
-            })
-            (Function(symbol, auedChildren), sub, sub_h)
+            if (symbol == "NP") { // NPの特殊処理
+              (Function(symbol, List(createFreshVariable())), substitution, substitution_h)
+            } else {
+              var sub = substitution
+              var sub_h = substitution_h
+              val auedChildren: List[Term] = args.transpose.map(tlist => {
+                val (s, newsub, newsub_h) = auTheta(tlist, sub, sub_h)
+                sub = newsub
+                sub_h = newsub_h
+                s
+              })
+              (Function(symbol, auedChildren), sub, sub_h)
+            }
           }
           case None => {
             isSameFunction(terms) match { // HedgeVariable

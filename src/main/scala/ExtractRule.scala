@@ -60,9 +60,12 @@ object ExtractRule{
     
     def leafCount(term: Term): Int = {
         term match {
-            case Function(_, child) => {
+            case Function(word, child) => {
                 child match {
-                    case Nil => 1
+                    case Nil => {
+                        if (word == "to") 0 // 要修正
+                        else 1
+                    }
                     case t :: rst => (t +: rst).foldLeft(0)((x,y) => x+leafCount(y))
                     case HedgeVariable(_) => 0
                 }

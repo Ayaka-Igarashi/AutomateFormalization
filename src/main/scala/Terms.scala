@@ -10,10 +10,25 @@ object Terms {
 
   case class NoValTerm(f: Symbol, args: List[NoValTerm])
 
+  case class TermEx(f: Symbol, args: List[TermEx], ex: Ex)
+  type Ex = Int
+
   def noValTermToTerm(nvTerm: NoValTerm): Term = {
     nvTerm match {
       case NoValTerm(s, list) => {
         return Function(s, list.map(noValTermToTerm(_)))
+      }
+    }
+  }
+
+  def termToNoValTerm(term: Term): NoValTerm = {
+    term match {
+      case TermVariable(x) => NoValTerm(x, Nil)
+      case Function(f, args) => {
+        args match {
+          case HedgeVariable(h) => NoValTerm(f, List(NoValTerm(h, Nil)))
+          case list: List[Term] => NoValTerm(f, list.map(termToNoValTerm(_)))
+        }
       }
     }
   }
@@ -148,6 +163,40 @@ object Terms {
     term match{
       case NoValTerm(s, Nil) => s
       case NoValTerm(s, list) => getFirstLeaf_nv(list.head)
+    }
+  }
+
+  // "x" and S(NP(x)) => return NP
+  def getParentNode(v: String, term: Term): String = {
+    getParentNode_sub("", v, term) match {
+      case Some(s) => s
+      case None => ""
+    }
+  }
+  
+  def getParentNode_sub(p: String, v: String, term: Term): Option[String] = {
+    term match {
+      case TermVariable(x) => {
+        if (x == v) return Some(p)
+        else None
+      }
+      case Function(s, child) => {
+        child match {
+          case HedgeVariable(x) =>{
+            if (x == v) return Some(s)
+            else None
+          }
+          case list: List[Term] => {
+            list.foreach(t => {
+              getParentNode_sub(s, v, t) match {
+                case Some(sym) => return Some(sym)
+                case None =>
+              }
+            })
+            return None
+          }
+        }
+      } 
     }
   }
 }

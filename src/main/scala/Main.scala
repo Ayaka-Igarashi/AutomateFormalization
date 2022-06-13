@@ -10,6 +10,7 @@ object Main {
   import ExtractRule._
   import StateStructure._
 
+  /*
   @main def keisikika() = {
     // htmlParse()
     
@@ -105,36 +106,51 @@ object Main {
     convertOut.close
     
   }
+*/
+  var stateList: List[String] = Nil
+  var unicodeList: List[String] = Nil
+  var errorList: List[String] = Nil
 
   def dep_np_keisikika() = {
     // NLP結果読み込み
+    type NoValTermA = (NoValTerm, String)
     println("> load_nlp_file")
-    var outputline = load_file("src/input/nlpOut_depnp.txt")
+    var outputline = load_file("src/input/nlpOut_depnp_a.txt")
+    var o_pre = ""
     var o = outputline.head
     outputline = outputline.tail
-    var states: List[(String, List[NoValTerm], List[(String, List[NoValTerm])])] = Nil
+    var states: List[(String, List[NoValTermA], List[(String, List[NoValTermA])])] = Nil
     while (o.startsWith("name:")) {
-      println(o)
       val statename = o.substring(5, o.length)
+      stateList :+= statename
       o = outputline.tail.head
       outputline = outputline.tail.tail
-      var prev: List[NoValTerm] = List()
+      var prev: List[NoValTermA] = List()
       while (o != "trans:") {
-        prev :+= (parseStringTree(o))
+        if (!o.startsWith("$")) {
+          prev :+= (parseStringTree(o), o_pre)
+        } else {
+          o_pre = o
+        }
         o = outputline.head
         outputline = outputline.tail
       }
-      var trans: List[(String, List[NoValTerm])] = List()
+      var trans: List[(String, List[NoValTermA])] = List()
       while (o != "") {
         o = outputline.head
         outputline = outputline.tail
         val char = o.substring(5, o.length)
-        var trees: List[NoValTerm] = List()
+        var trees: List[NoValTermA] = List()
         o = outputline.head
         outputline = outputline.tail
         while (!o.startsWith("char:") && o != "") {
-          // println(o)
-          trees :+= (parseStringTree(o))
+          if (!o.startsWith("$")) {
+            // Unicodeリストをつくる
+            unicodeList ++= findUnicode(o)
+            trees :+= (parseStringTree(o), o_pre)
+          } else {
+            o_pre = o
+          }
           o = outputline.head
           outputline = outputline.tail
         }
@@ -148,9 +164,14 @@ object Main {
       }
     }
 
+    // ontologyつくる
+    Ontology.makeOntology()
+    // println(Ontology.ontology)
+
     println("> generating_rules")
     // 文章全部取り出してAntiunificationで規則生成
-    val allStatement = states.flatMap(s => {List(s._2)++s._3.map(t => t._2)}).flatten
+    val allStatement_a = states.flatMap(s => {s._2++s._3.flatMap(t => t._2)})
+    val allStatement = allStatement_a.map(s => s._1)
     // val nprules = npAUnif(allStatement)
     val rules = generateRules_dep_np(allStatement)
     val rulesOut = new PrintWriter("src/rules_depnp.txt")
@@ -163,11 +184,11 @@ object Main {
     // コマンドに変換
     println("> convert_to_command")
     val state_c = states.map(state => {
-      var prev = convertTerms(state._2.map(noValTermToTerm(_)), rules)
-      prev = prev.map(convertNorm(_))
+      var prev = convertTerms(state._2.map(s => (noValTermToTerm(removePeriod(toLowerFirstChar_term(s._1))), s._2)), rules)
+      // prev = prev.map(convertNorm(_))
       val trans = state._3.map(s => {
-        var conved = convertTerms(s._2.map(noValTermToTerm(_)), rules)
-        conved = conved.map(convertNorm(_))
+        var conved = convertTerms(s._2.map(s2 => (noValTermToTerm(removePeriod(toLowerFirstChar_term(s2._1))), s2._2)), rules)
+        // conved = conved.map(convertNorm(_))
         (s._1, conved)
       })
       (state._1, prev, trans)
@@ -179,11 +200,17 @@ object Main {
     state_c.foreach(state => {
       convertOut.println("--" + state._1 + "--")
       convertOut.println("prev: ")
-      state._2.foreach(t => convertOut.println(" " + displayTerm(t)))
+      state._2.foreach(t => {
+        convertOut.println(" | " + t._2)
+        t._1.foreach(t2 => convertOut.println(" " + displayTerm(t2)))
+      })
       convertOut.println("trans: ")
       state._3.foreach(s => {
         convertOut.println(" " + s._1 + " :")
-        s._2.foreach(t => convertOut.println("  " + displayTerm(t)))
+        s._2.foreach(t => {
+          convertOut.println("  | " + t._2)
+          t._1.foreach(t2 => convertOut.println("  " + displayTerm(t2)))
+        })
       })
       convertOut.println("")
     })
@@ -315,26 +342,30 @@ object Main {
     val contree = parseOnlySynconst("src/output_const.txt")
     generateRules(contree)
   }
+
+  def npAUnif_map(maps: Map[String, List[NoValTerm]]): Map[String, List[Term]] = {
+    maps.map((l, tlist) => {
+      (l, npAUnif(tlist, l))
+    })
+  }
   
-  def npAUnif(contree: List[Contree]): List[Term] = {
-    val antiUnificationOut: PrintWriter = new PrintWriter("src/NPantiUnificaationOut.txt")
-    val out = new PrintWriter("src/NPout.txt")
+  def npAUnif(term: List[NoValTerm], id: String): List[Term] = {
+    val antiUnificationOut: PrintWriter = new PrintWriter("src/np/antiUnificationOut_"+id+".txt")
+    val out = new PrintWriter("src/np/out_"+id+".txt")
     
-    var nptrees = extractPaticularPhrase(contree,"NP")
-    nptrees = nptrees.map(t => (removeDT_(t)))
-    // val dividedTrees = divideByVerb(replaced)
-    val n = 2
-    // var matchlist_note: List[List[String]] = List()
+    var nptrees = term.map(removeDetNode(_))
+    // nptrees = nptrees.map(t => (removeDT_(t)))
+    val n = 1
     var rules: List[Term] = Nil
     // antiUnificationの結果リストを計算
-    val aulist = antiUnification_shuffle(nptrees.map(contreeToTerm(_)), n, antiUnificationOut)
-    val (candidates, mlist) = extractCandidates(nptrees.map(contreeToTerm(_)), aulist, out)
-      // matchlist_note :+= mlist
-      
-      // println("--" + v +"--")
-      // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
-    rules ++= extractRules(candidates)
-    
+    if (nptrees.size == 1) {
+      rules = List(noValTermToTerm(nptrees.head))
+    } else {
+      val aulist = antiUnification_shuffle(nptrees.map(noValTermToTerm(_)), n, 1,antiUnificationOut)
+      val (candidates, mlist) = extractCandidates(nptrees.map(noValTermToTerm(_)), aulist, out)
+        // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
+      rules ++= extractRules(candidates)
+    }
     
     antiUnificationOut.close
     out.close
@@ -358,15 +389,15 @@ object Main {
     dividedTrees.foreach { case (v, treelist) => {
       antiUnificationOut.println("\n----- " + v + " ------")
       // antiUnificationの結果リストを計算
-      val aulist = antiUnification_shuffle(treelist.map(contreeToTerm(_)), n, antiUnificationOut)
+      val aulist = antiUnification_shuffle(treelist.map(contreeToTerm(_)), n, 2,antiUnificationOut)
       out.println("\n----- " + v + " ------")
       val (candidates, mlist) = extractCandidates(treelist.map(contreeToTerm(_)), aulist, out)
       
       matchlist_note :+= mlist
       
-      val nprules = npAUnif(treelist)
-      npout.println("\n----- " + v + " ------")
-      nprules.foreach(r => npout.println(displayTerm(r)))
+      // val nprules = npAUnif(treelist)
+      // npout.println("\n----- " + v + " ------")
+      // nprules.foreach(r => npout.println(displayTerm(r)))
       // println("--" + v +"--")
       // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
       rules ++= extractRules(candidates)
@@ -383,34 +414,50 @@ object Main {
   def generateRules_dep_np(termlist: List[NoValTerm]): List[Term] = {
     val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificationOut_dep_np.txt")
     val out = new PrintWriter("src/CandidateRules_dep_np.txt")
-    // val npout = new PrintWriter("src/npout.txt")
+    val npout = new PrintWriter("src/dep_np.txt")
     
     val vptrees = extractVPTree_term(termlist)
     val replaced = vptrees.map(t => (toLowerFirstChar_term(t)))
     val dividedTrees = divideByVerb_term(replaced)
-    val n = 3
+    val n = 2
     var matchlist_note: List[List[String]] = List()
     var rules: List[Term] = Nil
     dividedTrees.foreach { case (v, treelist) => {
       antiUnificationOut.println("\n----- " + v + " ------")
       // antiUnificationの結果リストを計算
-      val aulist = antiUnification_shuffle(treelist.map(noValTermToTerm(_)), n, antiUnificationOut)
+      val aulist = antiUnification_shuffle(treelist.map(noValTermToTerm(_)), n, 2,antiUnificationOut)
       out.println("\n----- " + v + " ------")
       val (candidates, mlist) = extractCandidates(treelist.map(noValTermToTerm(_)), aulist, out)
       
       matchlist_note :+= mlist
       
-      // val nprules = npAUnif(treelist)
+      // val nprules = npAUnif(treelist, v)
       // npout.println("\n----- " + v + " ------")
       // nprules.foreach(r => npout.println(displayTerm(r)))
       // println("--" + v +"--")
       // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
       rules ++= extractRules(candidates)
     }}
+
+    // val nprules = npAUnif(replaced, "all")
+    val nptrees = extractNPDep(replaced)
+    val devidedNP = divideByHead(nptrees)
+    val nprules = npAUnif_map(devidedNP)
+    nprules.foreach((l,list) => {
+      npout.println("--------- "+l+" -----------")
+      list.foreach(r => {
+        var o = termToNoValTerm(r)
+        o = ConvertNp.remove_case(o)
+        val o0 = ConvertNp.and(o)
+        val o1 = o0.foreach(t => npout.println(ConvertNp.nmod(t))) 
+        // o0.foreach(t => npout.println(displayTerm(noValTermToTerm(t)))) 
+        // npout.println(o1)
+      })
+    })
     
     antiUnificationOut.close
     out.close
-    // npout.close
+    npout.close
     log1.close
     
     rules
@@ -430,17 +477,12 @@ object Main {
     dividedTrees.foreach { case (v, treelist) => {
       antiUnificationOut.println("\n----- " + v + " ------")
       // antiUnificationの結果リストを計算
-      val aulist = antiUnification_shuffle(treelist.map(deptreeToTerm(_)), n, antiUnificationOut)
+      val aulist = antiUnification_shuffle(treelist.map(deptreeToTerm(_)), n, 2,antiUnificationOut)
       out.println("\n----- " + v + " ------")
       val (candidates, mlist) = extractCandidates(treelist.map(deptreeToTerm(_)), aulist, out)
       
       matchlist_note :+= mlist
       
-      // val nprules = npAUnif(treelist)
-      // npout.println("\n----- " + v + " ------")
-      // nprules.foreach(r => npout.println(displayTerm(r)))
-      // println("--" + v +"--")
-      // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
       rules ++= extractRules(candidates)
     }}
     
@@ -471,7 +513,7 @@ object Main {
     })
     // sterms.foreach(s => sTermOut.println(displayTerm(s)))
     val n = 2
-    val aulist = antiUnification_shuffle(sterms, n, sTermOut)
+    val aulist = antiUnification_shuffle(sterms, n, 2,sTermOut)
     val (candidates, mlist) = extractCandidates(sterms, aulist, sTermOut)
     extractRules(candidates).foreach(r => {
       sTermOut.println(displayTerm(r))
@@ -543,10 +585,10 @@ object Main {
     log1.close
   }
   
-  def antiUnification_shuffle(treelist: List[Term], n: Int, out: PrintWriter): List[Term] = {
+  def antiUnification_shuffle(treelist: List[Term], n: Int, repeatCount: Int,out: PrintWriter): List[Term] = {
     var auset: Set[Term] = Set()
     var count = 1
-    for (_ <- 1 to 2) {
+    for (_ <- 1 to repeatCount) {
       var i = 0
       val trees = scala.util.Random.shuffle(treelist)
       while (i+n < trees.size) {
@@ -655,18 +697,6 @@ object Main {
     }
   }
 
-  def toLowerFirstChar_term(term: NoValTerm): NoValTerm = {
-    term match {
-      case NoValTerm(l, Nil) => {
-        if (l != "") NoValTerm(l.head.toLower + l.tail, Nil)
-        else term
-      }
-      case NoValTerm(l, list) => {
-        NoValTerm(l, toLowerFirstChar_term(list.head) +: list.tail)
-      }
-    }
-  }
-
   // antiunificationの前処理
   def removePeriod(tree: Contree): Contree = {
     tree match {
@@ -717,23 +747,6 @@ object Main {
     vptrees
   }
 
-  def extractVPTree_term(trees: List[NoValTerm]): List[NoValTerm] = {
-    var vptrees: List[NoValTerm] = List()
-    trees.foreach(t => {
-      t match {
-            case NoValTerm("VP", list) => {
-              val smallvp = extractVPTree_term(list)
-              if (smallvp.isEmpty) vptrees :+= t
-              else vptrees ++= smallvp
-            }
-            case NoValTerm(_, list) => {
-              vptrees ++= extractVPTree_term(list)
-            }
-      }
-    })
-    vptrees
-  }
-  
   // S節のみ取り出す
   def extractPaticularPhrase(trees: List[Contree], sym: String): List[Contree] = {
     var ptrees: List[Contree] = List()
@@ -794,19 +807,6 @@ object Main {
     dividedTrees
   }
   
-  def divideByVerb_term(trees: List[NoValTerm]): Map[String, List[NoValTerm]] = {
-    val emplist: List[List[NoValTerm]] = (1 to verbList.size).toList.map(_ => List())
-    var dividedTrees: Map[String, List[NoValTerm]] = (verbList.toList zip emplist).toMap
-    trees.foreach(t => {
-      val v = getFirstLeaf_nv(t).toLowerCase()
-      dividedTrees.get(v) match {
-        case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t)
-        case None => dividedTrees = dividedTrees.updated("_other", dividedTrees.getOrElse("_other", List()) :+ t)
-      }
-    })
-    dividedTrees
-  }
-  
   def divideByVerb_dep(trees: List[DNode]): Map[String, List[DNode]] = {
     val emplist: List[List[DNode]] = (1 to verbList.size).toList.map(_ => List())
     var dividedTrees: Map[String, List[DNode]] = (verbList.toList zip emplist).toMap
@@ -821,7 +821,7 @@ object Main {
     })
     dividedTrees
   }
-  
+
   // verblist 作る用
   def searchVerb(trees: List[Contree]): Set[String] = {
     var list: Set[String] = Set()
@@ -831,5 +831,132 @@ object Main {
     })
     list
   }
+
+  ///////////////////// no val term utils ////////////////////////
+  def toLowerFirstChar_term(term: NoValTerm): NoValTerm = {
+    term match {
+      case NoValTerm(l, Nil) => {
+        if (l != "") NoValTerm(l.head.toLower + l.tail, Nil)
+        else term
+      }
+      case NoValTerm(l, list) => {
+        NoValTerm(l, toLowerFirstChar_term(list.head) +: list.tail)
+      }
+    }
+  }
+  def extractVPTree_term(trees: List[NoValTerm]): List[NoValTerm] = {
+    var vptrees: List[NoValTerm] = List()
+    trees.foreach(t => {
+      t match {
+            case NoValTerm("VP", list) => {
+              val smallvp = extractVPTree_term(list)
+              if (smallvp.isEmpty) vptrees :+= t
+              else vptrees ++= smallvp
+            }
+            case NoValTerm(_, list) => {
+              vptrees ++= extractVPTree_term(list)
+            }
+      }
+    })
+    vptrees
+  }
+
+  def extractNPDep(trees: List[NoValTerm]): List[NoValTerm] = {
+    trees.flatMap(t => {
+      t match {
+        case NoValTerm("NP", list) => List(list.head)
+        case NoValTerm(_, list) => extractNPDep(list)
+      }
+    })
+  } 
+
+  def divideByVerb_term(trees: List[NoValTerm]): Map[String, List[NoValTerm]] = {
+    val emplist: List[List[NoValTerm]] = (1 to verbList.size).toList.map(_ => List())
+    var dividedTrees: Map[String, List[NoValTerm]] = (verbList.toList zip emplist).toMap
+    trees.foreach(t => {
+      val v = getFirstLeaf_nv(t).toLowerCase()
+      dividedTrees.get(v) match {
+        case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t)
+        case None => dividedTrees = dividedTrees.updated("_other", dividedTrees.getOrElse("_other", List()) :+ t)
+      }
+    })
+    dividedTrees
+  }
+
+  def divideByHead(trees: List[NoValTerm]): Map[String, List[NoValTerm]] = {
+    var dividedTrees: Map[String, List[NoValTerm]] = Map()
+    trees.foreach(t => {
+      var v = t match {
+        case NoValTerm(l, child) => l
+      }
+      val t_ = if (v.endsWith("_state")) addState(t) else t
+      if (v.endsWith("_state")) v = "state"
+      dividedTrees.get(v) match {
+        case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t_)
+        case None => dividedTrees += (v -> List(t_))
+      }
+    })
+    dividedTrees
+  }
+
+  def addState(term: NoValTerm): NoValTerm = {
+    NoValTerm("state", List(NoValTerm("compound", List(term))))
+  }
+
+  def removeDetNode(term: NoValTerm): NoValTerm = {
+    removeDetNode_sub(term) match {
+      case Some(t) => t
+      case None => NoValTerm("__", Nil) //error
+    }
+  }
+  
+  def removeDetNode_sub(term: NoValTerm): Option[NoValTerm] = {
+    term match {
+      case NoValTerm(l, list) => {
+        if (l == "det") None
+        else {
+          Some(
+            NoValTerm(l, list.flatMap(t => {
+              removeDetNode_sub(t) match {
+                case None => Nil
+                case Some(s) => List(s)
+              }
+            })
+          ))
+        }
+      }
+    }
+  }
+
+  def removePeriod(term: NoValTerm): NoValTerm = {
+    removeNodeSub(".")(term) match {
+      case Some(t) => t
+      case None => NoValTerm("__", Nil) //error
+    }
+  }
+
+  def removeNodeSub(label: String)(term: NoValTerm): Option[NoValTerm] = {
+    term match {
+      case NoValTerm(l, list) => {
+        if (l == label) None
+        else {
+          Some(
+            NoValTerm(l, list.flatMap(t => {
+              removeNodeSub(label)(t) match {
+                case None => Nil
+                case Some(s) => List(s)
+              }
+            })
+          ))
+        }
+      }
+    }
+  }
+
+  def findUnicode(s: String): Set[String] = {
+    val re = "U\\+[0-9A-F][0-9A-F][0-9A-F][0-9A-F]".r
+    re.findAllIn(s).toSet
+  }
+
   
 }
