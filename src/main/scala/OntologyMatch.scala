@@ -1,4 +1,5 @@
 import Ontology._
+import scala.util.Random
 
 object OntologyMatch {
   val ontology = Ontology.ontology
@@ -21,6 +22,22 @@ object OntologyMatch {
       if (v >= max) {max = v; nodei = a.i}
     })
     nodei
+  }
+
+  def getRandomAttribute(i: Int): Option[Int] = {
+    val node = searchNode(i)
+    if (node.attributes == Nil) None
+    else {
+      val random = new Random
+      val r1 = random.nextInt(2)
+      if (r1 == 0) None
+      else {
+        val attnum = node.attributes.size
+        val r2 = random.nextInt(attnum)
+        val att = node.attributes(r2)
+        Some(att.i)
+      }
+    }
   }
 
   def matching_sub(str: String, o: ONode): Option[(Int, Float)] = {
@@ -71,11 +88,14 @@ object OntologyMatch {
     } else {
       n.attributes.foreach(a => {
         if (i == a.i) return a.value
+        if (i < a.i) return searchValue_sub(i, a)
       })
       n.children.foreach(child => {
         if (i == child.i) return child.value
         if (i < child.i) return searchValue_sub(i, child)
       })
+      // if (n.children.lastOption != None) println("i=%d, n.i=%d, last=%d".format(i, n.i,n.children.last.i))
+      // else println("i=%d, n.i=%d".format(i, n.i))
       return "_"
     }
   }

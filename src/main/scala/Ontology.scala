@@ -24,7 +24,14 @@ object Ontology {
           ONode("system_identifier"),
           ONode("force-quirks_flag")
         ), Nil),
-        ONode("tag_token", Nil, List(
+        ONode("tag_token", List(
+          ONode("name"), 
+          ONode("self-closing_flag"),
+          ONode("attribute", List(
+            ONode("name"),
+            ONode("value")
+          ))
+        ), List(
           ONode("start_tag_token", List(
             ONode("name"), 
             ONode("self-closing_flag"),
@@ -40,7 +47,15 @@ object Ontology {
               ONode("name"),
               ONode("value")
             ))
-          ), Nil)
+          ), Nil),
+          ONode("current_tag_token", List(
+            ONode("name"), 
+            ONode("self-closing_flag"),
+            ONode("attribute", List(
+              ONode("name"),
+              ONode("value")
+            ))
+          ), Nil),
         )),
         ONode("comment_token", List(
           ONode("data")
@@ -55,22 +70,23 @@ object Ontology {
         ONode("next_input_character")
       )),
       ONode("parse_error", Nil, List(
-        ONode("unexpected-null-character_parse_error")
       )++errorTree()),
       ONode("string", Nil, List(
-        ONode("empty_string")
+        ONode("empty_string"),
+        ONode("string_\"script\"")
       )),
     ))
   }
 
   def characterTree = () => {
-    Main.unicodeList.map(u => ONode(u+"_character_token")).toList
+    // Main.unicodeList.map(u => ONode(u+"_character_token")).toList
+    Main.unicodeList.toList.map(u => ONode(u.replace(" ", "_")))
   }
   def stateTree = () => {
     Main.stateList.map(s => ONode(s))
   }
   def errorTree = () => {
-    Main.errorList.map(s => ONode(s))
+    Main.errorList.toList.map(s => ONode(s.replace(" ", "_")))
   }
 
 }

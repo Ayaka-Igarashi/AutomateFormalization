@@ -108,14 +108,14 @@ object Main {
   }
 */
   var stateList: List[String] = Nil
-  var unicodeList: List[String] = Nil
-  var errorList: List[String] = Nil
+  var unicodeList: Set[String] = Set()
+  var errorList: Set[String] = Set()
+  var allSentences: List[String] = Nil
 
-  def dep_np_keisikika() = {
-    // NLP結果読み込み
-    type NoValTermA = (NoValTerm, String)
+  type NoValTermA = (NoValTerm, String)
+  def load_nlp_file(filename: String): List[(String, List[NoValTermA], List[(String, List[NoValTermA])])] = {
     println("> load_nlp_file")
-    var outputline = load_file("src/input/nlpOut_depnp_a.txt")
+    var outputline = load_file(filename)
     var o_pre = ""
     var o = outputline.head
     outputline = outputline.tail
@@ -129,6 +129,7 @@ object Main {
       while (o != "trans:") {
         if (!o.startsWith("$")) {
           prev :+= (parseStringTree(o), o_pre)
+          allSentences :+= o_pre
         } else {
           o_pre = o
         }
@@ -146,8 +147,10 @@ object Main {
         while (!o.startsWith("char:") && o != "") {
           if (!o.startsWith("$")) {
             // Unicodeリストをつくる
-            unicodeList ++= findUnicode(o)
+            unicodeList ++= findUnicode(o_pre)
+            errorList ++= findParseError(o_pre)
             trees :+= (parseStringTree(o), o_pre)
+            allSentences :+= o_pre
           } else {
             o_pre = o
           }
@@ -163,23 +166,32 @@ object Main {
         outputline = outputline.tail.tail
       }
     }
+    states
+  }
 
-    // ontologyつくる
-    Ontology.makeOntology()
-    // println(Ontology.ontology)
-
+  def rule_generating(states: List[(String, List[NoValTermA], List[(String, List[NoValTermA])])],output_rule_filename: String): List[Term] = {
     println("> generating_rules")
-    // 文章全部取り出してAntiunificationで規則生成
     val allStatement_a = states.flatMap(s => {s._2++s._3.flatMap(t => t._2)})
     val allStatement = allStatement_a.map(s => s._1)
     // val nprules = npAUnif(allStatement)
     val rules = generateRules_dep_np(allStatement)
-    val rulesOut = new PrintWriter("src/rules_depnp.txt")
+    val rulesOut = new PrintWriter(output_rule_filename)
     rules.foreach(r => rulesOut.println(displayTerm(r)))
     // rulesOut.println("")
     // nprules.foreach(r => rulesOut.println(displayTerm(r)))
     rulesOut.close()
-    println(rulesSymbols(rules))
+    // println(rulesSymbols(rules))
+    rules
+  }
+
+  def dep_np_keisikika() = {
+    // NLP結果読み込み
+    val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
+    // ontologyつくる
+    Ontology.makeOntology()
+    // println(Ontology.ontology)
+    // 文章全部取り出してAntiunificationで規則生成
+    val rules = rule_generating(states, "src/rules_depnp.txt")
     
     // コマンドに変換
     println("> convert_to_command")
@@ -954,7 +966,11 @@ object Main {
   }
 
   def findUnicode(s: String): Set[String] = {
-    val re = "U\\+[0-9A-F][0-9A-F][0-9A-F][0-9A-F]".r
+    val re = "U\\+[0-9A-F][0-9A-F][0-9A-F][0-9A-F][^(token)]* character token".r
+    re.findAllIn(s).toSet
+  }
+  def findParseError(s: String): Set[String] = {
+    val re = "[^ ]* parse error".r
     re.findAllIn(s).toSet
   }
 

@@ -146,6 +146,37 @@ object Terms {
     symbol
   }
 
+  def generateCode(term: Term): String = {
+    term match {
+      case TermVariable(x) => "TermVariable(\"" + x + "\")"
+      case Function(f, args) => {
+        var string = "Function(\"" + escapeChars(f) + "\","
+        string += generateCode_hedge(args) + ")"
+        string
+      }
+    }
+  }
+
+  def generateCode_hedge(hedge: Hedge): String = {
+    hedge match {
+      case HedgeVariable(hv) => "HedgeVariable(\"" + hv + "\")"
+      case terms: List[Term] => {
+        var string = "List("
+        for (t <- terms) {
+            string += generateCode(t)
+            string += ","
+        }
+        if (string.endsWith(",")) string = string.substring(0, string.length - 1)
+        string += ")"
+        string
+      }
+    }
+  }
+  
+  def escapeChars(str: String): String = {
+    str.replace("\\", "\\\\").replace("\"", "\\\"")
+  }
+  
   def getFirstLeaf(term: Term): String = {
     term match{
       case Function(s, Nil) => s
@@ -157,7 +188,7 @@ object Terms {
       }
       case _ => ""
     }
-  }
+  }  
 
   def getFirstLeaf_nv(term: NoValTerm): String = {
     term match{
