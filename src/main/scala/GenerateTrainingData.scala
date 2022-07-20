@@ -64,7 +64,28 @@ object GenerateTrainingData {
       }
       dataOut.println("%s\t%s".format(natStr, termStr))
     }
+    generateData_if(dataOut)
     dataOut.close()
+  }
+
+  def generateData_if(dataOut: PrintWriter) = {
+    import DataTemplate._
+    val random = new Random
+    // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
+    val weights = ruleWeights(templates_if.map(t => t._3))
+    val randomMax = weights.last
+    for (i <- 1 to 15000) {
+      val randomValue = random.nextInt(randomMax)
+      val ruleidx = searchRuleIdx(weights, randomValue)
+      // if (ruleidx == 10) println(randomValue)
+      val rule = templates_if(ruleidx)
+      val termCount = rule._3
+      val bCount = rule._4
+      val subs = generateVpTerm(termCount) ++ generateZyouken(bCount)
+      val natStr = replaceSubs(rule._2, subs.map(m => (m._1, m._2._1)).toMap)
+      val termStr =  normalize(processTerm(rule._1, subs.map(m => (m._1, m._2._2)).toMap))
+      dataOut.println("%s\t%s".format(natStr, termStr))
+    }
   }
 
   def generateWordSet_ori() = {
@@ -147,6 +168,8 @@ object GenerateTrainingData {
     subs.foreach{case(k,v) => {
       var v1 = v
       if (!(v1.endsWith("state") && !v1.contains("return_state"))) v1 = v1.replace("_", " ")
+      // corefの処理
+      v1 = v1.replaceAll(" /[0-9]+", "")
       // pos関係の処理 " . " => "'s " or " of "
       if (v1.contains(" . ")) {
         val random = new Random
@@ -169,7 +192,7 @@ object GenerateTrainingData {
     List.range(0,n).map(i => {
       val max = Ontology.ontology.i - 1
       val obji = random.nextInt(max)
-      var obj = OntologyMatch.searchValue(obji)
+      var obj = OntologyMatch.searchValue(obji) + " /0"
 
       // if (obj == "_"){println(obji)
       // println(obj)}
@@ -177,15 +200,56 @@ object GenerateTrainingData {
       OntologyMatch.getRandomAttribute(obji) match {
         case None => 
         case Some(atti) => {
-          obj = obj + " . " + OntologyMatch.searchValue(atti)
+          obj = obj + " . " + OntologyMatch.searchValue(atti) + " /0"
         }
       }
       ("z%d".format(i),obj)
     }).toMap
   }
 
+  def generateVpTerm(n: Int): Map[String, (String,String)] = {
+    import DataTemplate._
+    val random = new Random
+    // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
+    val weights = ruleWeights(templates.map(t => t._3))
+    val randomMax = weights.last
+    List.range(0,n).map(i => {
+      val randomValue = random.nextInt(randomMax)
+      val ruleidx = searchRuleIdx(weights, randomValue)
+      // if (ruleidx == 10) println(randomValue)
+      val rule = templates(ruleidx)
+      val subCount = rule._3
+      val subs = getOntologyObject(subCount)
+      val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
+      val termStr = rule._1 match {
+        case term: Term => processTerm(term, subs)
+        case list: List[Term] => {
+          (list.foldLeft(""){(str, term) => str + "| " + processTerm(term, subs)}).tail
+        }
+      }
+      ("t%d".format(i),(natStr, termStr))
+    }).toMap
+  }
+
+  def generateZyouken(n: Int): Map[String, (String,String)] = {
+    import DataTemplate._
+    List.range(0,n).map(i => {
+      val rule = templates_b(0)
+      val subCount = rule._3
+      val subs = getOntologyObject(subCount)
+      val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
+      val termStr = rule._1 match {
+        case term: Term => processTerm(term, subs)
+        case list: List[Term] => {
+          (list.foldLeft(""){(str, term) => str + "| " + processTerm(term, subs)}).tail
+        }
+      }
+      ("b%d".format(i),(natStr, termStr))
+    }).toMap
+  }
+
   def ruleWeights(list: List[Int]): List[Int] = {
-    val w0 = 3
+    val w0 = 5
     val w1 = 100
     val w2 = 1000
     var acc = 0
@@ -201,5 +265,9 @@ object GenerateTrainingData {
       if (i < w) return idx
     })
     return weights.size-1
+  }
+
+  def normalize(str: String): String = {
+    str.replace("  ", " ")
   }
 }

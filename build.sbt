@@ -12,3 +12,11 @@ lazy val root = project
 
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
   )
+
+
+enablePlugins(Antlr4Plugin)
+
+Antlr4 / antlr4Version := "4.9"
+Antlr4 / antlr4GenVisitor := false
+Antlr4 / antlr4GenListener := false
+Antlr4 / sourceDirectory := baseDirectory.value / "antlr4"

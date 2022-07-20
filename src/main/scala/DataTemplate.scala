@@ -78,4 +78,19 @@ val templates: List[(Term|List[Term], String, Int)] = List(
  "treat it as per the \"anything else\" entry below", 0)
 
 )
+
+val templates_if: List[(Term, String, Int, Int)] = List(
+// if
+( Function("if_then",List(TermVariable("b0"), TermVariable("t0"))) ,
+ "if <b0> , then <t0>", 1,1),
+// otherwise
+( Function("otherwise",List(TermVariable("t0"))) ,
+ "otherwise , <t0>", 1,0)
+)
+
+val templates_b: List[(Term, String, Int)] = List(
+( Function("is",List(TermVariable("z0"), TermVariable("z1"))) ,
+ "<det> <z0> is <det> <z1>", 2)
+)
+
 }
