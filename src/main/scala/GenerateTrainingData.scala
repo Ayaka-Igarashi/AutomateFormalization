@@ -54,7 +54,7 @@ object GenerateTrainingData {
       // if (ruleidx == 10) println(randomValue)
       val rule = templates(ruleidx)
       val subCount = rule._3
-      val subs = getOntologyObject(subCount)
+      val subs = getOntologyObjectWithIdx(subCount)
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
@@ -65,7 +65,27 @@ object GenerateTrainingData {
       dataOut.println("%s\t%s".format(natStr, termStr))
     }
     generateData_if(dataOut)
+    generateData_multi(dataOut)
     dataOut.close()
+  }
+
+  def generateData_multi(dataOut: PrintWriter) = {
+    import DataTemplate._
+    val random = new Random
+    // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
+    val weights = ruleWeights(templates_multi.map(t => t._3))
+    val randomMax = weights.last
+    for (i <- 1 to 10000) {
+      val randomValue = random.nextInt(randomMax)
+      val ruleidx = searchRuleIdx(weights, randomValue)
+      // if (ruleidx == 10) println(randomValue)
+      val rule = templates_multi(ruleidx)
+      val termCount = rule._3
+      val subs = generateVpTerm(termCount)
+      val natStr = replaceConj(replaceSubs(rule._2, subs.map(m => (m._1, List(m._2._1))).toMap))
+      val termStr =  normalize((rule._1.foldLeft(""){(str, term) => str + "| " + processTerm(term, subs.map(m => (m._1, List(m._2._2))).toMap)}).tail)
+      dataOut.println("%s\t%s".format(natStr, termStr))
+    }
   }
 
   def generateData_if(dataOut: PrintWriter) = {
@@ -82,8 +102,8 @@ object GenerateTrainingData {
       val termCount = rule._3
       val bCount = rule._4
       val subs = generateVpTerm(termCount) ++ generateZyouken(bCount)
-      val natStr = replaceSubs(rule._2, subs.map(m => (m._1, m._2._1)).toMap)
-      val termStr =  normalize(processTerm(rule._1, subs.map(m => (m._1, m._2._2)).toMap))
+      val natStr = replaceSubs(rule._2, subs.map(m => (m._1, List(m._2._1))).toMap)
+      val termStr =  normalize(processTerm(rule._1, subs.map(m => (m._1, List(m._2._2))).toMap))
       dataOut.println("%s\t%s".format(natStr, termStr))
     }
   }
@@ -131,10 +151,10 @@ object GenerateTrainingData {
     dataOut.close()
   }
 
-  def processTerm(term: Term, subs: Map[String, String]): String = {
+  def processTerm(term: Term, subs: Map[String, List[String]]): String = {
     var s = displayTerm(term)
     subs.foreach{case(k,v) => {
-      s = s.replace(k, v)
+      s = s.replace(k, v.mkString(" . "))
     }}
     s.replace("(", " ( ").replace(")", " ) ").replace(",", " , ")
   }
@@ -156,43 +176,56 @@ object GenerateTrainingData {
     val random = new Random
     var s = str
     while (s.contains("<cc>")) {
-      val i = random.nextInt(2)
+      val i = random.nextInt(3)
       s = s.replaceFirst("<cc>", ccs(i))
     }
     s
   }
 
+  def replaceConj(str: String): String = {
+    val ccs = Map(0 -> ",", 1 -> ",", 2 -> "and")
+    val random = new Random
+    var s = str
+    while (s.contains("<conj>")) {
+      val i = random.nextInt(3)
+      s = s.replaceFirst("<conj>", ccs(i))
+    }
+    s
+  }
+
   // <z0> => ontology's object string
-  def replaceSubs(str: String, subs: Map[String, String]): String = {
+  def replaceSubs(str: String, subs: Map[String, List[String]]): String = {
     var s = str
     subs.foreach{case(k,v) => {
-      var v1 = v
+      var v1 = v.mkString(" . ")
+      // corefの処理_old
+      v1 = v1.replace(" [_]", "")
+      // v1 = v1.replaceAll(" /[0-9]+", "")
       if (!(v1.endsWith("state") && !v1.contains("return_state"))) v1 = v1.replace("_", " ")
-      // corefの処理
-      v1 = v1.replaceAll(" /[0-9]+", "")
       // pos関係の処理 " . " => "'s " or " of "
       if (v1.contains(" . ")) {
-        val random = new Random
-        val r = random.nextInt(11)
-        if (r <= 7) v1 = v1.replace(" . ", " 's ")
-        else if (r == 8) v1 = v1.replace(" . ", "s ")
-        else if (r == 9) v1 = v1.replace(" . ", " ")
-        else {
-          val list = v1.split(" . ")
-          v1 = list(1) + " of " + list(0)
-        }
+        v1 = v1.replace(" . ", " ")
+        // val random = new Random
+        // val r = random.nextInt(11)
+        // if (r <= 7) v1 = v1.replace(" . ", " 's ")
+        // else if (r == 8) v1 = v1.replace(" . ", "s ")
+        // else if (r == 9) v1 = v1.replace(" . ", " ")
+        // else {
+        //   val list = v1.split(" . ")
+        //   v1 = list(1) + " of " + list(0)
+        // }
       }
       s = s.replace("<%s>".format(k), v1)
     }}
     s
   }
 
-  def getOntologyObject(n: Int): Map[String, String] = {
+  def getOntologyObject(n: Int): Map[String, List[String]] = {
     val random = new Random
     List.range(0,n).map(i => {
       val max = Ontology.ontology.i - 1
       val obji = random.nextInt(max)
-      var obj = OntologyMatch.searchValue(obji) + " /0"
+      var objs = List(OntologyMatch.searchValue(obji)) //+ " /0"
 
       // if (obj == "_"){println(obji)
       // println(obj)}
@@ -200,11 +233,38 @@ object GenerateTrainingData {
       OntologyMatch.getRandomAttribute(obji) match {
         case None => 
         case Some(atti) => {
-          obj = obj + " . " + OntologyMatch.searchValue(atti) + " /0"
+          objs :+= OntologyMatch.searchValue(atti) //+ " /0"
         }
       }
-      ("z%d".format(i),obj)
+      ("z%d".format(i),objs)
     }).toMap
+  }
+
+  def getOntologyObjectWithIdx(n: Int): Map[String, List[String]] = {
+    val random = new Random
+    List.range(0,n).map(i => {
+      val max = Ontology.ontology.i - 1
+      val obji = random.nextInt(max)
+      var objs = List((OntologyMatch.searchValue(obji) + getIndex())) 
+
+      OntologyMatch.getRandomAttribute(obji) match {
+        case None => 
+        case Some(atti) => {
+          objs :+= (OntologyMatch.searchValue(atti)+ getIndex())
+        }
+      }
+      ("z%d".format(i), objs)
+    }).toMap
+  }
+
+  def getIndex(): String = {
+    val random = new Random
+    val r = random.nextInt(40)
+    if (r <= 32) " [_]"
+    else if (r <= 35) " [0]"
+    else if (r <= 37) " [1]"
+    else if (r <= 38) " [2]"
+    else " [3]"
   }
 
   def generateVpTerm(n: Int): Map[String, (String,String)] = {
@@ -219,7 +279,7 @@ object GenerateTrainingData {
       // if (ruleidx == 10) println(randomValue)
       val rule = templates(ruleidx)
       val subCount = rule._3
-      val subs = getOntologyObject(subCount)
+      val subs = getOntologyObjectWithIdx(subCount)
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
@@ -236,7 +296,7 @@ object GenerateTrainingData {
     List.range(0,n).map(i => {
       val rule = templates_b(0)
       val subCount = rule._3
-      val subs = getOntologyObject(subCount)
+      val subs = getOntologyObjectWithIdx(subCount)
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)

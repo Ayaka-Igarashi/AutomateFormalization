@@ -29,7 +29,7 @@ object OntologyMatch {
     if (node.attributes == Nil) None
     else {
       val random = new Random
-      val r1 = random.nextInt(2)
+      val r1 = random.nextInt(7)
       if (r1 == 0) None
       else {
         val attnum = node.attributes.size

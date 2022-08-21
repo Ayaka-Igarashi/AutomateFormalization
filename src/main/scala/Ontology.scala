@@ -75,6 +75,7 @@ object Ontology {
         ONode("empty_string"),
         ONode("string_\"script\"")
       )),
+      ONode("on"),ONode("off"),
     ))
   }
 

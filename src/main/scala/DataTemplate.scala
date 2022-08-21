@@ -88,6 +88,18 @@ val templates_if: List[(Term, String, Int, Int)] = List(
  "otherwise , <t0>", 1,0)
 )
 
+val templates_multi: List[(List[Term], String, Int)] = List(
+// 2
+( List(TermVariable("t0"), TermVariable("t1")) ,
+ "<t0> <conj> <t1>",2),
+// // 3
+// ( List(TermVariable("t0"), TermVariable("t1"), TermVariable("t2")) ,
+//  "<t0> <conj> <t1> <conj> <t2>", 3),
+// // 4
+// ( List(TermVariable("t0"), TermVariable("t1"), TermVariable("t2"), TermVariable("t3")) ,
+//  "<t0> <conj> <t1> <conj> <t2> <conj> <t3>", 4)
+)
+
 val templates_b: List[(Term, String, Int)] = List(
 ( Function("is",List(TermVariable("z0"), TermVariable("z1"))) ,
  "<det> <z0> is <det> <z1>", 2)
