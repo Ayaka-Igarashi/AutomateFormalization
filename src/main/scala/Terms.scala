@@ -230,4 +230,16 @@ object Terms {
       } 
     }
   }
+
+  def getAllTermVariables(term: Term): List[String] = {
+    term match {
+      case Function(_, list) => {
+        list match {
+          case list: List[Term] => list.flatMap(getAllTermVariables(_))
+          case _ => Nil
+        }
+      }
+      case TermVariable(x) => List(x)
+    }
+  }
 }

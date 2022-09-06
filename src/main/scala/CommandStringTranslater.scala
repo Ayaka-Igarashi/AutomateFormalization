@@ -1,5 +1,6 @@
 import DataTemplate._
 import Terms._
+import Commands._
 import Convert._
 import CommandStringParser._
 import java.io.{PrintWriter}
@@ -126,17 +127,17 @@ object CommandStringTranslater {
   def transArgsNoun(ctx: ArgsnounContext): List[Term] = {
     ctx match {
       case ctx: Argsnoun_listContext => {
-        Function(transSymbol(ctx.symbol), Nil) :: transArgsNoun(ctx.argsnoun)
+        Function(transNoun(ctx.noun), Nil) :: transArgsNoun(ctx.argsnoun)
       }
       case ctx: Argsnoun_symbolContext => {
-        List(Function(transSymbol(ctx.symbol), Nil))
+        List(Function(transNoun(ctx.noun), Nil))
       }
-      case ctx: Argsnoun_dotContext => {
-        transArgsNoun(ctx.argsnoun) match {
-          case Function(s,_) :: Nil => List(Function(s + transSymbol(ctx.symbol), Nil))
-          case _ => List(Function(transSymbol(ctx.symbol), Nil))
-        }
-      }
+      // case ctx: Argsnoun_dotContext => {
+      //   transArgsNoun(ctx.argsnoun) match {
+      //     case Function(s,_) :: Nil => List(Function(s + transNoun(ctx.noun), Nil))
+      //     case _ => List(Function(transNoun(ctx.noun), Nil))
+      //   }
+      // }
     }
   }
   def transArgsTerm(ctx: ArgstermContext): List[Term] = {
@@ -151,6 +152,26 @@ object CommandStringTranslater {
   }
   def transSymbol(ctx: SymbolContext): String = {
     ctx.SYMBOL.getText()
+  }
+  def transNoun(ctx: NounContext): String = {
+    ctx match {
+      case ctx: Noun_symbolContext => {
+        transSymbol(ctx.symbol)+ " _ " + ctx.IDX.getText()
+      }
+      case ctx: Noun_dotContext => {
+        transSymbol(ctx.symbol) + " . " + transNoun(ctx.noun)
+      }
+    }
+  }
+
+  def term2command(term: Term): Command = {
+    term match {
+      case Function(f, args) => {
+        //
+      }
+      case _ => //
+    }
+    null
   }
   
 }

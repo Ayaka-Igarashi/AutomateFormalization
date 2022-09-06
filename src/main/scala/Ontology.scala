@@ -1,3 +1,5 @@
+import java.io.{PrintWriter}
+
 object Ontology {
   var uniqueId = 0
   case class ONode(value: String, attributes: List[ONode] = Nil, children: List[ONode] = Nil) {
@@ -47,7 +49,7 @@ object Ontology {
               ONode("name"),
               ONode("value")
             ))
-          ), Nil),
+          ), List(ONode("appropriate_end_tag_token"))),
           ONode("current_tag_token", List(
             ONode("name"), 
             ONode("self-closing_flag"),
@@ -66,7 +68,10 @@ object Ontology {
         ONode("end-of-file_token", Nil, Nil)
       )),
       ONode("input_character", Nil, List(
-        ONode("current_input_character"),
+        ONode("current_input_character", List(
+          ONode("lowercase_version"),
+          ONode("uppercase_version")
+        ), Nil),
         ONode("next_input_character")
       )),
       ONode("parse_error", Nil, List(
@@ -88,6 +93,56 @@ object Ontology {
   }
   def errorTree = () => {
     Main.errorList.toList.map(s => ONode(s.replace(" ", "_")))
+  }
+
+  def getSubtreeIndexRange: Int => (Int,Int) = (head) => {
+    var min = head
+    val max = head
+    val node = OntologyMatch.searchNode(head)
+    if (!node.children.isEmpty) {
+      val (min2, max2) = getSubtreeIndexRange(node.children.head.i)
+      min = min2
+    } else if (!node.attributes.isEmpty) {
+      val (min2, max2) = getSubtreeIndexRange(node.attributes.head.i)
+      min = min2
+    }
+    (min,max+1)
+  }
+
+  def toPython() = {
+    Main.load_nlp_file("src/input/nlpOut_depnp_a.txt")
+    makeOntology()
+    val pyout = new PrintWriter("src/ontology.py")
+    var pycode = "class Ontology:\n\tdef __init__(self, value, attributes=[], children=[]):\n\t\tself.value = value\n\t\tself.attributes = attributes\n\t\tself.children = children\n"
+    pycode += "ontology = "
+    pycode += toPy_sub(ontology)
+    pycode += "\n"
+    pycode += "ontology_set = "
+    pycode += "["+toSet(ontology).mkString(",")+"]"
+    pyout.println(pycode)
+    pyout.close
+  }
+
+  def toPy_sub(ont: ONode): String = {
+    val value = ont.value
+    val attributes = ont.attributes
+    val children = ont.children
+    val attributepy_list: List[String] = attributes.map(att => toPy_sub(att))
+    val attributespy = attributepy_list.mkString(",")
+    val childpy_list: List[String] = children.map(child => toPy_sub(child))
+    val childrenpy = childpy_list.mkString(",")
+    "Ontology(\"" + value.replace("\"", "\\\"") + "\",["+ attributespy +"],["+ childrenpy +"])"
+  }
+
+  def toSet(ont: ONode): Set[String] = {
+    val value = ont.value
+    val attributes = ont.attributes
+    val children = ont.children
+    var set: Set[String] = Set()
+    set += "\""+value.replace("\"", "\\\"")+"\""
+    set ++= attributes.flatMap(att => toSet(att)).toSet
+    set ++= children.flatMap(child => toSet(child)).toSet
+    set
   }
 
 }

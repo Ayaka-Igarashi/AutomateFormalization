@@ -2,41 +2,26 @@ import Main._
 import Terms._
 import java.io.{BufferedWriter, File, FileWriter, PrintWriter}
 import scala.util.Random
+import scala.util.matching.Regex
 import Convert._
+import scala.compiletime.ops.string
 
 object GenerateTrainingData {
-  def generateDataTemplate() = {
-    // NLP結果読み込み
-    val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
-    // ontologyつくる
-    Ontology.makeOntology()
-    // println(Ontology.ontology)
-    // 文章全部取り出してAntiunificationで規則生成
-    val rules = rule_generating(states, "src/rules_depnp.txt")
-    // rules.foreach(r => println(generateCode(r)))
+  val normalDataNum = 10000 //25000 simple:40000 if:30000
+  val ifDataNum = 15000 //15000
+  val multiDataNum = 10000
 
-    val codefile = new PrintWriter("src/main/scala/DataTemplate_.scala")
-    codefile.println("import Terms._\nobject DataTemplate {\nval trainingDatas = List(")
-    rules.zipWithIndex.foreach{ case(r,i) => {
-      codefile.println("// %s".format(displayTerm(toCommand(r))))
-      val znum = toCommand(r) match {
-        case Function(s, l) => {
-          l match {
-            case l: List[Term] => l.size
-            case _ => 0
-          }
-        }
-        case _ => 0
-      }
-      codefile.println("( %s ,\n \"\", %d),".format(generateCode(toCommand(r)), znum))
-      codefile.println()
-    }}
-    codefile.println(")\n}")
-    codefile.close()
-  }
+  val normalDataNum_ev = 65
+  val ifDataNum_ev = 25
+  val multiDataNum_ev = 10
 
+  val traingDataFile = "src/trainingData.txt"
+
+  def getOntologyObject_(xlist: List[String]): Map[String, List[String]] = {getOntologyObjectWithIdx(xlist)}
+
+  // データを生成する
   def generateData() = {
-    val dataOut = new PrintWriter("src/trainingData.txt")
+    val dataOut = new PrintWriter(traingDataFile)
     // NLP結果読み込み
     val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
     // ontologyつくる
@@ -48,14 +33,19 @@ object GenerateTrainingData {
     // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
     val weights = ruleWeights(templates.map(t => t._3))
     val randomMax = weights.last
-    for (i <- 1 to 25000) {
+    for (i <- 1 to normalDataNum) {
       val randomValue = random.nextInt(randomMax)
       val ruleidx = searchRuleIdx(weights, randomValue)
-      // if (ruleidx == 10) println(randomValue)
       val rule = templates(ruleidx)
-      val subCount = rule._3
-      val subs = getOntologyObjectWithIdx(subCount)
+      // 引数の個数文オントロジーの単語を採ってくる
+      // return Map[String, List[String]]  e.g. Map("z0" -> List("character_token", "data"))
+      val subs = rule._1 match {
+        case term: Term => getOntologyObject_(getAllTermVariables(term))
+        case list: List[Term] => getOntologyObject_(list.flatMap(getAllTermVariables(_)))
+      }
+      // 自然言語の文にオントロジーの単語を代入する
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
+      // 機械語の文にオントロジーの単語を代入する
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
         case list: List[Term] => {
@@ -64,18 +54,65 @@ object GenerateTrainingData {
       }
       dataOut.println("%s\t%s".format(natStr, termStr))
     }
-    generateData_if(dataOut)
-    generateData_multi(dataOut)
+    // generateData_if(dataOut)
+    // generateData_multi(dataOut)
     dataOut.close()
   }
 
+  // json形式での出力
+  var jsonid = 1
+  def generateData_json() = {
+    val dataOut = new PrintWriter("src/trainingData.json")
+    // NLP結果読み込み
+    val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
+    // ontologyつくる
+    Ontology.makeOntology()
+
+    // generateWordSet_ori()
+    import DataTemplate._
+    val random = new Random
+    // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
+    val weights = ruleWeights(templates.map(t => t._3))
+    val randomMax = weights.last
+    for (i <- 1 to normalDataNum) {
+      val randomValue = random.nextInt(randomMax)
+      val ruleidx = searchRuleIdx(weights, randomValue)
+      // if (ruleidx == 10) println(randomValue)
+      val rule = templates(ruleidx)
+      // val subCount = rule._3
+      val subs = rule._1 match {
+        case term: Term => getOntologyObject(getAllTermVariables(term))
+        case list: List[Term] => getOntologyObject(list.flatMap(getAllTermVariables(_)))
+      }
+      val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs).replace("\"","\\\"")
+      val termStr = rule._1 match {
+        case term: Term => processTerm_prefix(term, subs).replace("\"","\\\"").replace("("," ").replace(")"," ").replace(","," ").replace("  "," ").replace("  "," ")
+        case list: List[Term] => {
+          var str = processTerm_prefix(list.head, subs).replace("\"","\\\"").replace("("," ").replace(")"," ").replace(","," ").replace("  "," ").replace("  "," ")
+          list.tail.foreach(t => {
+            str = "+ " + str
+            str = str +" "+ processTerm_prefix(t, subs).replace("\"","\\\"").replace("("," ").replace(")"," ").replace(","," ").replace("  "," ").replace("  "," ")
+          })
+          str
+        }
+      }
+      // println(termStr)
+      dataOut.println("{\n\t\"id\":\"%d\",\n\t\"input\":\"%s\",\n\t\"output\":\"%s\"\n}".format(jsonid,natStr.replace("  "," ").trim(), termStr.replace("  "," ").trim()))
+      jsonid += 1
+    }
+    // generateData_if(dataOut)
+    // generateData_multi(dataOut)
+    dataOut.close()
+  }
+
+  // 複数文のデータセットの生成
   def generateData_multi(dataOut: PrintWriter) = {
     import DataTemplate._
     val random = new Random
     // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
     val weights = ruleWeights(templates_multi.map(t => t._3))
     val randomMax = weights.last
-    for (i <- 1 to 10000) {
+    for (i <- 1 to multiDataNum) {
       val randomValue = random.nextInt(randomMax)
       val ruleidx = searchRuleIdx(weights, randomValue)
       // if (ruleidx == 10) println(randomValue)
@@ -88,13 +125,14 @@ object GenerateTrainingData {
     }
   }
 
+  // if文のデータセットの生成
   def generateData_if(dataOut: PrintWriter) = {
     import DataTemplate._
     val random = new Random
     // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
     val weights = ruleWeights(templates_if.map(t => t._3))
     val randomMax = weights.last
-    for (i <- 1 to 15000) {
+    for (i <- 1 to ifDataNum) {
       val randomValue = random.nextInt(randomMax)
       val ruleidx = searchRuleIdx(weights, randomValue)
       // if (ruleidx == 10) println(randomValue)
@@ -159,6 +197,26 @@ object GenerateTrainingData {
     s.replace("(", " ( ").replace(")", " ) ").replace(",", " , ")
   }
 
+  def processTerm_prefix(term: Term, subs: Map[String, List[String]]): String = {
+    var s = displayTerm(term)
+    subs.foreach{case(k,v) => {
+      var str = v.head
+      v.tail.foreach(str2 => {
+        str = ". " + str
+        str = str + " "+ str2
+      })
+      s = s.replace(k, str)
+    }}
+    
+    val vnum = getAllTermVariables(term).size
+    if (vnum < 2) {
+      val n = 2 - vnum
+      s += " _0_"*n
+    }
+    // s = s.replace("(", " ( ").replace(")", " ) ").replace(",", " , ")
+    s.trim()
+  }
+
   // <det> => a or an or the
   def replaceDet(str: String): String = {
     val dets = Map(0->"a", 1->"an", 2->"the")
@@ -193,78 +251,111 @@ object GenerateTrainingData {
     s
   }
 
-  // <z0> => ontology's object string
+  // String内の<z0> を ontology's object string　に置き換える
   def replaceSubs(str: String, subs: Map[String, List[String]]): String = {
     var s = str
     subs.foreach{case(k,v) => {
       var v1 = v.mkString(" . ")
-      // corefの処理_old
+      // 参照関係の処理([_]を消す)
       v1 = v1.replace(" [_]", "")
-      // v1 = v1.replaceAll(" /[0-9]+", "")
       if (!(v1.endsWith("state") && !v1.contains("return_state"))) v1 = v1.replace("_", " ")
-      // pos関係の処理 " . " => "'s " or " of "
+      // 所有関係ある場合の処理 " . " をランダムに "'s " or " of " or " "　に置き換え
       if (v1.contains(" . ")) {
-        v1 = v1.replace(" . ", " ")
-        // val random = new Random
-        // val r = random.nextInt(11)
-        // if (r <= 7) v1 = v1.replace(" . ", " 's ")
-        // else if (r == 8) v1 = v1.replace(" . ", "s ")
-        // else if (r == 9) v1 = v1.replace(" . ", " ")
-        // else {
-        //   val list = v1.split(" . ")
-        //   v1 = list(1) + " of " + list(0)
-        // }
+        val random = new Random
+        val r = random.nextInt(11)
+        if (r <= 1) v1 = v1.replace(" . ", " 's ")
+        // else if (r <= 2) v1 = v1.replace(" . ", "s ")
+        else if (r <= 2) {
+          val list = v1.split(" . ")
+          v1 = list(1) + " of " + list(0)
+        }
+        else v1 = v1.replace(" . ", " ")
       }
-      s = s.replace("<%s>".format(k), v1)
+      // <z0> を v1に置き換え
+      val k2 = k match {
+        case s"${z}:${s}" => z
+        case _ => k
+      }
+      s = s.replace("<%s>".format(k2), v1)
     }}
     s
   }
 
-  def getOntologyObject(n: Int): Map[String, List[String]] = {
+  def getOntologyObject(xlist: List[String]): Map[String, List[String]] = {
     val random = new Random
-    List.range(0,n).map(i => {
-      val max = Ontology.ontology.i - 1
-      val obji = random.nextInt(max)
-      var objs = List(OntologyMatch.searchValue(obji)) //+ " /0"
+    xlist.map(x => {
+      var i = 0
+      var min: Int = 0
+      var max: Int = Ontology.ontology.i - 1
+      x match {
+        case s"z${num}:${str}" => {
+          i = num.toInt
+          val stri = OntologyMatch.searchIndex(str)
+          val (min2, max2) = Ontology.getSubtreeIndexRange(stri)
+          min = min2
+          max = max2
+        }
+        case s"z${num}" => {
+          i = num.toInt
+        }
+        case _ =>
+      }
 
-      // if (obj == "_"){println(obji)
-      // println(obj)}
+      val obji = min + random.nextInt(max-min)
+      var objs = List(OntologyMatch.searchValue(obji)) 
 
       OntologyMatch.getRandomAttribute(obji) match {
         case None => 
         case Some(atti) => {
-          objs :+= OntologyMatch.searchValue(atti) //+ " /0"
+          objs :+= OntologyMatch.searchValue(atti) 
         }
       }
-      ("z%d".format(i),objs)
+      (x.format(i),objs)
     }).toMap
   }
 
-  def getOntologyObjectWithIdx(n: Int): Map[String, List[String]] = {
+  def getOntologyObjectWithIdx(xlist: List[String]): Map[String, List[String]] = {
     val random = new Random
-    List.range(0,n).map(i => {
-      val max = Ontology.ontology.i - 1
-      val obji = random.nextInt(max)
-      var objs = List((OntologyMatch.searchValue(obji) + getIndex())) 
+    xlist.map(x => {
+      var i = 0
+      var min: Int = 0
+      var max: Int = Ontology.ontology.i - 1
+      x match {
+        case s"z${num}:${str}" => {
+          i = num.toInt
+          val stri = OntologyMatch.searchIndex(str)
+          val (min2, max2) = Ontology.getSubtreeIndexRange(stri)
+          min = min2
+          max = max2
+        }
+        case s"z${num}" => {
+          i = num.toInt
+        }
+        case _ =>
+      }
+      val obji = min + random.nextInt(max-min)
+      var objs: List[String] = List() 
 
       OntologyMatch.getRandomAttribute(obji) match {
-        case None => 
+        case None => objs :+= (OntologyMatch.searchValue(obji) + getIndex(2))
         case Some(atti) => {
-          objs :+= (OntologyMatch.searchValue(atti)+ getIndex())
+          objs :+= (OntologyMatch.searchValue(obji) + getIndex(5))
+          objs :+= (OntologyMatch.searchValue(atti))
         }
       }
-      ("z%d".format(i), objs)
+      (x.format(i), objs)
     }).toMap
   }
 
-  def getIndex(): String = {
+  def getIndex(n: Int): String = {
+    if (n==0) return " [_]"
     val random = new Random
-    val r = random.nextInt(40)
-    if (r <= 32) " [_]"
-    else if (r <= 35) " [0]"
-    else if (r <= 37) " [1]"
-    else if (r <= 38) " [2]"
-    else " [3]"
+    val r = random.nextInt(50)
+    if (r <= 0) " [3]"
+    else if (r <= 1) " [2]"
+    else if (r <= 3) " [1]"
+    else if (r <= 4*n) " [0]"
+    else " [_]"
   }
 
   def generateVpTerm(n: Int): Map[String, (String,String)] = {
@@ -278,8 +369,11 @@ object GenerateTrainingData {
       val ruleidx = searchRuleIdx(weights, randomValue)
       // if (ruleidx == 10) println(randomValue)
       val rule = templates(ruleidx)
-      val subCount = rule._3
-      val subs = getOntologyObjectWithIdx(subCount)
+      // val subCount = rule._3
+      val subs = rule._1 match {
+        case term: Term => getOntologyObject_(getAllTermVariables(term))
+        case list: List[Term] => getOntologyObject_(list.flatMap(getAllTermVariables(_)))
+      }
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
@@ -295,8 +389,8 @@ object GenerateTrainingData {
     import DataTemplate._
     List.range(0,n).map(i => {
       val rule = templates_b(0)
-      val subCount = rule._3
-      val subs = getOntologyObjectWithIdx(subCount)
+      // val subCount = rule._3
+      val subs = getOntologyObject_(getAllTermVariables(rule._1))
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
@@ -329,5 +423,36 @@ object GenerateTrainingData {
 
   def normalize(str: String): String = {
     str.replace("  ", " ")
+  }
+
+  // テンプレートを自動で作る
+  def generateDataTemplate() = {
+    // NLP結果読み込み
+    val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
+    // ontologyつくる
+    Ontology.makeOntology()
+    // println(Ontology.ontology)
+    // 文章全部取り出してAntiunificationで規則生成
+    val rules = rule_generating(states, "src/rules_depnp.txt")
+    // rules.foreach(r => println(generateCode(r)))
+
+    val codefile = new PrintWriter("src/main/scala/DataTemplate_.scala")
+    codefile.println("import Terms._\nobject DataTemplate {\nval trainingDatas = List(")
+    rules.zipWithIndex.foreach{ case(r,i) => {
+      codefile.println("// %s".format(displayTerm(toCommand(r))))
+      val znum = toCommand(r) match {
+        case Function(s, l) => {
+          l match {
+            case l: List[Term] => l.size
+            case _ => 0
+          }
+        }
+        case _ => 0
+      }
+      codefile.println("( %s ,\n \"\", %d),".format(generateCode(toCommand(r)), znum))
+      codefile.println()
+    }}
+    codefile.println(")\n}")
+    codefile.close()
   }
 }

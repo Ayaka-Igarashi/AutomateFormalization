@@ -2,7 +2,7 @@ import Terms._
 object DataTemplate {
 val templates: List[(Term|List[Term], String, Int)] = List(
 // switch_to(z0)
-( Function("switch_to",List(TermVariable("z0"))) ,
+( Function("switch_to",List(TermVariable("z0:state"))) ,
  "switch to <det> <z0>", 1),
 
 // set_to(z0,z1)
@@ -16,11 +16,11 @@ val templates: List[(Term|List[Term], String, Int)] = List(
  "set <det> <z0> <cc> <det> <z1> to <det> <z2>",3),
 
 // create(z0)
-( Function("create",List(TermVariable("z0"))) ,
+( Function("create",List(TermVariable("z0:token"))) ,
  "create <det> <z0>", 1),
 
 // reconsume_in(z0)
-( Function("reconsume_in",List(TermVariable("z0"))) ,
+( Function("reconsume_in",List(TermVariable("z0:state"))) ,
  "reconsume in <det> <z0>", 1),
 
 // multiply_the_character_by_16
@@ -56,17 +56,17 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 //  "", 2)
 
 // is(z0)
-( Function("is",List(TermVariable("z0"))) ,
+( Function("is",List(TermVariable("z0:parse_error"))) ,
  "This is <det> <z0>", 1),
 
 // emit(z0)
-( Function("emit",List(TermVariable("z0"))) ,
+( Function("emit",List(TermVariable("z0:token"))) ,
  "emit <det> <z0>", 1),
  // emit(z0) | emit(z1)
-( List(Function("emit",List(TermVariable("z0"))), Function("emit",List(TermVariable("z1")))) ,
+( List(Function("emit",List(TermVariable("z0:token"))), Function("emit",List(TermVariable("z1:token")))) ,
  "emit <det> <z0> <cc> <det> <z1>",2), 
  // emit(z0) | emit(z1) | emit(z2)
-( List(Function("emit",List(TermVariable("z0"))), Function("emit",List(TermVariable("z1"))), Function("emit",List(TermVariable("z2")))) ,
+( List(Function("emit",List(TermVariable("z0:token"))), Function("emit",List(TermVariable("z1:token"))), Function("emit",List(TermVariable("z2:token")))) ,
  "emit <det> <z0> <cc> <det> <z1> <cc> <det> <z2>",3),
 
 // // emit_the_current_input_as_a_character

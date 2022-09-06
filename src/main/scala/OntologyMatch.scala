@@ -100,6 +100,30 @@ object OntologyMatch {
     }
   }
 
+  def searchIndex(s: String): Int = {
+    searchIndex_sub(s, Ontology.ontology) match {
+      case None => 0
+      case Some(i) => i
+    }
+  }
+
+  def searchIndex_sub(s: String, n: ONode): Option[Int] = {
+    if (n.value == s) return Some(n.i)
+    n.attributes.foreach(a => {
+      searchIndex_sub(s,a) match {
+        case None =>
+        case Some(i) => return Some(i)
+      }
+    })
+    n.children.foreach(a => {
+      searchIndex_sub(s,a) match {
+        case None =>
+        case Some(i) => return Some(i)
+      }
+    })
+    None
+  }
+
   def searchNode(i: Int): ONode = {
     searchNode_sub(i, ontology)
   }

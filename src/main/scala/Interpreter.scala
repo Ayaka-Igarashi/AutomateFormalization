@@ -100,4 +100,8 @@ object Interpreter {
   def interpretToken(str: String): String = {
     str
   }
+
+  def interpretNominal(str: String): String = {
+    str
+  }
 }
