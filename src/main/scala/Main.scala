@@ -10,7 +10,7 @@ object Main {
   import ExtractRule._
   import StateStructure._
 
-  /*
+  
   @main def keisikika() = {
     // htmlParse()
     
@@ -25,45 +25,14 @@ object Main {
     // })
     
     // NLP結果読み込み
-    var outputline = load_file("src/input/nlpOut.txt")
-    var o = outputline.head
-    outputline = outputline.tail
-    var states: List[(String, List[Contree], List[(String, List[Contree])])] = Nil
-    while (o.startsWith("name:")) {
-      val statename = o.substring(5, o.length)
-      o = outputline.tail.head
-      outputline = outputline.tail.tail
-      var prev: List[Contree] = List()
-      while (o != "trans:") {
-        // println(o)
-        prev :+= parse_synconst(o)
-        o = outputline.head
-        outputline = outputline.tail
-      }
-      var trans: List[(String, List[Contree])] = List()
-      while (o != "") {
-        o = outputline.head
-        outputline = outputline.tail
-        val char = o.substring(5, o.length)
-        var trees: List[Contree] = List()
-        o = outputline.head
-        outputline = outputline.tail
-        while (!o.startsWith("char:") && o != "") {
-          // println(o)
-          trees :+= parse_synconst(o)
-          o = outputline.head
-          outputline = outputline.tail
-        }
-        trans :+= (char, trees)
-        outputline = o::outputline
-      }
-      states :+= (statename, prev, trans)
-      if (outputline.tail != Nil) {
-        o = outputline.tail.head
-        outputline = outputline.tail.tail
-      }
-    }
-
+    val states = load_nlp_file("src/input/nlpOut.txt")
+    // ontologyつくる
+    Ontology.makeOntology()
+    // 文章全部取り出してAntiunificationで規則生成
+    val rules = rule_generating_v2(states, "src/rules_const.txt")
+    // println(rules)
+    
+    /*
     println("> generating_rules")
     // 文章全部取り出してAntiunificationで規則生成
     val allStatement = states.flatMap(s => {List(s._2)++s._3.map(t => t._2)}).flatten
@@ -75,38 +44,38 @@ object Main {
     // nprules.foreach(r => rulesOut.println(displayTerm(r)))
     rulesOut.close()
     println(rulesSymbols(rules))
-    
+    */
     // コマンドに変換
-    println("> convert_to_command")
-    val state_c = states.map(state => {
-      var prev = convertTerms(state._2.map(s =>contreeToTerm(removePeriod(toLowerFirstChar(s)))), rules)
-      prev = prev.map(convertNorm(_))
-      val trans = state._3.map(s => {
-        var conved = convertTerms(s._2.map(s => contreeToTerm(removePeriod(toLowerFirstChar(s)))), rules)
-        conved = conved.map(convertNorm(_))
-        (s._1, conved)
-      })
-      (state._1, prev, trans)
-    })
+    // println("> convert_to_command")
+    // val state_c = states.map(state => {
+    //   var prev = convertTerms(state._2.map(s =>contreeToTerm(removePeriod(toLowerFirstChar(s)))), rules)
+    //   prev = prev.map(convertNorm(_))
+    //   val trans = state._3.map(s => {
+    //     var conved = convertTerms(s._2.map(s => contreeToTerm(removePeriod(toLowerFirstChar(s)))), rules)
+    //     conved = conved.map(convertNorm(_))
+    //     (s._1, conved)
+    //   })
+    //   (state._1, prev, trans)
+    // })
     
     // output
-    println("> outputting...")
-    val convertOut = new PrintWriter("src/convertOut.txt")
-    state_c.foreach(state => {
-      convertOut.println("--" + state._1 + "--")
-      convertOut.println("prev: ")
-      state._2.foreach(t => convertOut.println(" " + displayTerm(t)))
-      convertOut.println("trans: ")
-      state._3.foreach(s => {
-        convertOut.println(" " + s._1 + " :")
-        s._2.foreach(t => convertOut.println("  " + displayTerm(t)))
-      })
-      convertOut.println("")
-    })
-    convertOut.close
+    // println("> outputting...")
+    // val convertOut = new PrintWriter("src/convertOut.txt")
+    // state_c.foreach(state => {
+    //   convertOut.println("--" + state._1 + "--")
+    //   convertOut.println("prev: ")
+    //   state._2.foreach(t => convertOut.println(" " + displayTerm(t)))
+    //   convertOut.println("trans: ")
+    //   state._3.foreach(s => {
+    //     convertOut.println(" " + s._1 + " :")
+    //     s._2.foreach(t => convertOut.println("  " + displayTerm(t)))
+    //   })
+    //   convertOut.println("")
+    // })
+    // convertOut.close
     
   }
-*/
+
   var stateList: List[String] = Nil
   var unicodeList: Set[String] = Set()
   var errorList: Set[String] = Set()
@@ -175,6 +144,20 @@ object Main {
     val allStatement = allStatement_a.map(s => s._1)
     // val nprules = npAUnif(allStatement)
     val rules = generateRules_dep_np(allStatement)
+    val rulesOut = new PrintWriter(output_rule_filename)
+    rules.foreach(r => rulesOut.println(displayTerm(r)))
+    // rulesOut.println("")
+    // nprules.foreach(r => rulesOut.println(displayTerm(r)))
+    rulesOut.close()
+    // println(rulesSymbols(rules))
+    rules
+  }
+  def rule_generating_v2(states: List[(String, List[NoValTermA], List[(String, List[NoValTermA])])],output_rule_filename: String): List[Term] = {
+    println("> generating_rules")
+    val allStatement_a = states.flatMap(s => {s._2++s._3.flatMap(t => t._2)})
+    val allStatement = allStatement_a.map(s => s._1)
+    // val nprules = npAUnif(allStatement)
+    val rules = generateRules(allStatement)
     val rulesOut = new PrintWriter(output_rule_filename)
     rules.foreach(r => rulesOut.println(displayTerm(r)))
     // rulesOut.println("")
@@ -349,11 +332,6 @@ object Main {
   def nlp(s: String): List[Contree] = {
     List()
   }
-  
-  def auTest() = {
-    val contree = parseOnlySynconst("src/output_const.txt")
-    generateRules(contree)
-  }
 
   def npAUnif_map(maps: Map[String, List[NoValTerm]]): Map[String, List[Term]] = {
     maps.map((l, tlist) => {
@@ -387,32 +365,35 @@ object Main {
   }
   
   // auVTerms
-  def generateRules(contree: List[Contree]): List[Term] = {
+  def generateRules(termlist: List[NoValTerm]): List[Term] = {
     val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificaationOut.txt")
     val out = new PrintWriter("src/CandidateRules.txt")
     val npout = new PrintWriter("src/npout.txt")
     
-    val vptrees = extractVPTree(contree)
-    val replaced = vptrees.map(t => (toLowerFirstChar(t)))
-    val dividedTrees = divideByVerb(replaced)
-    val n = 3
+    val vptrees = extractVPTree_term(termlist)
+    val replaced = vptrees.map(t => (toLowerFirstChar_term(t)))
+    val dividedTrees = divideByVerb_term(replaced)
+    val n = 2
     var matchlist_note: List[List[String]] = List()
     var rules: List[Term] = Nil
     dividedTrees.foreach { case (v, treelist) => {
       antiUnificationOut.println("\n----- " + v + " ------")
       // antiUnificationの結果リストを計算
-      val aulist = antiUnification_shuffle(treelist.map(contreeToTerm(_)), n, 2,antiUnificationOut)
+      val aulist = antiUnification_shuffle(treelist.map(noValTermToTerm(_)), n, 2,antiUnificationOut)
       out.println("\n----- " + v + " ------")
-      val (candidates, mlist) = extractCandidates(treelist.map(contreeToTerm(_)), aulist, out)
-      
+      val (candidates, mlist) = extractCandidates(treelist.map(noValTermToTerm(_)), aulist, out)
       matchlist_note :+= mlist
-      
-      // val nprules = npAUnif(treelist)
-      // npout.println("\n----- " + v + " ------")
-      // nprules.foreach(r => npout.println(displayTerm(r)))
-      // println("--" + v +"--")
-      // extractRules(candidates).foreach(r => println(displayTerm(toCommand(r))))
       rules ++= extractRules(candidates)
+      // matchしないやつを抽出
+      val nomatchterm = treelist.filter(t => !isMatchSome(noValTermToTerm(t), rules))
+      // val nomatchterm = treelist.filter(t => Terms.isMatch(noValTermToTerm(t), rules.head))
+      if (v == "append") {
+        println(treelist.length)
+        println(nomatchterm.length)
+        // println(displayTerm(noValTermToTerm(treelist.head)))
+        // println(displayTerm(rules.head))
+        nomatchterm.foreach(t=>println(displayTerm(noValTermToTerm(t))))
+      }
     }}
     
     antiUnificationOut.close
@@ -458,10 +439,11 @@ object Main {
     nprules.foreach((l,list) => {
       npout.println("--------- "+l+" -----------")
       list.foreach(r => {
-        var o = termToNoValTerm(r)
-        o = ConvertNp.remove_case(o)
-        val o0 = ConvertNp.and(o)
-        val o1 = o0.foreach(t => npout.println(ConvertNp.nmod(t))) 
+        npout.println(displayTerm(r))
+        // var o = termToNoValTerm(r)
+        // o = ConvertNp.remove_case(o)
+        // val o0 = ConvertNp.and(o)
+        // val o1 = o0.foreach(t => npout.println(ConvertNp.nmod(t))) 
         // o0.foreach(t => npout.println(displayTerm(noValTermToTerm(t)))) 
         // npout.println(o1)
       })

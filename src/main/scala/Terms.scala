@@ -110,6 +110,13 @@ object Terms {
       }
   }
 
+  def isMatchSome(term: Term, termlist: List[Term]): Boolean = {
+    termlist.foreach(t => {
+      if(isMatch(t, term)) return true
+    })
+    false
+  }
+
   def displayTerm(term: Term): String = {
     term match {
       case TermVariable(x) => x

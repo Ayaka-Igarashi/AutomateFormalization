@@ -7,13 +7,13 @@ import Convert._
 import scala.compiletime.ops.string
 
 object GenerateTrainingData {
-  val normalDataNum = 10000 //25000 simple:40000 if:30000
-  val ifDataNum = 15000 //15000
-  val multiDataNum = 10000
+  val normalDataNum_ev = 1000
+  val ifDataNum_ev = 1000
+  val multiDataNum_ev = 1000
 
-  val normalDataNum_ev = 65
-  val ifDataNum_ev = 25
-  val multiDataNum_ev = 10
+  val normalDataNum = normalDataNum_ev//25000 //25000 simple:40000 if:30000
+  val ifDataNum = ifDataNum_ev//15000 //15000
+  val multiDataNum = multiDataNum_ev//10000
 
   val traingDataFile = "src/trainingData.txt"
 
@@ -27,35 +27,14 @@ object GenerateTrainingData {
     // ontologyつくる
     Ontology.makeOntology()
 
-    // generateWordSet_ori()
-    import DataTemplate._
-    val random = new Random
-    // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
-    val weights = ruleWeights(templates.map(t => t._3))
-    val randomMax = weights.last
-    for (i <- 1 to normalDataNum) {
-      val randomValue = random.nextInt(randomMax)
-      val ruleidx = searchRuleIdx(weights, randomValue)
-      val rule = templates(ruleidx)
-      // 引数の個数文オントロジーの単語を採ってくる
-      // return Map[String, List[String]]  e.g. Map("z0" -> List("character_token", "data"))
-      val subs = rule._1 match {
-        case term: Term => getOntologyObject_(getAllTermVariables(term))
-        case list: List[Term] => getOntologyObject_(list.flatMap(getAllTermVariables(_)))
-      }
-      // 自然言語の文にオントロジーの単語を代入する
-      val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
-      // 機械語の文にオントロジーの単語を代入する
-      val termStr = rule._1 match {
-        case term: Term => processTerm(term, subs)
-        case list: List[Term] => {
-          (list.foldLeft(""){(str, term) => str + "| " + processTerm(term, subs)}).tail
-        }
-      }
-      dataOut.println("%s\t%s".format(natStr, termStr))
-    }
+    // val pairs = generateVpTerm(normalDataNum)
+    // pairs.foreach(m => {
+    //   val natStr = m._2._1
+    //   val termStr = m._2._2
+    //   dataOut.println("%s\t%s".format(natStr, termStr))
+    // })
     // generateData_if(dataOut)
-    // generateData_multi(dataOut)
+    generateData_multi(dataOut)
     dataOut.close()
   }
 
@@ -259,6 +238,7 @@ object GenerateTrainingData {
       // 参照関係の処理([_]を消す)
       v1 = v1.replace(" [_]", "")
       if (!(v1.endsWith("state") && !v1.contains("return_state"))) v1 = v1.replace("_", " ")
+      v1 = v1.replace("_state", " state")
       // 所有関係ある場合の処理 " . " をランダムに "'s " or " of " or " "　に置き換え
       if (v1.contains(" . ")) {
         val random = new Random
@@ -367,14 +347,16 @@ object GenerateTrainingData {
     List.range(0,n).map(i => {
       val randomValue = random.nextInt(randomMax)
       val ruleidx = searchRuleIdx(weights, randomValue)
-      // if (ruleidx == 10) println(randomValue)
       val rule = templates(ruleidx)
-      // val subCount = rule._3
+      // 引数の個数文オントロジーの単語を採ってくる
+      // return Map[String, List[String]]  e.g. Map("z0" -> List("character_token", "data"))
       val subs = rule._1 match {
         case term: Term => getOntologyObject_(getAllTermVariables(term))
         case list: List[Term] => getOntologyObject_(list.flatMap(getAllTermVariables(_)))
       }
+      // 自然言語の文にオントロジーの単語を代入する
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
+      // 機械語の文にオントロジーの単語を代入する
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
         case list: List[Term] => {

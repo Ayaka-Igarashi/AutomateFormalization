@@ -33,7 +33,7 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 
 // start_a_new_in_the_current_tag
 ( Function("start_a_new_in_the_current_tag",List()) ,
- "start a new attribute in the current tag token", 0),
+ "start a new attribute in the current tag token ", 0),
 
 // add_to_the_character(z0)
 ( Function("add_to_the_character",List(TermVariable("z0"))) ,
@@ -41,7 +41,7 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 
 // ignore_the
 ( Function("ignore_the",List()) ,
- "ignore the character", 0),
+ "ignore the character ", 0),
 
 // append_to(z0,z1)
 ( Function("append_to",List(TermVariable("z0"),TermVariable("z1"))) ,
@@ -75,7 +75,7 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 
 // treat_it_as_per_the_"_else_"_below
 ( Function("treat_it_as_per_the_\"_else_\"_below",List()) ,
- "treat it as per the \"anything else\" entry below", 0)
+ "treat it as per the \"anything else\" entry below ", 0)
 
 )
 

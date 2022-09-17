@@ -19,4 +19,4 @@ enablePlugins(Antlr4Plugin)
 Antlr4 / antlr4Version := "4.9"
 Antlr4 / antlr4GenVisitor := false
 Antlr4 / antlr4GenListener := false
-Antlr4 / sourceDirectory := baseDirectory.value / "antlr4"
+// Antlr4 / sourceDirectory := baseDirectory.value / "antlr4"
