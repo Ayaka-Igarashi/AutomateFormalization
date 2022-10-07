@@ -410,28 +410,30 @@ object GenerateTrainingData {
   // テンプレートを自動で作る
   def generateDataTemplate() = {
     // NLP結果読み込み
-    val states = load_nlp_file("src/input/nlpOut_depnp_a.txt")
+    val states = load_nlp_file("src/input/nlpOut.txt")
     // ontologyつくる
     Ontology.makeOntology()
     // println(Ontology.ontology)
     // 文章全部取り出してAntiunificationで規則生成
-    val rules = rule_generating(states, "src/rules_depnp.txt")
+    val rules = rule_generating_v2(states, "src/rules_const.txt")
     // rules.foreach(r => println(generateCode(r)))
 
     val codefile = new PrintWriter("src/main/scala/DataTemplate_.scala")
-    codefile.println("import Terms._\nobject DataTemplate {\nval trainingDatas = List(")
+    codefile.println("import Terms._\nobject DataTemplate_ {\nval trainingDatas = List(")
     rules.zipWithIndex.foreach{ case(r,i) => {
-      codefile.println("// %s".format(displayTerm(toCommand(r))))
-      val znum = toCommand(r) match {
-        case Function(s, l) => {
-          l match {
-            case l: List[Term] => l.size
-            case _ => 0
-          }
-        }
-        case _ => 0
-      }
-      codefile.println("( %s ,\n \"\", %d),".format(generateCode(toCommand(r)), znum))
+      val com = hedgeVariable2termvariable(toCommand(r))
+      codefile.println("// %s".format(displayTerm(com)))
+      // val znum = com match {
+      //   case Function(s, l) => {
+      //     l match {
+      //       case l: List[Term] => l.size
+      //       case _ => 0
+      //     }
+      //   }
+      //   case _ => 0
+      // }
+      // codefile.println("( %s ,\n \"\", %d),".format(generateCode(com), znum))
+      codefile.println("( %s ,\n \"\"),".format(generateCode(com)))
       codefile.println()
     }}
     codefile.println(")\n}")

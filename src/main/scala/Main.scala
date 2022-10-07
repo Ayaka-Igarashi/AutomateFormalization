@@ -10,6 +10,18 @@ object Main {
   import ExtractRule._
   import StateStructure._
 
+  def test2() = {
+    val states = load_nlp_file("src/input/nlpOut.txt")
+    // ontologyつくる
+    Ontology.makeOntology()
+    // 文章全部取り出してAntiunificationで規則生成
+    val rules = rule_generating_v2(states, "src/rules_const.txt")
+    // println(rules)
+    rules.foreach(r => {
+      // println(r)
+      println(hedgeVariable2termvariable(toCommand(r)))
+    })
+  }
   
   @main def keisikika() = {
     // htmlParse()
@@ -32,19 +44,6 @@ object Main {
     val rules = rule_generating_v2(states, "src/rules_const.txt")
     // println(rules)
     
-    /*
-    println("> generating_rules")
-    // 文章全部取り出してAntiunificationで規則生成
-    val allStatement = states.flatMap(s => {List(s._2)++s._3.map(t => t._2)}).flatten
-    // val nprules = npAUnif(allStatement)
-    val rules = generateRules(allStatement)
-    val rulesOut = new PrintWriter("src/rules.txt")
-    rules.foreach(r => rulesOut.println(displayTerm(r)))
-    // rulesOut.println("")
-    // nprules.foreach(r => rulesOut.println(displayTerm(r)))
-    rulesOut.close()
-    println(rulesSymbols(rules))
-    */
     // コマンドに変換
     // println("> convert_to_command")
     // val state_c = states.map(state => {
@@ -371,8 +370,11 @@ object Main {
     val npout = new PrintWriter("src/npout.txt")
     
     val vptrees = extractVPTree_term(termlist)
-    val replaced = vptrees.map(t => (toLowerFirstChar_term(t)))
-    val dividedTrees = divideByVerb_term(replaced)
+    val replaced_vp = vptrees.map(t => (toLowerFirstChar_term(t)))
+    // val dividedTrees = divideByVerb_term(replaced_vp)
+    var dividedTrees = divide_VPterm(replaced_vp)
+    dividedTrees ++= divide_notVPterm(termlist.map(t => removePeriod(t)), dividedTrees.map(t => t._1).toSet)
+    // dividedTrees.foreach{ case (v, treelist) => {println(v)}}
     val n = 2
     var matchlist_note: List[List[String]] = List()
     var rules: List[Term] = Nil
@@ -384,16 +386,17 @@ object Main {
       val (candidates, mlist) = extractCandidates(treelist.map(noValTermToTerm(_)), aulist, out)
       matchlist_note :+= mlist
       rules ++= extractRules(candidates)
+      // rules = List(Function("VP",List(Function("VB",List(Function("set",List()))), Function("NP",HedgeVariable("X0")), Function("PP",List(Function("IN",List(Function("to",List()))), TermVariable("z1"))))))
       // matchしないやつを抽出
       val nomatchterm = treelist.filter(t => !isMatchSome(noValTermToTerm(t), rules))
       // val nomatchterm = treelist.filter(t => Terms.isMatch(noValTermToTerm(t), rules.head))
-      if (v == "append") {
-        println(treelist.length)
-        println(nomatchterm.length)
-        // println(displayTerm(noValTermToTerm(treelist.head)))
-        // println(displayTerm(rules.head))
-        nomatchterm.foreach(t=>println(displayTerm(noValTermToTerm(t))))
-      }
+      // if (v == "set") {
+      //   println(treelist.length)
+      //   println(nomatchterm.length)
+      //   // println(displayTerm(noValTermToTerm(treelist.head)))
+      //   // println(displayTerm(rules.head))
+      //   nomatchterm.foreach(t=>println(displayTerm(noValTermToTerm(t))))
+      // }
     }}
     
     antiUnificationOut.close
@@ -403,7 +406,7 @@ object Main {
     
     rules
   }
-
+  
   def generateRules_dep_np(termlist: List[NoValTerm]): List[Term] = {
     val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificationOut_dep_np.txt")
     val out = new PrintWriter("src/CandidateRules_dep_np.txt")
@@ -493,7 +496,7 @@ object Main {
     val sTermOut: PrintWriter = new PrintWriter("src/STermOut.txt")
     val contree = parseOnlySynconst("src/output_const.txt")
     val strees = extractPaticularPhrase(contree,"S")
-    val replaced = strees.map(t => removePeriod(toLowerFirstChar(t)))
+    val replaced = strees.map(t => removePeriod_old(toLowerFirstChar(t)))
     val sterms = replaced.flatMap(tree => {
       val c = toCommandIf(contreeToTerm(tree))
       c match {
@@ -692,12 +695,12 @@ object Main {
   }
 
   // antiunificationの前処理
-  def removePeriod(tree: Contree): Contree = {
+  def removePeriod_old(tree: Contree): Contree = {
     tree match {
       case Node(l, list) => {
           if (list == Nil) tree
           else if (list.last == Leaf(".", ".")) Node(l, list.take(list.size-1))
-          else Node(l, list.take(list.size-1) :+ removePeriod(list.last))
+          else Node(l, list.take(list.size-1) :+ removePeriod_old(list.last))
       }
       case Leaf(l, word) => {
         tree
@@ -877,6 +880,39 @@ object Main {
     dividedTrees
   }
 
+  def divide_VPterm(trees: List[NoValTerm]): Map[String, List[NoValTerm]] = {
+    val empheads: Set[String] = Set()
+    val emplist: List[List[NoValTerm]] = (1 to verbList.size).toList.map(_ => List())
+    var dividedTrees: Map[String, List[NoValTerm]] = (empheads.toList zip emplist).toMap
+    trees.foreach(t => {
+      val v = getFirstLeafandTag_nv(t, "")
+      if (v._1 == "VB") {
+        val v2 = v._2.toLowerCase()
+        dividedTrees.get(v2) match {
+          case Some(l) => dividedTrees = dividedTrees.updated(v2, l :+ t)
+          case None => dividedTrees += (v2, List(t))
+        }
+      }
+    })
+    dividedTrees.filter(t => t._2.size > 1)
+  }
+
+  def divide_notVPterm(trees: List[NoValTerm], vpheads: Set[String]): Map[String, List[NoValTerm]] = {
+    val empheads: Set[String] = Set()
+    val emplist: List[List[NoValTerm]] = (1 to verbList.size).toList.map(_ => List())
+    var dividedTrees: Map[String, List[NoValTerm]] = (empheads.toList zip emplist).toMap
+    trees.foreach(t => {
+      val v = getFirstLeaf_nv(t).toLowerCase()
+      if (!vpheads.contains(v)) {
+        dividedTrees.get(v) match {
+          case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t)
+          case None => dividedTrees += (v, List(t))
+        }
+      }
+    })
+    dividedTrees.filter(t => t._2.size > 1)
+  }
+
   def divideByHead(trees: List[NoValTerm]): Map[String, List[NoValTerm]] = {
     var dividedTrees: Map[String, List[NoValTerm]] = Map()
     trees.foreach(t => {
@@ -956,5 +992,4 @@ object Main {
     re.findAllIn(s).toSet
   }
 
-  
 }

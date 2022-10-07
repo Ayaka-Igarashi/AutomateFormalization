@@ -204,6 +204,13 @@ object Terms {
     }
   }
 
+  def getFirstLeafandTag_nv(term: NoValTerm, parent: String): (String,String) = {
+    term match{
+      case NoValTerm(s, Nil) => (parent, s)
+      case NoValTerm(s, list) => getFirstLeafandTag_nv(list.head, s)
+    }
+  }
+
   // "x" and S(NP(x)) => return NP
   def getParentNode(v: String, term: Term): String = {
     getParentNode_sub("", v, term) match {

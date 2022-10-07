@@ -184,6 +184,62 @@ object Convert {
         return Function(sym, child)
     }
     
+    def toCommand_depnp(term: Term): Term = {
+        var children: List[Term] = Nil
+        var wordlist: List[String] = Nil
+        term match {
+            case Function(s, child) => {
+                if (s == "NP") {
+                    child match {
+                        case HedgeVariable(h) => children :+= TermVariable(h)
+                        case TermVariable(x) :: Nil => children :+= TermVariable(x)
+                        case _ =>
+                    }
+                }
+                else {
+                    child match {
+                        case HedgeVariable(h) => children :+= TermVariable(h)
+                        case Nil => wordlist :+= s
+                        case list: List[Term] => {
+                            list.foreach(t => {
+                                val c = toCommand_depnp(t)
+                                c match {
+                                    case Function(x,l) => {
+                                        if (x != "") wordlist :+= x
+                                        l match {
+                                            case l: List[Term] => children ++= l
+                                            case _ =>
+                                        }
+                                    }
+                                    case _ => 
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+            case TermVariable(x) => children :+= term
+        }
+        return Function(wordlist.mkString("_"), children)
+    }
+
+    def hedgeVariable2termvariable(term: Term): Term = {
+        term match {
+            case Function(sym,child) => {
+                child match {
+                    case HedgeVariable(x) => TermVariable(x.replace("X", "z"))
+                    case child: List[Term] => {
+                        val newchild = child.map(t => {
+                            hedgeVariable2termvariable(t)
+                        })
+                        Function(sym, newchild)
+                    }
+                }
+            }
+            case TermVariable(x) => term
+        }
+    }
+    
     def kaisouka(term: Term): Term = {
         term match {
             case Function(l, child) => {
