@@ -51,7 +51,7 @@ object AntiUnification {
       case None => {
         isAllSameFunction(terms) match {
           case Some((symbol, arity, args)) => { // pattern(8)
-            if (symbol == "NP") { // NPの特殊処理
+            if (false){//(symbol == "NP") { // NPの特殊処理
               (Function(symbol, List(createFreshVariable())), substitution, substitution_h)
             } else {
               var sub = substitution

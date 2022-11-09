@@ -363,6 +363,7 @@ object Main {
     rules
   }
   
+  var allTrees: Map[String, List[NoValTerm]] = Map()
   // auVTerms
   def generateRules(termlist: List[NoValTerm]): List[Term] = {
     val antiUnificationOut: PrintWriter = new PrintWriter("src/antiUnificaationOut.txt")
@@ -374,6 +375,7 @@ object Main {
     // val dividedTrees = divideByVerb_term(replaced_vp)
     var dividedTrees = divide_VPterm(replaced_vp)
     dividedTrees ++= divide_notVPterm(termlist.map(t => removePeriod(t)), dividedTrees.map(t => t._1).toSet)
+    allTrees = dividedTrees
     // dividedTrees.foreach{ case (v, treelist) => {println(v)}}
     val n = 2
     var matchlist_note: List[List[String]] = List()
@@ -386,6 +388,7 @@ object Main {
       val (candidates, mlist) = extractCandidates(treelist.map(noValTermToTerm(_)), aulist, out)
       matchlist_note :+= mlist
       rules ++= extractRules(candidates)
+      if (v=="this") {println("a");println(extractRules(candidates))}
       // rules = List(Function("VP",List(Function("VB",List(Function("set",List()))), Function("NP",HedgeVariable("X0")), Function("PP",List(Function("IN",List(Function("to",List()))), TermVariable("z1"))))))
       // matchしないやつを抽出
       val nomatchterm = treelist.filter(t => !isMatchSome(noValTermToTerm(t), rules))
@@ -779,7 +782,7 @@ object Main {
     val emplist: List[List[Contree]] = (1 to verbList.size).toList.map(_ => List())
     var dividedTrees: Map[String, List[Contree]] = (verbList.toList zip emplist).toMap
     trees.foreach(t => {
-      val v = getLeaves(t).head.toLowerCase()
+      val v = Contree.getLeaves(t).head.toLowerCase()
       dividedTrees.get(v) match {
         case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t)
         case None => dividedTrees = dividedTrees.updated("_other", dividedTrees.getOrElse("_other", List()) :+ t)
@@ -795,7 +798,7 @@ object Main {
     val emplist: List[List[Contree]] = (1 to dividelist.size).toList.map(_ => List())
     var dividedTrees: Map[String, List[Contree]] = (dividelist.toList zip emplist).toMap
     trees.foreach(t => {
-      val v = getLeaves(t).head.toLowerCase()
+      val v = Contree.getLeaves(t).head.toLowerCase()
       dividedTrees.get(v) match {
         case Some(l) => dividedTrees = dividedTrees.updated(v, l :+ t)
         case None => dividedTrees = dividedTrees.updated("_other", dividedTrees.getOrElse("_other", List()) :+ t)
@@ -823,7 +826,7 @@ object Main {
   def searchVerb(trees: List[Contree]): Set[String] = {
     var list: Set[String] = Set()
     trees.foreach(t => {
-      val v = getLeaves(t).head.toLowerCase()
+      val v = Contree.getLeaves(t).head.toLowerCase()
       list += v
     })
     list

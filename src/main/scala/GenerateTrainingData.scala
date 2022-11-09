@@ -11,9 +11,9 @@ object GenerateTrainingData {
   val ifDataNum_ev = 1000
   val multiDataNum_ev = 1000
 
-  val normalDataNum = normalDataNum_ev//25000 //25000 simple:40000 if:30000
-  val ifDataNum = ifDataNum_ev//15000 //15000
-  val multiDataNum = multiDataNum_ev//10000
+  val normalDataNum = 25000 //25000 simple:40000 if:30000
+  val ifDataNum = 15000 //15000
+  val multiDataNum = 10000
 
   val traingDataFile = "src/trainingData.txt"
 
@@ -27,13 +27,13 @@ object GenerateTrainingData {
     // ontologyつくる
     Ontology.makeOntology()
 
-    // val pairs = generateVpTerm(normalDataNum)
-    // pairs.foreach(m => {
-    //   val natStr = m._2._1
-    //   val termStr = m._2._2
-    //   dataOut.println("%s\t%s".format(natStr, termStr))
-    // })
-    // generateData_if(dataOut)
+    val pairs = generateVpTerm(normalDataNum)
+    pairs.foreach(m => {
+      val natStr = m._2._1
+      val termStr = m._2._2
+      dataOut.println("%s\t%s".format(natStr, termStr))
+    })
+    generateData_if(dataOut)
     generateData_multi(dataOut)
     dataOut.close()
   }
@@ -422,7 +422,9 @@ object GenerateTrainingData {
     codefile.println("import Terms._\nobject DataTemplate_ {\nval trainingDatas = List(")
     rules.zipWithIndex.foreach{ case(r,i) => {
       val com = hedgeVariable2termvariable(toCommand(r))
-      codefile.println("// %s".format(displayTerm(com)))
+      def lowerFirst(s: String) = if (s.length()>=1) s.head.toLower + s.tail else s
+      codefile.println("// %s".format(lowerFirst(displayTerm(com))))
+      val sent = naturalSentTemplate(r)
       // val znum = com match {
       //   case Function(s, l) => {
       //     l match {
@@ -433,10 +435,38 @@ object GenerateTrainingData {
       //   case _ => 0
       // }
       // codefile.println("( %s ,\n \"\", %d),".format(generateCode(com), znum))
-      codefile.println("( %s ,\n \"\"),".format(generateCode(com)))
+      codefile.println("( %s ,\n \"%s\"),".format(generateCode(com), sent))
       codefile.println()
     }}
     codefile.println(")\n}")
     codefile.close()
+  }
+  def naturalSentTemplate(rule: Term): String = {
+    val rule1 = hedgeVariable2termvariable(rule)
+    val term_and_map = getConcreteTerm(rule1)
+    val term1 = term_and_map._1
+    val map1 = term_and_map._2
+    val nat_sent = getLeaves(term1)
+    val map2 = map1.map(m => (m._1, getLeaves(m._2)))
+    var nat_tmp = escapeChars(nat_sent)
+    // println(rule)
+    // println(map2)
+    map2.foreach(m => {
+      nat_tmp = nat_tmp.replace(m._2, "<det> <"+m._1+">")
+    })
+    nat_tmp
+  }
+  def getConcreteTerm(rule: Term): (Term, Map[String, Term]) = {
+    val v = getFirstLeaf(rule).toLowerCase
+    val termlist: List[Term] = Main.allTrees(v).map(noValTermToTerm(_))
+    // if (v == "this") {println(rule);println(termlist.head)}
+    termlist.foreach(term => {
+      isMatchOption(rule, term) match {
+        case None =>
+        case Some(m) => return (term, m)
+      }
+    })
+    // println("fail")
+    (rule, Map())
   }
 }

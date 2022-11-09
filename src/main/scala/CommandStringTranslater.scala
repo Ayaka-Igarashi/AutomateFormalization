@@ -25,18 +25,18 @@ object CommandStringTranslater {
   }
 
   def parseAll() = {
-    val convertOut = new PrintWriter("src/convertout_translate.txt")
-    val list = OutputParse.load_file("src/input/translateout.txt")
+    val convertOut = new PrintWriter("src/out/convertout_translate_transformer.txt")
+    val list = OutputParse.load_file("src/input/translateout_transformer.txt")
     var id = 0
     for (l <- list) {
       id += 1
-      // println(id)
-      if (l.startsWith("#")) {
+      // if (l.startsWith("#")) {
+      //   convertOut.println(l)
+      // } else 
+      if (l.startsWith(" => ")) {
         convertOut.println(l)
-      } else if (l.startsWith("=> ")) {
-        convertOut.println(l)
-        convertOut.print("=> ")
-        val terms = parseStr(l.slice(3, l.length-5), id)
+        convertOut.print(" => ")
+        val terms = parseStr(l.slice(4, l.length), 0)
         for (t <- terms) {
           convertOut.print(t)
           convertOut.print(" | ")
@@ -83,7 +83,7 @@ object CommandStringTranslater {
     convertOut.close()
   }
 
-  def parseStr(s: String, id: Int): List[Term] = {
+  def parseStr(s: String, id: Int): List[Command] = {
     val charStream = new ANTLRInputStream(s)
     val lexer = new CommandStringLexer(charStream)
     val tokens = new CommonTokenStream(lexer)
@@ -91,6 +91,8 @@ object CommandStringTranslater {
     parser.addErrorListener(new MyErrorListener())
     var terms: List[Term] = Nil
     try {
+      // val test = parser.start()
+      // println(test.toStringTree(parser))
       val tree = parser.start()
       terms = CommandStringTranslater.transStart(tree)
     } catch {
@@ -99,7 +101,12 @@ object CommandStringTranslater {
         terms = List(Function("PARSE_ERROR", Nil))
       }
     }
-    terms
+    terms.flatMap(term => {
+      term2command(term) match {
+        case c: Command => List(c)
+        case _ => Nil
+      }
+    })
   }
   
   def transStart(ctx: StartContext): List[Term] = transTermList(ctx.termlist)
@@ -156,22 +163,54 @@ object CommandStringTranslater {
   def transNoun(ctx: NounContext): String = {
     ctx match {
       case ctx: Noun_symbolContext => {
-        transSymbol(ctx.symbol)+ " _ " + ctx.IDX.getText()
+        "# " + transSymbol(ctx.symbol)+ "_" + ctx.IDX.getText().slice(1,2)
       }
       case ctx: Noun_dotContext => {
-        transSymbol(ctx.symbol) + " . " + transNoun(ctx.noun)
+        "#d " + transSymbol(ctx.symbol(0)) + "_" + ctx.IDX.getText().slice(1,2) + " . " + transSymbol(ctx.symbol(1))
       }
     }
   }
 
-  def term2command(term: Term): Command = {
+  def term2command(term: Term): Command|Noun = {
     term match {
       case Function(f, args) => {
-        //
+        args match {
+          case argslist: List[Function] => {
+            if (f.startsWith("#")) {
+              if (f.startsWith("#d")) {
+                val spl = f.split(" . ")
+                val coref = spl(0).last match {
+                  case '_' => None
+                  case i => Some(i.toString.toInt)
+                }
+                Noun(spl(0).slice(3, spl(0).length-2), Some(spl(1)), coref)
+              } else {
+                val coref = f.last match {
+                  case '_' => None
+                  case i => Some(i.toString.toInt)
+                }
+                Noun(f.slice(2, f.length-2), None, coref)
+              }
+            } else {
+              val children = argslist.map(t => {
+                term2command(t)
+              })
+              val p = children.partition(child => {
+                child match {
+                  case c: CommandVp => true
+                  case n: Noun => false
+                  case _ => true
+                }
+              })
+              if (p(0) == Nil) CommandVp(f, p(1).map(i => i match {case c: Noun => c}))
+              else CommandIf(f, p(0).map(i => i match {case c: CommandVp => c}))
+            }
+          }
+          case _ => null
+        }
       }
-      case _ => //
+      case _ => null
     }
-    null
   }
   
 }

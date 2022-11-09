@@ -1,5 +1,5 @@
 import Terms._
-object DataTemplate {
+object DataTemplate_old1 {
 val templates: List[(Term|List[Term], String, Int)] = List(
 // switch_to(z0)
 ( Function("switch_to",List(TermVariable("z0:state"))) ,

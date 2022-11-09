@@ -15,13 +15,14 @@ PLUS : '+' ;
 UNDERBAR : '_' ; 
 
 WHITE_SPACE_CHAR : [ \t\r\n] -> skip;
-SYMBOL : ([a-zA-Z0-9.!?]|HYPHEN|SINGLEQUO|DOUBLEQUO|PLUS|UNDERBAR)+ ;
+SYMBOL : ([a-zA-Z0-9!?]|HYPHEN|SINGLEQUO|DOUBLEQUO|PLUS|UNDERBAR)+ ;
+//SYMBOL : [a-z]+;
 IDX : (LPARENB([0-9]|UNDERBAR)RPARENB) ;
 
 symbol : SYMBOL ;
 
 noun : symbol IDX            # noun_symbol
-     | symbol DOT noun # noun_dot ;
+     | symbol IDX DOT symbol # noun_dot ;
 
 term : symbol LPAREN args RPAREN ;
 

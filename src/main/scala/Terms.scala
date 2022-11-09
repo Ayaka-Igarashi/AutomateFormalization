@@ -68,6 +68,43 @@ object Terms {
     }
   }
   
+  def isMatchOption(term1: Term, term2: Term): Option[Map[String, Term]] = {
+      (term1, term2) match {
+          case (Function(s1, c1), Function(s2, c2)) => {
+            if (s1.toLowerCase != s2.toLowerCase) None
+            else {
+              c1 match {
+                case HedgeVariable(x) => Some(Map((x, Function(s2, c2)))) //ここは正しくない
+                case l1: List[Term] => {
+                  c2 match {
+                    case l2: List[Term] => {
+                      if (l1.length != l2.length) None
+                      else {
+                          var map: Map[String, Term] = Map()
+                          (l1 zip l2).foreach(a => {
+                            isMatchOption(a._1,a._2) match {
+                              case None => 
+                              case Some(m) => map ++= m
+                            }
+                          })
+                          map.isEmpty match {
+                            case true => None
+                            case false => Some(map)
+                          }
+                      }
+                    }
+                    case _ => None
+                  }
+                }
+              }
+            }
+          }
+          case (TermVariable(x), Function(s2, lst2)) => Some(Map((x, Function(s2, lst2))))
+          case (TermVariable(x), TermVariable(y)) => Some(Map((x,TermVariable(y))))
+          case _ => None
+      }
+  }
+  
   // return bool
   // term2がterm1にマッチするか
   def isMatch(term1: Term, term2: Term): Boolean = {
@@ -157,7 +194,8 @@ object Terms {
     term match {
       case TermVariable(x) => "TermVariable(\"" + x + "\")"
       case Function(f, args) => {
-        var string = "Function(\"" + escapeChars(f) + "\","
+        def lowerFirst(s: String) = if (s.length()>=1) s.head.toLower + s.tail else s
+        var string = "Function(\"" + lowerFirst(escapeChars(f)) + "\","
         string += generateCode_hedge(args) + ")"
         string
       }
@@ -254,6 +292,21 @@ object Terms {
         }
       }
       case TermVariable(x) => List(x)
+    }
+  }
+
+  def getLeaves(term: Term): String = {
+    term match {
+      case TermVariable(x) => ""
+      case Function(s, child) => {
+        child match {
+          case HedgeVariable(x) => ""
+          case Nil => s
+          case list: List[Term] => {
+            list.map(getLeaves(_)).mkString(" ")
+          }
+        }
+      } 
     }
   }
 }
