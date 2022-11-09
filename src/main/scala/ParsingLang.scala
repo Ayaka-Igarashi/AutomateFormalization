@@ -113,6 +113,20 @@ object ParsingLang {
             }
           }
           case "ignore_the_character" => Skip
+          case "treat_it_as_per_the_\"_anything_else_\"_entry_below" => Assign(LVar("treat_flag"), EVal("True"))
+          case "emit" => {
+            args match {
+              case Noun(tok, None, None) :: Nil => Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal(tok)))
+              case Noun(tok, None, Some(id)) :: Nil => Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal("x"+id)))
+              case _ => error("command2ParseLang : emit command invalid")
+            }
+          }
+          case "this_is_parse_error" => {
+            args match {
+              case Noun(e, None, None) :: Nil => Assign(LVar("error_list"), ECons(EVal("error_list"), EVal(e)))
+              case _ => error("command2ParseLang : error command invalid")
+            }
+          }
           case _ => Skip
         }
       }

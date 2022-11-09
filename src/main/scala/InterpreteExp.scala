@@ -2,7 +2,7 @@ import ParsingLang._
 import Commands._
 import Environment._
 
-object Interpreter {
+object InterpreteExp {
   def test() = {
     val com = CommandVp("create", List(Noun("end_tag_token", None,Some(0))))
     val com1 = CommandVp("set_to", List(Noun("return_state", None,None),Noun("Character_state", None,None)))
@@ -141,8 +141,12 @@ object Interpreter {
     if (str.endsWith("_state")) IState(str)
     else if (str.endsWith("_token")) IToken(str,Map())
     else if (str.endsWith("_parse_error")) IError(str)
+    else if (str.contains("attribute")) ITokenAttribute(Map())
     else if (str == "True") IBool(true)
     else if (str == "False") IBool(false)
-    else IVar(str)
+    else if (str.toIntOption != None) IInt(str.toInt)
+    else if (varlist.contains(str)) IVar(str)
+    else if (str.size == 1) IChar(str(0))
+    else string2charlist(str)
   }
 }

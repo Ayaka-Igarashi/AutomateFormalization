@@ -3,7 +3,7 @@ object Environment {
   type Env = Map[String, Loc]
   type State = Map[Loc, ParsingObject]
 
-  private val varlist = List(
+  val varlist = List(
     "return_state","temporary_buffer",
     "state",
     "current_input_character","current_token",
