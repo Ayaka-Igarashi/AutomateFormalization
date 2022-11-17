@@ -17,7 +17,8 @@ object Ontology {
     ontology = ONode("_", Nil, List(
       ONode("temporary_buffer", Nil, Nil),
       ONode("state", Nil, List(
-        ONode("return_state", Nil, Nil)
+        ONode("return_state", Nil, Nil),
+        ONode("Numeric_character_reference_end_state", Nil, Nil),
       )++stateTree()),
       ONode("token", Nil, List(
         ONode("DOCTYPE_token", List(
@@ -70,7 +71,8 @@ object Ontology {
       ONode("input_character", Nil, List(
         ONode("current_input_character", List(
           ONode("lowercase_version"),
-          ONode("uppercase_version")
+          ONode("uppercase_version"),
+          ONode("numeric_version"),
         ), Nil),
         ONode("next_input_character")
       )),
@@ -81,6 +83,7 @@ object Ontology {
         ONode("string_\"script\"")
       )),
       ONode("on"),ONode("off"),
+      ONode("10"),ONode("16"),
     ))
   }
 

@@ -119,7 +119,7 @@ object GenerateTrainingData {
       val termCount = rule._3
       val bCount = rule._4
       val subs = generateVpTerm(termCount) ++ generateZyouken(bCount)
-      val natStr = replaceSubs(rule._2, subs.map(m => (m._1, List(m._2._1))).toMap)
+      val natStr = replaceConj(replaceSubs(rule._2, subs.map(m => (m._1, List(m._2._1))).toMap))
       val termStr =  normalize(processTerm(rule._1, subs.map(m => (m._1, List(m._2._2))).toMap))
       dataOut.println("%s\t%s".format(natStr, termStr))
     }

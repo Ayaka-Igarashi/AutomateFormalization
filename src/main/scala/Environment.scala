@@ -4,7 +4,7 @@ object Environment {
   type State = Map[Loc, ParsingObject]
 
   val varlist = List(
-    "return_state","temporary_buffer",
+    "return_state","temporary_buffer","character_reference_code",
     "state",
     "current_input_character","current_token",
     "input",
@@ -24,7 +24,7 @@ object Environment {
   val initialState: State = Map(
     initialEnv("temporary_buffer")->string2charlist(""),
     initialEnv("state")->IState("Data_state"),
-    initialEnv("input")->string2charlist("abc"),
+    initialEnv("input")->string2charlist(""),
     initialEnv("input_index")->IInt(0),
     initialEnv("reconsume_flag")->IBool(false),
     initialEnv("treat_flag")->IBool(false),
@@ -38,12 +38,17 @@ object Environment {
   case class IInt(i: Int) extends ParsingObject
   case class IBool(b: Boolean) extends ParsingObject
   case class IChar(c: Char) extends ParsingObject
+  case object IEOF extends ParsingObject
   case class IList(list: List[ParsingObject]) extends ParsingObject
 
   case class IState(state: String) extends ParsingObject
   case class IToken(token_name: String, attribute: Map[String, ParsingObject]) extends ParsingObject
   case class ITokenAttribute(attribute: Map[String, ParsingObject]) extends ParsingObject
   case class IError(error: String) extends ParsingObject
+
+  // trait ParsingObjectWithHole
+  // case object Hole
+  case object Hole extends ParsingObject
 
   // case class IObj[A](obj: A) extends ParsingObject
   def string2charlist(str: String): ParsingObject = {

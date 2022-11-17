@@ -73,14 +73,20 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 ( Function("append_to",List(TermVariable("z0"),TermVariable("z1"))) ,
  "append <det> <z0> to <det> <z1>",2),
 
+// set_to(z0,z1)
+( Function("set_to",List(TermVariable("z0"), Function("on [_]", Nil))) ,
+ "set <det> <z0> to on",1),
 // set_to(z0,z1) | set_to(z2,z3)
 ( List(Function("set_to",List(TermVariable("z0"),TermVariable("z1"))), Function("set_to",List(TermVariable("z2"),TermVariable("z3")))) ,
  "set <det> <z0> to <det> <z1> <cc> <det> <z2> to <det> <z3>",4),
 // set_to(z0,z2) | set_to(z1,z2)
 ( List(Function("set_to",List(TermVariable("z0"),TermVariable("z2"))), Function("set_to",List(TermVariable("z1"),TermVariable("z2")))) ,
  "set <det> <z0> <cc> <det> <z1> to <det> <z2>",3),
+ // append_to(z0,z2) | append_to(z1,z2)
+( List(Function("append_to",List(TermVariable("z0"),TermVariable("z2"))), Function("append_to",List(TermVariable("z1"),TermVariable("z2")))) ,
+ "append <det> <z0> <cc> <det> <z1> to <det> <z2>",3),
 // add_to_the_character(z0)
-( Function("add_to_the_character",List(TermVariable("z0"))) ,
+( Function("add_to_the_character_reference_code",List(TermVariable("z0"))) ,
  "add <det> <z0> to the character reference code",1),
 // emit(z0) | emit(z1)
 ( List(Function("emit",List(TermVariable("z0"))), Function("emit",List(TermVariable("z1")))) ,
@@ -95,9 +101,13 @@ val templates_if: List[(Term, String, Int, Int)] = List(
 // if
 ( Function("if_then",List(TermVariable("b0"), TermVariable("t0"))) ,
  "if <b0> , then <t0>", 1,1),
+ ( Function("if_then",List(TermVariable("b0"), TermVariable("t0"), TermVariable("t1"))) ,
+ "if <b0> , then <t0> <conj> <t1>", 2,1),
 // otherwise
 ( Function("otherwise",List(TermVariable("t0"))) ,
- "otherwise , <t0>", 1,0)
+ "otherwise , <t0>", 1,0),
+ ( Function("otherwise",List(TermVariable("t0"), TermVariable("t1"))) ,
+ "otherwise , <t0> <conj> <t1>", 2,0)
 )
 
 val templates_multi: List[(List[Term], String, Int)] = List(

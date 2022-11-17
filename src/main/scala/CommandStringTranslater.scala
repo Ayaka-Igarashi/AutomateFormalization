@@ -121,9 +121,17 @@ object CommandStringTranslater {
     }
   }
   def transTerm(ctx: TermContext): Term = {
-    val sym = transSymbol(ctx.symbol)
-    val args = transArgs(ctx.args)
-    Function(sym, args)
+    ctx match {
+      case ctx: With_argsContext => {
+        val sym = transSymbol(ctx.symbol)
+        val args = transArgs(ctx.args)
+        Function(sym, args)
+      }
+      case ctx: No_argsContext => {
+        val sym = transSymbol(ctx.symbol)
+        Function(sym, Nil)
+      }
+    }
   }
   def transArgs(ctx: ArgsContext): List[Term] = {
     ctx match {

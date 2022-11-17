@@ -24,7 +24,8 @@ symbol : SYMBOL ;
 noun : symbol IDX            # noun_symbol
      | symbol IDX DOT symbol # noun_dot ;
 
-term : symbol LPAREN args RPAREN ;
+term : symbol LPAREN args RPAREN # with_args
+     | symbol                    # no_args ;
 
 args : argsnoun # args_noun
      | argsterm # args_term ;
