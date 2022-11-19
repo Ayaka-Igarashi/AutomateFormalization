@@ -6,7 +6,7 @@ object Environment {
   val varlist = List(
     "return_state","temporary_buffer","character_reference_code",
     "state",
-    "current_input_character","current_token",
+    "current_input_character","current_token","last_start_tag_token",
     "input",
     "input_index",
     "reconsume_flag","treat_flag",
@@ -53,5 +53,19 @@ object Environment {
   // case class IObj[A](obj: A) extends ParsingObject
   def string2charlist(str: String): ParsingObject = {
     IList(str.map(c => IChar(c)).toList)
+  }
+
+  def charlist2string(ilist: ParsingObject): String = {
+    ilist match {
+      case IList(list) => {
+        list.map(o => {
+          o match {
+            case IChar(c) => c.toString()
+            case _ => ""
+          }
+        }).mkString("")
+      }
+      case _ => ""
+    }
   }
 }

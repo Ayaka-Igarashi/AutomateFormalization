@@ -17,6 +17,7 @@ object ParsingLang {
 
   trait Bexp
   case class Equal(e1: Eexp, e2: Eexp) extends Bexp
+  case class Or(b1: Bexp, b2: Bexp) extends Bexp
 
   trait Lexp
   // case class LLexp(x: String, att: Option[Attexp1])
@@ -134,14 +135,19 @@ object ParsingLang {
           }
           case "create" => {
             args match {
-              case Noun(tok, None, Some(id)) :: Nil => Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
+              case Noun(tok, None, Some(id)) :: Nil => {
+                if (tok == "start_tag_token") Cons(Assign(LVar("x"+id), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x"+id)), AssignIdx(LVar("last_start_tag_token"), EVal("x"+id))))
+                else Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
+              }
               case Noun(tok, _, Some(id)) :: Nil => {
                 println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
-                Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
+                if (tok == "start_tag_token") Cons(Assign(LVar("x"+id), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x"+id)), AssignIdx(LVar("last_start_tag_token"), EVal("x"+id))))
+                else Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
               }
               case Noun(tok, _, _) :: Nil => {
                 println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
-                Cons(Assign(LVar("x0"), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x0")))
+                if (tok == "start_tag_token") Cons(Assign(LVar("x0"), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x0")), AssignIdx(LVar("last_start_tag_token"), EVal("x0"))))
+                else Cons(Assign(LVar("x0"), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x0")))
               }
               case _ => error("command2ParseLang : create command invalid\n>%s".format(args))
             }
@@ -219,6 +225,18 @@ object ParsingLang {
           case _ => error("bexp: argsnum")
         }
       }
+      case CommandVp("the_character_reference_was_consumed_as_part_of_an_attribute", args) => {
+        args match {
+          case Nil => Or(Equal(EVal("return_state"), EVal("Attribute_value_double_quoted_state")), Or(Equal(EVal("return_state"), EVal("Attribute_value_single_quoted_state")),Equal(EVal("return_state"), EVal("Attribute_value_unquoted_state"))))
+          case _ => error("bexp: argsnum")
+        }
+      }
+      case CommandVp("the_current_end_tag_token_is_an_appropriate_end_tag_token", args) => {
+        args match {
+          case Nil => Equal(EAtt1(EVal("current_tag_token"), Att1(A1Var("name"), ANone)), EAtt1(EVal("last_start_tag_token"), Att1(A1Var("name"), ANone)))
+          case _ => error("bexp: argsnum")
+        }
+      }
       case _ => error("bexp")
     }
   }
@@ -229,6 +247,26 @@ object ParsingLang {
       case c :: Nil => c
       case c :: rst => Cons(c, cexplist2cexp(rst))
     }
+  }
+  def ccons2cexplist(cexp: Cexp): List[Cexp] = {
+    cexp match {
+      case Cons(c1,c2) => ccons2cexplist(c1) ++ ccons2cexplist(c2)
+      case _ => List(cexp)
+    }
+  }
+
+  def displayCexp(cexp: Cexp, indent: Int = 0): String = {
+    val indents = " "*indent
+    val str = cexp match {
+      case Assign(l,e) => { "%s = %s".format(l,e) }
+      case AssignIdx(l,e) => "%s <- %s".format(l,e)
+      case Skip => "Skip"
+      case Cons(c1,c2) => "%s\n%s%s".format(displayCexp(c1),indents, displayCexp(c2))
+      case If(b,c1,c2) => {
+        "If %s :\n %sthen %s\n %selse %s".format(b, indents,displayCexp(c1,indent+1), indents,displayCexp(c2,indent+1))
+      }
+    }
+    indents + str
   }
 
   def combineIf(commands: List[Command]): List[Command] = {

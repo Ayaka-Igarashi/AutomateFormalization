@@ -6,11 +6,12 @@ object Interpreter {
   type UnicodeRange = List[(Int,Int)]
   case class StateDef(prev: List[Cexp], trans: List[(UnicodeRange, List[Cexp])])
 
+  var stateList: List[String] = Nil
   var definition: Map[String, StateDef] = null
 
   def loadDef() = {
     definition = makeStateDefinition("src/input/translate_1116.txt")
-    println("def")
+    println("\u001b[37m\u001b[46mINFO: \u001b[0m definition was set")
   }
 
   def interpreter(str: String) = {
@@ -37,6 +38,8 @@ object Interpreter {
   }
 
   def interpretState(current_state: String, env: Env, state: State): (Env, State) = {
+    if (OtherStateDef.otherStates.contains(current_state)) return OtherStateDef.interpretOtherState(current_state,env,state)
+    
     val stateDef = definition(current_state)
     val prev = stateDef.prev
     val trans = stateDef.trans
@@ -102,6 +105,7 @@ object Interpreter {
     }
   }
 
+  ////////////////////// make definition function /////////////////////////////
   def makeStateDefinition(filename: String): Map[String, StateDef] = {
     val outputline = OutputParse.load_file(filename)
     var statelist: List[(String, List[String], List[String])] = Nil
@@ -116,6 +120,7 @@ object Interpreter {
           tmp2 = Nil
           tmp3 = Nil
         }
+        stateList :+= o.substring(5,o.size)
         tmp1 = o.substring(5,o.size)
       } else if (o.startsWith("prev:")) isPrev = true
       else if (o.startsWith("trans:")) isPrev = false
@@ -157,6 +162,45 @@ object Interpreter {
     })
     val combined = combineIf(commands)
     combined.map(command2ParseLang(_))
+  }
+
+  //////////////////// display functions ///////////////////////////
+  def displayDefinition() = {
+    var outstring = ""
+    def sout(s: String) = outstring += s
+    stateList.foreach(state => {
+      val statedef = definition(state)
+      sout("name: %s\n".format(state))
+      sout("%s\n\n".format(displayStatedef(statedef)))
+    })
+    val outfile = new java.io.PrintWriter("src/out/definition.txt")
+    outfile.println(outstring)
+    outfile.close
+  }
+
+  def displayStatedef(stateDef: StateDef): String = {
+    var outstring = ""
+    def sout(s: String) = outstring += s
+    stateDef match {
+      case StateDef(prev, trans) => {
+        sout("prev:\n")
+        val clist1 = prev.flatMap(ccons2cexplist(_))
+        val cout1 = clist1.map(displayCexp(_)).mkString("\n")
+        sout(cout1)
+        sout("\ntrans:\n")
+        trans.foreach(t => {
+          sout("char: %s\n".format(displayUnicodeRange(t._1)))
+          val clist2 = t._2.flatMap(ccons2cexplist(_))
+          val cout2 = clist2.map(displayCexp(_)).mkString("\n")
+          sout(cout2)
+          sout("\n")
+        })
+      }
+    }
+    outstring
+  }
+  def displayUnicodeRange(unirange: UnicodeRange): String = {
+    unirange.map(r => "[%s, %s]".format(r._1,r._2)).mkString(", ")
   }
 
 }

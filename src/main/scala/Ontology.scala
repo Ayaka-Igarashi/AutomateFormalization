@@ -50,7 +50,7 @@ object Ontology {
               ONode("name"),
               ONode("value")
             ))
-          ), List(ONode("appropriate_end_tag_token"))),
+          ), Nil),//List(ONode("appropriate_end_tag_token"))),
           ONode("current_tag_token", List(
             ONode("name"), 
             ONode("self-closing_flag"),

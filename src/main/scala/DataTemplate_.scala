@@ -124,6 +124,10 @@ val templates_multi: List[(List[Term], String, Int)] = List(
 
 val templates_b: List[(Term, String, Int)] = List(
 ( Function("is",List(TermVariable("z0"), TermVariable("z1"))) ,
- "<det> <z0> is <det> <z1>", 2)
+ "<det> <z0> is <det> <z1>", 2),
+( Function("the_character_reference_was_consumed_as_part_of_an_attribute",List()) ,
+ "the character reference was consumed as part of an attribute", 0),
+( Function("the_current_end_tag_token_is_an_appropriate_end_tag_token",List()) ,
+ "the current end tag token is an appropriate end tag token", 0)
 )
 }

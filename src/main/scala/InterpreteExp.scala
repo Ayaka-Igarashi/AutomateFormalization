@@ -99,6 +99,11 @@ object InterpreteExp {
         if (state2(l1) == state2(l2)) true
         else false
       }
+      case Or(b1,b2) => {
+        val bool1 = interpretBexp(b1, env, state)
+        val bool2 = interpretBexp(b2, env, state)
+        bool1 || bool2
+      }
     }
   }
 

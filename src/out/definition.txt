@@ -1,0 +1,2266 @@
+name: Data_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [38, 38]
+LVar(return_state) = EVal(Data_state)
+LVar(state) = EVal(Character_reference_state)
+char: [60, 60]
+LVar(state) = EVal(Tag_open_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: RCDATA_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [38, 38]
+LVar(return_state) = EVal(RCDATA_state)
+LVar(state) = EVal(Character_reference_state)
+char: [60, 60]
+LVar(state) = EVal(RCDATA_less_than_sign_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: RAWTEXT_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [60, 60]
+LVar(state) = EVal(RAWTEXT_less_than_sign_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [60, 60]
+LVar(state) = EVal(Script_data_less_than_sign_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: PLAINTEXT_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [33, 33]
+LVar(state) = EVal(Markup_declaration_open_state)
+char: [47, 47]
+LVar(state) = EVal(End_tag_open_state)
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(start_tag_token)
+LVar(current_token) <- EVal(x0)
+LVar(last_start_tag_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(Tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [63, 63]
+LVar(unexpected-question-mark-instead-of-tag-name_parse_error) = ECons(EVal(unexpected-question-mark-instead-of-tag-name_parse_error),EVal(unexpected-question-mark-instead-of-tag-name_parse_error))
+LVar(x0) = EVal(comment_token)
+LVar(current_token) <- EVal(x0)
+LVar(state) = EVal(Bogus_comment_state)
+LVar(reconsume_flag) = EVal(True)
+char: [-1, -1]
+LVar(eof-before-tag-name_parse_error) = ECons(EVal(eof-before-tag-name_parse_error),EVal(eof-before-tag-name_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(invalid-first-character-of-tag-name_parse_error) = ECons(EVal(invalid-first-character-of-tag-name_parse_error),EVal(invalid-first-character-of-tag-name_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(Data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: End_tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(end_tag_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(Tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-end-tag-name_parse_error))
+LVar(state) = EVal(Data_state)
+char: [-1, -1]
+LVar(eof-before-tag-name_parse_error) = ECons(EVal(eof-before-tag-name_parse_error),EVal(eof-before-tag-name_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(invalid-first-character-of-tag-name_parse_error) = ECons(EVal(invalid-first-character-of-tag-name_parse_error),EVal(invalid-first-character-of-tag-name_parse_error))
+LVar(x0) = EVal(comment_token)
+LVar(current_token) <- EVal(x0)
+LVar(state) = EVal(Bogus_comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Tag_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [10, 10]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [12, 12]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [32, 32]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [47, 47]
+LVar(state) = EVal(Self_closing_start_tag_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
+
+
+name: RCDATA_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [47, 47]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(state) = EVal(RCDATA_end_tag_open_state)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(RCDATA_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: RCDATA_end_tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(end_tag_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(RCDATA_end_tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(state) = EVal(RCDATA_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: RCDATA_end_tag_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [10, 10]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [12, 12]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [32, 32]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [47, 47]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Self_closing_start_tag_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [62, 62]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Data_state)
+ LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+ else  LVar(treat_flag) = EVal(True)
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [97, 122]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(state) = EVal(temporary_buffer)
+LVar(reconsume_flag) = EVal(True)
+LVar(state) = EVal(RCDATA_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: RAWTEXT_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [47, 47]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(state) = EVal(RAWTEXT_end_tag_open_state)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(RAWTEXT_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: RAWTEXT_end_tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(end_tag_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(RAWTEXT_end_tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(state) = EVal(RAWTEXT_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: RAWTEXT_end_tag_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [10, 10]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [12, 12]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [32, 32]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [47, 47]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Self_closing_start_tag_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [62, 62]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Data_state)
+ LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+ else  LVar(treat_flag) = EVal(True)
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [97, 122]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(state) = EVal(temporary_buffer)
+LVar(reconsume_flag) = EVal(True)
+LVar(state) = EVal(RAWTEXT_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [47, 47]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(state) = EVal(Script_data_end_tag_open_state)
+char: [33, 33]
+LVar(state) = EVal(Script_data_escape_start_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+0021_EXCLAMATION_MARK_character_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(Script_data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_end_tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(end_tag_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(Script_data_end_tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(state) = EVal(Script_data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_end_tag_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [10, 10]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [12, 12]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [32, 32]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [47, 47]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Self_closing_start_tag_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [62, 62]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Data_state)
+ LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+ else  LVar(treat_flag) = EVal(True)
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [97, 122]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(state) = EVal(temporary_buffer)
+LVar(reconsume_flag) = EVal(True)
+LVar(state) = EVal(Script_data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_escape_start_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_escape_start_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_escape_start_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_escaped_dash_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_escaped_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_escaped_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_escaped_less_than_sign_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_escaped_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_escaped_dash_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_escaped_less_than_sign_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_escaped_dash_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_escaped_less_than_sign_state)
+char: [62, 62]
+LVar(state) = EVal(Script_data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003E_GREATER-THAN_SIGN_character_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_escaped_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [47, 47]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(state) = EVal(Script_data_escaped_end_tag_open_state)
+char: [65, 90], [97, 122]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(Script_data_double_escape_start_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_escaped_end_tag_open_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [65, 90], [97, 122]
+LVar(x0) = EVal(end_tag_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(state) = EVal(Script_data_escaped_end_tag_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_escaped_end_tag_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [10, 10]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [12, 12]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [32, 32]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Before_attribute_name_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [47, 47]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Self_closing_start_tag_state)
+ else  LVar(treat_flag) = EVal(True)
+char: [62, 62]
+If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_start_tag_token),Att1(A1Var(name),ANone))) :
+ then  LVar(state) = EVal(Data_state)
+ LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+ else  LVar(treat_flag) = EVal(True)
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [97, 122]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(character_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(state) = EVal(temporary_buffer)
+LVar(reconsume_flag) = EVal(True)
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_double_escape_start_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [10, 10]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [12, 12]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [32, 32]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [47, 47]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [62, 62]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_double_escaped_state)
+ else  LVar(state) = EVal(Script_data_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [65, 90]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [97, 122]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_double_escaped_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_double_escaped_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_double_escaped_less_than_sign_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_double_escaped_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Script_data_double_escaped_dash_dash_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_double_escaped_less_than_sign_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_double_escaped_dash_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [60, 60]
+LVar(state) = EVal(Script_data_double_escaped_less_than_sign_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
+char: [62, 62]
+LVar(state) = EVal(Script_data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003E_GREATER-THAN_SIGN_character_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-script-html-comment-like-text_parse_error) = ECons(EVal(eof-in-script-html-comment-like-text_parse_error),EVal(eof-in-script-html-comment-like-text_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: Script_data_double_escaped_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [47, 47]
+LVar(temporary_buffer) = EVal(empty_string)
+LVar(state) = EVal(Script_data_double_escape_end_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+002F_SOLIDUS_character_token))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Script_data_double_escape_end_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [10, 10]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [12, 12]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [32, 32]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [47, 47]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [62, 62]
+If Equal(EVal(temporary_buffer),EVal(string_"script")) :
+ then  LVar(state) = EVal(Script_data_escaped_state)
+ else  LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+char: [65, 90]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [97, 122]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [0, 65535]
+LVar(state) = EVal(Script_data_double_escaped_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Before_attribute_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [47, 47]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [62, 62]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [-1, -1]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [61, 61]
+LVar(unexpected-equals-sign-before-attribute-name_parse_error) = ECons(EVal(unexpected-equals-sign-before-attribute-name_parse_error),EVal(unexpected-equals-sign-before-attribute-name_parse_error))
+LVar(current_tag_token) = ECons(EVal(current_tag_token),EVal(x0))
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(current_input_character)
+LAtt(LVar(x0),Att1(A1Var(value),ANone)) = EVal(empty_string)
+LVar(state) = EVal(Attribute_name_state)
+char: [0, 65535]
+LAtt(LVar(current_token),Att1(A1Var(attributes),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),ANone)),EVal(attribute))
+LAtt(LVar(attribute),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(value) = EVal(empty_string)
+LVar(state) = EVal(Attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Attribute_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [10, 10]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [12, 12]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [32, 32]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [47, 47]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [62, 62]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [-1, -1]
+LVar(state) = EVal(After_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [61, 61]
+LVar(state) = EVal(Before_attribute_value_state)
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(attribute),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [34, 34]
+LVar(unexpected-character-in-attribute-name_parse_error) = ECons(EVal(unexpected-character-in-attribute-name_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [39, 39]
+LVar(unexpected-character-in-attribute-name_parse_error) = ECons(EVal(unexpected-character-in-attribute-name_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [60, 60]
+LVar(unexpected-character-in-attribute-name_parse_error) = ECons(EVal(unexpected-character-in-attribute-name_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [0, 65535]
+LAtt(LVar(attribute),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(name),ANone)),EVal(current_input_character))
+
+
+name: After_attribute_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [47, 47]
+LVar(state) = EVal(Self_closing_start_tag_state)
+char: [61, 61]
+LVar(state) = EVal(Before_attribute_value_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_token),Att1(A1Var(attributes),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),ANone)),EVal(attribute))
+LAtt(LVar(attribute),Att1(A1Var(name),ANone)) = EVal(empty_string)
+LVar(value) = EVal(empty_string)
+LVar(state) = EVal(Attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Before_attribute_value_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [34, 34]
+LVar(state) = EVal(Attribute_value_double_quoted_state)
+char: [39, 39]
+LVar(state) = EVal(Attribute_value_single_quoted_state)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-attribute-value_parse_error))
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [0, 65535]
+LVar(state) = EVal(Attribute_value_unquoted_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Attribute_value_double_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [34, 34]
+LVar(state) = EVal(After_attribute_value_quoted_state)
+char: [38, 38]
+LVar(return_state) = EVal(Attribute_value_double_quoted_state)
+LVar(state) = EVal(Character_reference_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(attribute),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(value),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_input_character),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(current_input_character),Att1(A1Var(value),ANone)),EVal(current_input_character))
+
+
+name: Attribute_value_single_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [39, 39]
+LVar(state) = EVal(After_attribute_value_quoted_state)
+char: [38, 38]
+LVar(return_state) = EVal(Attribute_value_single_quoted_state)
+LVar(state) = EVal(Character_reference_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(attribute),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(value),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_input_character),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(current_input_character),Att1(A1Var(value),ANone)),EVal(current_input_character))
+
+
+name: Attribute_value_unquoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [10, 10]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [12, 12]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [32, 32]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [38, 38]
+LVar(return_state) = EVal(Attribute_value_unquoted_state)
+LVar(state) = EVal(Character_reference_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(attribute),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(value),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [34, 34]
+LVar(unexpected-character-in-unquoted-attribute-value_parse_error) = ECons(EVal(unexpected-character-in-unquoted-attribute-value_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [39, 39]
+LVar(unexpected-character-in-unquoted-attribute-value_parse_error) = ECons(EVal(unexpected-character-in-unquoted-attribute-value_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [60, 60]
+LVar(unexpected-character-in-unquoted-attribute-value_parse_error) = ECons(EVal(unexpected-character-in-unquoted-attribute-value_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [61, 61]
+LVar(unexpected-character-in-unquoted-attribute-value_parse_error) = ECons(EVal(unexpected-character-in-unquoted-attribute-value_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [96, 96]
+LVar(unexpected-character-in-unquoted-attribute-value_parse_error) = ECons(EVal(unexpected-character-in-unquoted-attribute-value_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(Tag_open_state))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_input_character),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(current_input_character),Att1(A1Var(value),ANone)),EVal(current_input_character))
+
+
+name: After_attribute_value_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [10, 10]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [12, 12]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [32, 32]
+LVar(state) = EVal(Before_attribute_name_state)
+char: [47, 47]
+LVar(state) = EVal(Self_closing_start_tag_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-between-attributes_parse_error))
+LVar(state) = EVal(Before_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Self_closing_start_tag_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [62, 62]
+LAtt(LVar(x0),Att1(A1Var(self-closing_flag),ANone)) = EVal(x0)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(unexpected-solidus-in-tag_parse_error) = ECons(EVal(unexpected-solidus-in-tag_parse_error),EVal(unexpected-solidus-in-tag_parse_error))
+LVar(state) = EVal(Before_attribute_name_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Bogus_comment_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(current_input_character))
+
+
+name: Markup_declaration_open_state
+prev:
+Skip
+trans:
+char: 
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(RCDATA_end_tag_open_state)))
+ else  LVar(reconsume_flag) = EVal(False)
+LVar(x0) = EVal(comment_token)
+LVar(current_token) <- EVal(x0)
+LVar(error_list) = ECons(EVal(error_list),EVal(Comment_start_state))
+char: 
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(Before_DOCTYPE_system_identifier_state)))
+ else  LVar(reconsume_flag) = EVal(False)
+LVar(state) = EVal(DOCTYPE_state)
+char: 
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(RCDATA_end_tag_open_state)))
+ else  LVar(reconsume_flag) = EVal(False)
+Skip
+Skip
+LVar(x0) = EVal(comment_token)
+LVar(current_token) <- EVal(x0)
+LVar(state) = EVal(Bogus_comment_state)
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(incorrectly-opened-comment_parse_error))
+LVar(x0) = EVal(comment_token)
+LVar(current_token) <- EVal(x0)
+LVar(state) = EVal(Bogus_comment_state)
+
+
+name: Comment_start_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Comment_start_dash_state)
+char: [62, 62]
+LVar(abrupt-closing-of-empty-comment_parse_error) = ECons(EVal(abrupt-closing-of-empty-comment_parse_error),EVal(abrupt-closing-of-empty-comment_parse_error))
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+char: [0, 65535]
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_start_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Comment_end_state)
+char: [62, 62]
+LVar(abrupt-closing-of-empty-comment_parse_error) = ECons(EVal(abrupt-closing-of-empty-comment_parse_error),EVal(abrupt-closing-of-empty-comment_parse_error))
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+char: [-1, -1]
+LVar(error_list) = ECons(EVal(error_list),EVal(eof-in-comment_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [60, 60]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(current_input_character))
+LVar(state) = EVal(Comment_less_than_sign_state)
+char: [45, 45]
+LVar(state) = EVal(Comment_end_dash_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(error_list) = ECons(EVal(error_list),EVal(eof-in-comment_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(current_input_character))
+
+
+name: Comment_less_than_sign_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [33, 33]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(current_input_character))
+LVar(state) = EVal(Comment_less_than_sign_bang_state)
+char: [60, 60]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(current_input_character))
+char: [0, 65535]
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_less_than_sign_bang_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Comment_less_than_sign_bang_dash_state)
+char: [0, 65535]
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_less_than_sign_bang_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Comment_less_than_sign_bang_dash_dash_state)
+char: [0, 65535]
+LVar(state) = EVal(Comment_end_dash_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_less_than_sign_bang_dash_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [62, 62]
+LVar(state) = EVal(Comment_end_state)
+LVar(reconsume_flag) = EVal(True)
+char: [-1, -1]
+LVar(state) = EVal(Comment_end_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(nested-comment_parse_error))
+LVar(state) = EVal(Comment_end_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_end_dash_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LVar(state) = EVal(Comment_end_state)
+char: [-1, -1]
+LVar(error_list) = ECons(EVal(error_list),EVal(eof-in-comment_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_end_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+char: [33, 33]
+LVar(state) = EVal(Comment_end_bang_state)
+char: [45, 45]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+char: [-1, -1]
+LVar(error_list) = ECons(EVal(error_list),EVal(eof-in-comment_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Comment_end_bang_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [45, 45]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+0021_EXCLAMATION_MARK_character_token))
+LVar(state) = EVal(Comment_end_dash_state)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(incorrectly-closed-comment_parse_error))
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+char: [-1, -1]
+LVar(error_list) = ECons(EVal(error_list),EVal(eof-in-comment_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(comment_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+002D_HYPHEN-MINUS_character_token))
+LAtt(LVar(comment_token),Att1(A1Var(data),ANone)) = ECons(EAtt1(EVal(comment_token),Att1(A1Var(data),ANone)),EVal(U+0021_EXCLAMATION_MARK_character_token))
+LVar(state) = EVal(Comment_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: DOCTYPE_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+char: [10, 10]
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+char: [12, 12]
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+char: [32, 32]
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+char: [62, 62]
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+LVar(reconsume_flag) = EVal(True)
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(missing-whitespace-before-doctype-name_parse_error) = ECons(EVal(missing-whitespace-before-doctype-name_parse_error),EVal(missing-whitespace-before-doctype-name_parse_error))
+LVar(state) = EVal(Before_DOCTYPE_name_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Before_DOCTYPE_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [65, 90]
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EAtt1(EVal(x1),Att1(A1Var(lowercase_version),ANone))
+LVar(state) = EVal(DOCTYPE_name_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token)
+LVar(state) = EVal(DOCTYPE_name_state)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-doctype-name_parse_error))
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(x0) = EVal(DOCTYPE_token)
+LVar(current_token) <- EVal(x0)
+LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(current_input_character)
+LVar(state) = EVal(DOCTYPE_name_state)
+
+
+name: DOCTYPE_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(After_DOCTYPE_name_state)
+char: [10, 10]
+LVar(state) = EVal(After_DOCTYPE_name_state)
+char: [12, 12]
+LVar(state) = EVal(After_DOCTYPE_name_state)
+char: [32, 32]
+LVar(state) = EVal(After_DOCTYPE_name_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [65, 90]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
+
+
+name: After_DOCTYPE_name_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+Skip
+Skip
+Skip
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: After_DOCTYPE_public_keyword_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_DOCTYPE_public_identifier_state)
+char: [10, 10]
+LVar(state) = EVal(Before_DOCTYPE_public_identifier_state)
+char: [12, 12]
+LVar(state) = EVal(Before_DOCTYPE_public_identifier_state)
+char: [32, 32]
+LVar(state) = EVal(Before_DOCTYPE_public_identifier_state)
+char: [34, 34]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-after-doctype-public-keyword_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(public_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_public_identifier_double_quoted_state)
+char: [39, 39]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-after-doctype-public-keyword_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(public_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_public_identifier_single_quoted_state)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-doctype-public-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-public-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Before_DOCTYPE_public_identifier_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [34, 34]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(public_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_public_identifier_double_quoted_state)
+char: [39, 39]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(public_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_public_identifier_single_quoted_state)
+char: [62, 62]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-doctype-public-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-public-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: DOCTYPE_public_identifier_double_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [34, 34]
+LVar(state) = EVal(After_DOCTYPE_public_identifier_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [62, 62]
+LVar(abrupt-doctype-public-identifier_parse_error) = ECons(EVal(abrupt-doctype-public-identifier_parse_error),EVal(abrupt-doctype-public-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
+
+
+name: DOCTYPE_public_identifier_single_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [39, 39]
+LVar(state) = EVal(After_DOCTYPE_public_identifier_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [62, 62]
+LVar(abrupt-doctype-public-identifier_parse_error) = ECons(EVal(abrupt-doctype-public-identifier_parse_error),EVal(abrupt-doctype-public-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
+
+
+name: After_DOCTYPE_public_identifier_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Between_DOCTYPE_public_and_system_identifiers_state)
+char: [10, 10]
+LVar(state) = EVal(Between_DOCTYPE_public_and_system_identifiers_state)
+char: [12, 12]
+LVar(state) = EVal(Between_DOCTYPE_public_and_system_identifiers_state)
+char: [32, 32]
+LVar(state) = EVal(Between_DOCTYPE_public_and_system_identifiers_state)
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [34, 34]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-between-doctype-public-and-system-identifiers_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_double_quoted_state)
+char: [39, 39]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-between-doctype-public-and-system-identifiers_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_single_quoted_state)
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-system-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Between_DOCTYPE_public_and_system_identifiers_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [34, 34]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_double_quoted_state)
+char: [39, 39]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_single_quoted_state)
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-system-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: After_DOCTYPE_system_keyword_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+LVar(state) = EVal(Before_DOCTYPE_system_identifier_state)
+char: [10, 10]
+LVar(state) = EVal(Before_DOCTYPE_system_identifier_state)
+char: [12, 12]
+LVar(state) = EVal(Before_DOCTYPE_system_identifier_state)
+char: [32, 32]
+LVar(state) = EVal(Before_DOCTYPE_system_identifier_state)
+char: [34, 34]
+LVar(missing-whitespace-after-doctype-system-keyword_parse_error) = ECons(EVal(missing-whitespace-after-doctype-system-keyword_parse_error),EVal(missing-whitespace-after-doctype-system-keyword_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_double_quoted_state)
+char: [39, 39]
+LVar(missing-whitespace-after-doctype-system-keyword_parse_error) = ECons(EVal(missing-whitespace-after-doctype-system-keyword_parse_error),EVal(missing-whitespace-after-doctype-system-keyword_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_single_quoted_state)
+char: [62, 62]
+LVar(missing-doctype-system-identifier_parse_error) = ECons(EVal(missing-doctype-system-identifier_parse_error),EVal(missing-doctype-system-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-system-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Before_DOCTYPE_system_identifier_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [34, 34]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_double_quoted_state)
+char: [39, 39]
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
+LVar(state) = EVal(DOCTYPE_system_identifier_single_quoted_state)
+char: [62, 62]
+LVar(missing-doctype-system-identifier_parse_error) = ECons(EVal(missing-doctype-system-identifier_parse_error),EVal(missing-doctype-system-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(error_list) = ECons(EVal(error_list),EVal(missing-quote-before-doctype-system-identifier_parse_error))
+LAtt(LVar(DOCTYPE_token),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: DOCTYPE_system_identifier_double_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [34, 34]
+LVar(state) = EVal(After_DOCTYPE_system_identifier_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [62, 62]
+LVar(abrupt-doctype-system-identifier_parse_error) = ECons(EVal(abrupt-doctype-system-identifier_parse_error),EVal(abrupt-doctype-system-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
+
+
+name: DOCTYPE_system_identifier_single_quoted_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [39, 39]
+LVar(state) = EVal(After_DOCTYPE_system_identifier_state)
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
+LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+char: [62, 62]
+LVar(abrupt-doctype-system-identifier_parse_error) = ECons(EVal(abrupt-doctype-system-identifier_parse_error),EVal(abrupt-doctype-system-identifier_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
+
+
+name: After_DOCTYPE_system_identifier_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [9, 9]
+Skip
+char: [10, 10]
+Skip
+char: [12, 12]
+Skip
+char: [32, 32]
+Skip
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+char: [-1, -1]
+LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
+LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(unexpected-character-after-doctype-system-identifier_parse_error) = ECons(EVal(unexpected-character-after-doctype-system-identifier_parse_error),EVal(unexpected-character-after-doctype-system-identifier_parse_error))
+LVar(state) = EVal(Bogus_DOCTYPE_state)
+LVar(reconsume_flag) = EVal(True)
+Skip
+
+
+name: Bogus_DOCTYPE_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(DOCTYPE_token))
+char: [0, 0]
+LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(x0))
+LVar(error_list) = ECons(EVal(error_list),EVal(state))
+char: [-1, -1]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(DOCTYPE_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+Skip
+
+
+name: CDATA_section_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [93, 93]
+LVar(state) = EVal(CDATA_section_bracket_state)
+char: [-1, -1]
+LVar(eof-in-cdata_parse_error) = ECons(EVal(eof-in-cdata_parse_error),EVal(eof-in-cdata_parse_error))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_input_character))
+
+
+name: CDATA_section_bracket_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [93, 93]
+LVar(state) = EVal(CDATA_section_end_state)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+005D_RIGHT_SQUARE_BRACKET_character_token))
+LVar(state) = EVal(CDATA_section_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: CDATA_section_end_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [93, 93]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+005D_RIGHT_SQUARE_BRACKET_character_token))
+char: [62, 62]
+LVar(state) = EVal(Data_state)
+char: [0, 65535]
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+005D_RIGHT_SQUARE_BRACKET_character_token))
+LVar(state) = EVal(CDATA_section_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Character_reference_state
+prev:
+LVar(x0) = EVal(empty_string)
+LVar(x0) = ECons(EVal(x0),EVal(RCDATA_end_tag_open_state))
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57], [65, 90], [97, 122]
+LVar(state) = EVal(state)
+LVar(reconsume_flag) = EVal(True)
+char: [35, 35]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(current_input_character))
+LVar(state) = EVal(Numeric_character_reference_state)
+char: [0, 65535]
+If Equal(EVal(),EVal()) :
+ then  LAtt(LVar(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))),EVal(temporary_buffer))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(temporary_buffer))
+LVar(state) = EVal(return_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Named_character_reference_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(self-closing_flag)))
+ else  LVar(reconsume_flag) = EVal(False)
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(RCDATA_end_tag_open_state))
+LVar(state) = EVal(U+002D_HYPHEN-MINUS_character_token)
+LVar(reconsume_flag) = EVal(True)
+LVar(x0) = ECons(EVal(x0),EVal(x0))
+trans:
+char: 
+Skip
+Skip
+LVar(x1) = EVal(empty_string)
+LVar(x1) = ECons(EVal(x1),EVal(Numeric_character_reference_end_state))
+If Equal(EVal(),EVal()) :
+ then  LAtt(LVar(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))),EVal(temporary_buffer))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(temporary_buffer))
+LVar(state) = EVal(return_state)
+char: 
+If Equal(EVal(),EVal()) :
+ then  LAtt(LVar(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))),EVal(temporary_buffer))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(temporary_buffer))
+LVar(state) = EVal(Ambiguous_ampersand_state)
+
+
+name: Ambiguous_ampersand_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57], [65, 90], [97, 122]
+If Or(Equal(EVal(return_state),EVal(Attribute_value_double_quoted_state)),Or(Equal(EVal(return_state),EVal(Attribute_value_single_quoted_state)),Equal(EVal(return_state),EVal(Attribute_value_unquoted_state)))) :
+ then  LAtt(LVar(x0),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(x0),Att1(A1Var(value),ANone)),EVal(x1))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x1))
+char: [59, 59]
+LVar(unknown-named-character-reference_parse_error) = ECons(EVal(unknown-named-character-reference_parse_error),EVal(unknown-named-character-reference_parse_error))
+LVar(state) = EVal(return_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(state) = EVal(return_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Numeric_character_reference_state
+prev:
+LVar(Numeric_character_reference_end_state) = EVal(next_input_character)
+trans:
+char: [120, 120]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(current_input_character))
+LVar(state) = EVal(Hexadecimal_character_reference_start_state)
+char: [88, 88]
+LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(current_input_character))
+LVar(state) = EVal(Hexadecimal_character_reference_start_state)
+char: [0, 65535]
+LVar(state) = EVal(Decimal_character_reference_start_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Hexadecimal_character_reference_start_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57], [65, 70], [97, 102]
+LVar(state) = EVal(Hexadecimal_character_reference_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(absence-of-digits-in-numeric-character-reference_parse_error) = ECons(EVal(absence-of-digits-in-numeric-character-reference_parse_error),EVal(absence-of-digits-in-numeric-character-reference_parse_error))
+If Equal(EVal(),EVal()) :
+ then  LAtt(LVar(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))),EVal(temporary_buffer))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(temporary_buffer))
+LVar(state) = EVal(return_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Decimal_character_reference_start_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57]
+LVar(state) = EVal(Decimal_character_reference_state)
+LVar(reconsume_flag) = EVal(True)
+char: [0, 65535]
+LVar(absence-of-digits-in-numeric-character-reference_parse_error) = ECons(EVal(absence-of-digits-in-numeric-character-reference_parse_error),EVal(absence-of-digits-in-numeric-character-reference_parse_error))
+If Equal(EVal(),EVal()) :
+ then  LAtt(LVar(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))) = ECons(EAtt1(EVal(current_token),Att1(A1Var(attributes),Att1(LastElem,Att1(A1Var(value),ANone)))),EVal(temporary_buffer))
+ else  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(temporary_buffer))
+LVar(state) = EVal(return_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Hexadecimal_character_reference_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57]
+LVar(character_reference_code) = EMul(EVal(character_reference_code),EVal(x1))
+LVar(character_reference_code) = EPlus(EVal(character_reference_code),EAtt1(EVal(x0),Att1(A1Var(numeric_version),ANone)))
+char: [48, 57], [65, 70]
+LVar(character_reference_code) = EMul(EVal(character_reference_code),EVal(x1))
+LVar(character_reference_code) = EPlus(EVal(character_reference_code),EAtt1(EVal(x0),Att1(A1Var(numeric_version),ANone)))
+char: [48, 57], [97, 102]
+LVar(character_reference_code) = EMul(EVal(character_reference_code),EVal(x1))
+LVar(character_reference_code) = EPlus(EVal(character_reference_code),EAtt1(EVal(x0),Att1(A1Var(numeric_version),ANone)))
+char: [59, 59]
+LVar(state) = EVal(Numeric_character_reference_end_state)
+char: [0, 65535]
+LVar(missing-semicolon-after-character-reference_parse_error) = ECons(EVal(missing-semicolon-after-character-reference_parse_error),EVal(missing-semicolon-after-character-reference_parse_error))
+LVar(state) = EVal(Numeric_character_reference_end_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+name: Decimal_character_reference_state
+prev:
+If Equal(EVal(reconsume_flag),EVal(False)) :
+ then  If Equal(EVal(input_index),ELength(EVal(input))) :
+  then   LVar(current_input_character) = EVal(eof)
+  else   LVar(current_input_character) = EIdxof(EVal(input),EVal(input_index))
+  LVar(input_index) = EPlus(EVal(input_index),ELength(EVal(next_input_character)))
+ else  LVar(reconsume_flag) = EVal(False)
+trans:
+char: [48, 57]
+LVar(character_reference_code) = EMul(EVal(character_reference_code),EVal(x1))
+LVar(character_reference_code) = EPlus(EVal(character_reference_code),EAtt1(EVal(x0),Att1(A1Var(numeric_version),ANone)))
+char: [59, 59]
+LVar(state) = EVal(Numeric_character_reference_end_state)
+char: [0, 65535]
+LVar(missing-semicolon-after-character-reference_parse_error) = ECons(EVal(missing-semicolon-after-character-reference_parse_error),EVal(missing-semicolon-after-character-reference_parse_error))
+LVar(state) = EVal(Numeric_character_reference_end_state)
+LVar(reconsume_flag) = EVal(True)
+
+
+

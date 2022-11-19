@@ -370,9 +370,15 @@ object GenerateTrainingData {
   def generateZyouken(n: Int): Map[String, (String,String)] = {
     import DataTemplate._
     List.range(0,n).map(i => {
-      val rule = templates_b(0)
+      val random = new Random
+      val randomValue = random.nextInt(3)
+      val rule = templates_b(randomValue)
       // val subCount = rule._3
-      val subs = getOntologyObject_(getAllTermVariables(rule._1))
+      var subs = getOntologyObject_(getAllTermVariables(rule._1))
+      // アドホックな処理
+      val randomValue2 = random.nextInt(2)
+      if (randomValue == 0 && randomValue2==0) subs = Map("z0"->List("temporary_buffer [_]"), "z1"->List("string_\"script\" [_]"))
+      
       val natStr = replaceSubs(replaceCc(replaceDet(rule._2)), subs)
       val termStr = rule._1 match {
         case term: Term => processTerm(term, subs)
