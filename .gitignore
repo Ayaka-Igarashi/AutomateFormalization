@@ -1,5 +1,9 @@
 project/
 target/
 .bsp/
+.bloop
+.metals
+.vscode
+.DS_Store
 src/np/
 src/output/

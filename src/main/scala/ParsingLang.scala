@@ -47,6 +47,15 @@ object ParsingLang {
   case class A2Var(x: String) extends Attexp2
 
   private def error(error: String) = Base.customError(error)
+  private class Id() {
+    var id = 0
+    def get(): String = {
+      val s = "p"+id.toString
+      id += 1
+      s
+    }
+  }
+  private val uid = Id()
   def command2ParseLang(command: Command): Cexp = {
     // print("\u001b[2K\u001b[G");print(command)
     command match {
@@ -66,7 +75,8 @@ object ParsingLang {
           case "otherwise" => Skip
         }
       }
-      case CommandVp(com,args) => {
+      case CommandVp(com,args1) => {
+        val args = args1.map(normalizeNoun(_))
         com match {
           case "switch_to" => {
             args match {
@@ -134,20 +144,42 @@ object ParsingLang {
             }
           }
           case "create" => {
+            val pid = uid.get()
             args match {
               case Noun(tok, None, Some(id)) :: Nil => {
-                if (tok == "start_tag_token") Cons(Assign(LVar("x"+id), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x"+id)), AssignIdx(LVar("last_start_tag_token"), EVal("x"+id))))
-                else Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
+                val c1 = List(
+                  Assign(LVar(pid), EVal(tok)),
+                  AssignIdx(LVar("x"+id), EVal(pid)),
+                  AssignIdx(LVar("current_token"), EVal(pid))
+                )
+                val c2 = 
+                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                else Nil
+                cexplist2cexp(c1++c2)
               }
               case Noun(tok, _, Some(id)) :: Nil => {
                 println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
-                if (tok == "start_tag_token") Cons(Assign(LVar("x"+id), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x"+id)), AssignIdx(LVar("last_start_tag_token"), EVal("x"+id))))
-                else Cons(Assign(LVar("x"+id), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x"+id)))
+                val c1 = List(
+                  Assign(LVar(pid), EVal(tok)),
+                  AssignIdx(LVar("x"+id), EVal(pid)),
+                  AssignIdx(LVar("current_token"), EVal(pid))
+                )
+                val c2 = 
+                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                else Nil
+                cexplist2cexp(c1++c2)
               }
               case Noun(tok, _, _) :: Nil => {
                 println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
-                if (tok == "start_tag_token") Cons(Assign(LVar("x0"), EVal(tok)), Cons(AssignIdx(LVar("current_token"), EVal("x0")), AssignIdx(LVar("last_start_tag_token"), EVal("x0"))))
-                else Cons(Assign(LVar("x0"), EVal(tok)), AssignIdx(LVar("current_token"), EVal("x0")))
+                val c1 = List(
+                  Assign(LVar(pid), EVal(tok)),
+                  AssignIdx(LVar("x0"), EVal(pid)),
+                  AssignIdx(LVar("current_token"), EVal(pid))
+                )
+                val c2 = 
+                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                else Nil
+                cexplist2cexp(c1++c2)
               }
               case _ => error("command2ParseLang : create command invalid\n>%s".format(args))
             }
@@ -238,6 +270,15 @@ object ParsingLang {
         }
       }
       case _ => error("bexp")
+    }
+  }
+
+  def normalizeNoun(noun: Noun): Noun = {
+    noun match {
+      case Noun(s, a, c) => {
+        if (s == "current_tag_token") Noun("current_token",a,c)
+        else noun
+      }
     }
   }
 

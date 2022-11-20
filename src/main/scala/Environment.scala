@@ -68,4 +68,29 @@ object Environment {
       case _ => ""
     }
   }
+
+  ///////////////////// display function ///////////////////////////
+  def displayES(env: Env, state: State): String = {
+    val o = Out()
+    def getVal(loc: Loc): String = {
+      state.get(loc) match {
+        case None => "--"
+        case Some(po) => "%s".format(po)
+      }
+    }
+    varlist.foreach(v => {
+      o.outln("| %1$-20s -> %2$-2s -> %3$s".format(v, env(v), getVal(env(v))))
+    })
+    val other = env.filterNot(sl => varlist.contains(sl._1))
+    other.foreach(v => {
+      o.outln("| %1$-20s -> %2$-2s -> %3$s".format(v._1,v._2, getVal(v._2)))
+    })
+    o.outln()
+    o.outline
+  }
+  private class Out() {
+    var outline = ""
+    def out(s: String) = outline += s
+    def outln(s: String = "") = outline += s + "\n"
+  }
 }

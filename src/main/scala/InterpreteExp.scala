@@ -120,7 +120,7 @@ object InterpreteExp {
         val v = state1(l)
         val v2 = getAttributeVal(v, att)
         val newl = getNewLoc()
-        (newl, state+(newl->v2))
+        (newl, state1+(newl->v2))
       }
       case EAtt2(e,A2Var(att)) => {
         val (l, state1) = interpretEexp(e,env,state)
@@ -154,7 +154,7 @@ object InterpreteExp {
         val (l2, state2) = interpretEexp(e2,env,state1)
         val v = (state2(l1), state2(l2)) match {
           case (IList(list), obj) => IList(list :+ obj)
-          case _ => error("interpretEexp: ECons: not list")
+          case _ => error("interpretEexp: ECons: not list: %1$s %2$s->%3$s".format(e1,l1,state2(l1)))
         }
         val newl = getNewLoc()
         (newl, state+(newl->v))
@@ -202,6 +202,7 @@ object InterpreteExp {
   }
 
   def getAttributeVal(obj: ParsingObject, att: Att1): ParsingObject = {
+    println("%s , %s".format(obj,att))
     getAttributeVal_sub(obj, att)
   }
   def getAttributeVal_sub(obj: ParsingObject, att: Attexp1): ParsingObject = {
@@ -300,7 +301,8 @@ object InterpreteExp {
 
   def str2obj(str: String, env: Env, state: State): ParsingObject = {
     if (str.endsWith("_state")) IState(str)
-    else if (str.endsWith("_token")) IToken(str,Map("name"->null, "value"->null, "attributes"->IList(Nil)))
+    else if (str == "current_tag_token") state(env("current_token"))
+    else if (str.endsWith("_token")) IToken(str,Map("name"->null, "value"->null, "attributes"->IList(Nil: List[ITokenAttribute]), "data"->IList(Nil: List[IChar])))
     else if (str.endsWith("_parse_error")) IError(str)
     else if (str.contains("attribute")) ITokenAttribute(Map("name"->null, "value"->null))
     else if (str == "next_input_character") {
@@ -312,6 +314,7 @@ object InterpreteExp {
     }
     else if (str == "eof") IEOF
     else if (str == "empty_string") IList(Nil)
+    else if (str.startsWith("string_")) string2charlist(str.substring(8,str.size-1))
     else if (str == "True") IBool(true)
     else if (str == "False") IBool(false)
     else if (str.toIntOption != None) IInt(str.toInt)
