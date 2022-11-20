@@ -191,17 +191,17 @@ char: [47, 47]
 LVar(state) = EVal(Self_closing_start_tag_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [-1, -1]
 LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
 
 
 name: RCDATA_less_than_sign_state
@@ -279,10 +279,10 @@ If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_
  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
  else  LVar(treat_flag) = EVal(True)
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [97, 122]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(x0))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [0, 65535]
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
@@ -370,10 +370,10 @@ If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_
  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
  else  LVar(treat_flag) = EVal(True)
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [97, 122]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(x0))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [0, 65535]
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
@@ -465,10 +465,10 @@ If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_
  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
  else  LVar(treat_flag) = EVal(True)
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [97, 122]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(x0))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [0, 65535]
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
@@ -673,10 +673,10 @@ If Equal(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(last_
  LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
  else  LVar(treat_flag) = EVal(True)
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [97, 122]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(x0))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(x0))
 LVar(temporary_buffer) = ECons(EVal(temporary_buffer),EVal(x0))
 char: [0, 65535]
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(U+003C_LESS-THAN_SIGN_character_token))
@@ -916,7 +916,7 @@ LVar(state) = EVal(After_attribute_name_state)
 LVar(reconsume_flag) = EVal(True)
 char: [61, 61]
 LVar(unexpected-equals-sign-before-attribute-name_parse_error) = ECons(EVal(unexpected-equals-sign-before-attribute-name_parse_error),EVal(unexpected-equals-sign-before-attribute-name_parse_error))
-LVar(current_tag_token) = ECons(EVal(current_tag_token),EVal(x0))
+LVar(current_token) = ECons(EVal(current_token),EVal(x0))
 LAtt(LVar(x0),Att1(A1Var(name),ANone)) = EVal(current_input_character)
 LAtt(LVar(x0),Att1(A1Var(value),ANone)) = EVal(empty_string)
 LVar(state) = EVal(Attribute_name_state)
@@ -961,7 +961,7 @@ LVar(reconsume_flag) = EVal(True)
 char: [61, 61]
 LVar(state) = EVal(Before_attribute_value_state)
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
 LAtt(LVar(attribute),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
@@ -1001,7 +1001,7 @@ char: [61, 61]
 LVar(state) = EVal(Before_attribute_value_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [-1, -1]
 LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
@@ -1037,7 +1037,7 @@ LVar(state) = EVal(Attribute_value_single_quoted_state)
 char: [62, 62]
 LVar(error_list) = ECons(EVal(error_list),EVal(missing-attribute-value_parse_error))
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [0, 65535]
 LVar(state) = EVal(Attribute_value_unquoted_state)
 LVar(reconsume_flag) = EVal(True)
@@ -1113,7 +1113,7 @@ LVar(return_state) = EVal(Attribute_value_unquoted_state)
 LVar(state) = EVal(Character_reference_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
 LAtt(LVar(attribute),Att1(A1Var(value),ANone)) = ECons(EAtt1(EVal(attribute),Att1(A1Var(value),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
@@ -1160,7 +1160,7 @@ char: [47, 47]
 LVar(state) = EVal(Self_closing_start_tag_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [-1, -1]
 LVar(parse_error) = ECons(EVal(parse_error),EVal(eof-in-tag_parse_error))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
@@ -1573,19 +1573,19 @@ char: [32, 32]
 LVar(state) = EVal(After_DOCTYPE_name_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [65, 90]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EAtt1(EVal(x0),Att1(A1Var(lowercase_version),ANone)))
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [-1, -1]
 LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(name),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(name),ANone)),EVal(current_input_character))
 
 
 name: After_DOCTYPE_name_state
@@ -1607,7 +1607,7 @@ char: [32, 32]
 Skip
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [-1, -1]
 LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
@@ -1717,7 +1717,7 @@ char: [34, 34]
 LVar(state) = EVal(After_DOCTYPE_public_identifier_state)
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [62, 62]
 LVar(abrupt-doctype-public-identifier_parse_error) = ECons(EVal(abrupt-doctype-public-identifier_parse_error),EVal(abrupt-doctype-public-identifier_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
@@ -1729,7 +1729,7 @@ LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
 
 
 name: DOCTYPE_public_identifier_single_quoted_state
@@ -1745,7 +1745,7 @@ char: [39, 39]
 LVar(state) = EVal(After_DOCTYPE_public_identifier_state)
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(public_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [62, 62]
 LVar(abrupt-doctype-public-identifier_parse_error) = ECons(EVal(abrupt-doctype-public-identifier_parse_error),EVal(abrupt-doctype-public-identifier_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
@@ -1757,7 +1757,7 @@ LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(public_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(public_identifier),ANone)),EVal(current_input_character))
 
 
 name: After_DOCTYPE_public_identifier_state
@@ -1779,7 +1779,7 @@ char: [32, 32]
 LVar(state) = EVal(Between_DOCTYPE_public_and_system_identifiers_state)
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [34, 34]
 LVar(error_list) = ECons(EVal(error_list),EVal(missing-whitespace-between-doctype-public-and-system-identifiers_parse_error))
 LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
@@ -1819,7 +1819,7 @@ char: [32, 32]
 Skip
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [34, 34]
 LAtt(LVar(DOCTYPE_token),Att1(A1Var(system_identifier),ANone)) = EVal(empty_string)
 LVar(state) = EVal(DOCTYPE_system_identifier_double_quoted_state)
@@ -1933,7 +1933,7 @@ char: [34, 34]
 LVar(state) = EVal(After_DOCTYPE_system_identifier_state)
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [62, 62]
 LVar(abrupt-doctype-system-identifier_parse_error) = ECons(EVal(abrupt-doctype-system-identifier_parse_error),EVal(abrupt-doctype-system-identifier_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
@@ -1945,7 +1945,7 @@ LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
 
 
 name: DOCTYPE_system_identifier_single_quoted_state
@@ -1961,7 +1961,7 @@ char: [39, 39]
 LVar(state) = EVal(After_DOCTYPE_system_identifier_state)
 char: [0, 0]
 LVar(unexpected-null-character_parse_error) = ECons(EVal(unexpected-null-character_parse_error),EVal(unexpected-null-character_parse_error))
-LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
+LAtt(LVar(current_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(system_identifier),ANone)),EVal(U+FFFD_REPLACEMENT_CHARACTER_character_token))
 char: [62, 62]
 LVar(abrupt-doctype-system-identifier_parse_error) = ECons(EVal(abrupt-doctype-system-identifier_parse_error),EVal(abrupt-doctype-system-identifier_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
@@ -1973,7 +1973,7 @@ LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(x0))
 LVar(output_tokens) = ECons(EVal(output_tokens),EVal(end-of-file_token))
 char: [0, 65535]
-LAtt(LVar(current_tag_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_tag_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
+LAtt(LVar(current_token),Att1(A1Var(system_identifier),ANone)) = ECons(EAtt1(EVal(current_token),Att1(A1Var(system_identifier),ANone)),EVal(current_input_character))
 
 
 name: After_DOCTYPE_system_identifier_state
@@ -1995,7 +1995,7 @@ char: [32, 32]
 Skip
 char: [62, 62]
 LVar(state) = EVal(Data_state)
-LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_tag_token))
+LVar(output_tokens) = ECons(EVal(output_tokens),EVal(current_token))
 char: [-1, -1]
 LVar(eof-in-doctype_parse_error) = ECons(EVal(eof-in-doctype_parse_error),EVal(eof-in-doctype_parse_error))
 LAtt(LVar(x0),Att1(A1Var(force-quirks_flag),ANone)) = EVal(on)

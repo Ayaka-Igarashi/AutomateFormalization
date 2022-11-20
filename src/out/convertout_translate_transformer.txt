@@ -1,0 +1,3287 @@
+name:Data_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0026 AMPERSAND (&amp;)
+Set the return state to the Data_state
+ =>  set_to ( return_state [_] , Data_state [_] ) 
+ => CommandVp(set_to,List(Noun(return_state,None,None), Noun(Data_state,None,None))) | 
+Switch to the Character_reference_state
+ =>  switch_to ( Character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Character_reference_state,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Tag_open_state
+ =>  switch_to ( Tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Tag_open_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:EOF
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:RCDATA_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0026 AMPERSAND (&amp;)
+Set the return state to the RCDATA_state
+ =>  set_to ( return_state [_] , RCDATA_state [_] ) 
+ => CommandVp(set_to,List(Noun(return_state,None,None), Noun(RCDATA_state,None,None))) | 
+Switch to the Character_reference_state
+ =>  switch_to ( Character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Character_reference_state,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the RCDATA_less_than_sign_state
+ =>  switch_to ( RCDATA_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(RCDATA_less_than_sign_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:RAWTEXT_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the RAWTEXT_less_than_sign_state
+ =>  switch_to ( RAWTEXT_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(RAWTEXT_less_than_sign_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_less_than_sign_state
+ =>  switch_to ( Script_data_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_less_than_sign_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:PLAINTEXT_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0021 EXCLAMATION MARK (!)
+Switch to the Markup_declaration_open_state
+ =>  switch_to ( Markup_declaration_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Markup_declaration_open_state,None,None))) | 
+char:U+002F SOLIDUS (/)
+Switch to the End_tag_open_state
+ =>  switch_to ( End_tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(End_tag_open_state,None,None))) | 
+char:ASCII alpha
+Create a new start tag token [0] and set a new start tag token [0] tag name to the empty string
+ =>  create ( start_tag_token [0] ) | set_to ( start_tag_token [0] . name , empty_string [_] ) 
+ => CommandVp(create,List(Noun(start_tag_token,None,Some(0)))) | CommandVp(set_to,List(Noun(start_tag_token,Some(name),Some(0)), Noun(empty_string,None,None))) | 
+Reconsume in the Tag_name_state
+ =>  reconsume_in ( Tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Tag_name_state,None,None))) | 
+char:U+003F QUESTION MARK (?)
+This is an unexpected-question-mark-instead-of-tag-name parse error
+ =>  is ( unexpected-question-mark-instead-of-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-question-mark-instead-of-tag-name_parse_error,None,None))) | 
+Create a comment token whose data is the empty string
+ =>  create ( comment_token [_] . data ) 
+ => CommandVp(create,List(Noun(comment_token,Some(data),None))) | 
+Reconsume in the Bogus_comment_state
+ =>  reconsume_in ( Bogus_comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_comment_state,None,None))) | 
+char:EOF
+This is an eof-before-tag-name parse error
+ =>  is ( eof-before-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-before-tag-name_parse_error,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token and an end-of-file token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is an invalid-first-character-of-tag-name parse error
+ =>  is ( invalid-first-character-of-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(invalid-first-character-of-tag-name_parse_error,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the Data_state
+ =>  reconsume_in ( Data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Data_state,None,None))) | 
+
+name:End_tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alpha
+Create a new end tag token [0] , set a new end tag token [0] tag name to the empty string
+ =>  create ( end_tag_token [0] . name ) 
+ => CommandVp(create,List(Noun(end_tag_token,Some(name),Some(0)))) | 
+Reconsume in the Tag_name_state
+ =>  reconsume_in ( Tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Tag_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-end-tag-name parse error
+ =>  is ( missing-end-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-end-tag-name_parse_error,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+char:EOF
+This is an eof-before-tag-name parse error
+ =>  is ( eof-before-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-before-tag-name_parse_error,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token and an end-of-file token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is an invalid-first-character-of-tag-name parse error
+ =>  is ( invalid-first-character-of-tag-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(invalid-first-character-of-tag-name_parse_error,None,None))) | 
+Create a comment token whose data is the empty string
+ =>  create ( comment_token [_] . data ) 
+ => CommandVp(create,List(Noun(comment_token,Some(data),None))) | 
+Reconsume in the Bogus_comment_state
+ =>  reconsume_in ( Bogus_comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_comment_state,None,None))) | 
+
+name:Tag_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+002F SOLIDUS (/)
+Switch to the Self_closing_start_tag_state
+ =>  switch_to ( Self_closing_start_tag_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token
+ =>  emit ( current_tag_token [_] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,None))) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current tag token 's tag name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(name),None))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current tag token 's tag name
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(name),None))) | 
+
+name:RCDATA_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002F SOLIDUS (/)
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Switch to the RCDATA_end_tag_open_state
+ =>  switch_to ( RCDATA_end_tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(RCDATA_end_tag_open_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the RCDATA_state
+ =>  reconsume_in ( RCDATA_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RCDATA_state,None,None))) | 
+
+name:RCDATA_end_tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alpha
+Create a new end tag token [0] , set a new end tag token [0] tag name to the empty string
+ =>  create ( end_tag_token [0] . name ) 
+ => CommandVp(create,List(Noun(end_tag_token,Some(name),Some(0)))) | 
+Reconsume in the RCDATA_end_tag_name_state
+ =>  reconsume_in ( RCDATA_end_tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RCDATA_end_tag_name_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | 
+Reconsume in the RCDATA_state
+ =>  reconsume_in ( RCDATA_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RCDATA_state,None,None))) | 
+
+name:RCDATA_end_tag_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+If the current end tag token is an appropriate end tag token , then switch to the Self_closing_start_tag_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Self_closing_start_tag_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]
+ =>  if_then ( is ( current_tag_token [0] , appropriate_end_tag_token [_] ) , switch_to ( current_tag_token [0] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,Some(0)), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(current_tag_token,None,Some(0)))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(current_tag_token,Some(name),None))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( character_token [_] . name ) | emit ( temporary_buffer [0] ) | reconsume_in ( temporary_buffer [0] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | CommandVp(emit,List(Noun(character_token,Some(name),None))) | CommandVp(emit,List(Noun(temporary_buffer,None,Some(0)))) | CommandVp(reconsume_in,List(Noun(temporary_buffer,None,Some(0)))) | 
+Reconsume in the RCDATA_state
+ =>  reconsume_in ( RCDATA_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RCDATA_state,None,None))) | 
+
+name:RAWTEXT_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002F SOLIDUS (/)
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Switch to the RAWTEXT_end_tag_open_state
+ =>  switch_to ( RAWTEXT_end_tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(RAWTEXT_end_tag_open_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the RAWTEXT_state
+ =>  reconsume_in ( RAWTEXT_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RAWTEXT_state,None,None))) | 
+
+name:RAWTEXT_end_tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alpha
+Create a new end tag token [0] , set a new end tag token [0] tag name to the empty string
+ =>  create ( end_tag_token [0] . name ) 
+ => CommandVp(create,List(Noun(end_tag_token,Some(name),Some(0)))) | 
+Reconsume in the RAWTEXT_end_tag_name_state
+ =>  reconsume_in ( RAWTEXT_end_tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RAWTEXT_end_tag_name_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | 
+Reconsume in the RAWTEXT_state
+ =>  reconsume_in ( RAWTEXT_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RAWTEXT_state,None,None))) | 
+
+name:RAWTEXT_end_tag_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+If the current end tag token is an appropriate end tag token , then switch to the Self_closing_start_tag_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Self_closing_start_tag_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]
+ =>  if_then ( is ( current_tag_token [0] , appropriate_end_tag_token [_] ) , switch_to ( current_tag_token [0] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,Some(0)), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(current_tag_token,None,Some(0)))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(current_tag_token,Some(name),None))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( character_token [_] . name ) | emit ( temporary_buffer [0] ) | reconsume_in ( temporary_buffer [0] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | CommandVp(emit,List(Noun(character_token,Some(name),None))) | CommandVp(emit,List(Noun(temporary_buffer,None,Some(0)))) | CommandVp(reconsume_in,List(Noun(temporary_buffer,None,Some(0)))) | 
+Reconsume in the RAWTEXT_state
+ =>  reconsume_in ( RAWTEXT_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(RAWTEXT_state,None,None))) | 
+
+name:Script_data_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002F SOLIDUS (/)
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Switch to the Script_data_end_tag_open_state
+ =>  switch_to ( Script_data_end_tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_end_tag_open_state,None,None))) | 
+char:U+0021 EXCLAMATION MARK (!)
+Switch to the Script_data_escape_start_state
+ =>  switch_to ( Script_data_escape_start_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escape_start_state,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token and a U+0021 EXCLAMATION MARK character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+0021_EXCLAMATION_MARK_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+0021_EXCLAMATION_MARK_character_token,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the Script_data_state
+ =>  reconsume_in ( Script_data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_state,None,None))) | 
+
+name:Script_data_end_tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alpha
+Create a new end tag token [0] , set a new end tag token [0] tag name to the empty string
+ =>  create ( end_tag_token [0] . name ) 
+ => CommandVp(create,List(Noun(end_tag_token,Some(name),Some(0)))) | 
+Reconsume in the Script_data_end_tag_name_state
+ =>  reconsume_in ( Script_data_end_tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_end_tag_name_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | 
+Reconsume in the Script_data_state
+ =>  reconsume_in ( Script_data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_state,None,None))) | 
+
+name:Script_data_end_tag_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+If the current end tag token is an appropriate end tag token , then switch to the Self_closing_start_tag_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Self_closing_start_tag_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]
+ =>  if_then ( is ( current_tag_token [0] , appropriate_end_tag_token [_] ) , switch_to ( current_tag_token [0] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,Some(0)), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(current_tag_token,None,Some(0)))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(current_tag_token,Some(name),None))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( character_token [_] . name ) | emit ( temporary_buffer [0] ) | reconsume_in ( temporary_buffer [0] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | CommandVp(emit,List(Noun(character_token,Some(name),None))) | CommandVp(emit,List(Noun(temporary_buffer,None,Some(0)))) | CommandVp(reconsume_in,List(Noun(temporary_buffer,None,Some(0)))) | 
+Reconsume in the Script_data_state
+ =>  reconsume_in ( Script_data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_state,None,None))) | 
+
+name:Script_data_escape_start_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_escape_start_dash_state
+ =>  switch_to ( Script_data_escape_start_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escape_start_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:Anything else
+Reconsume in the Script_data_state
+ =>  reconsume_in ( Script_data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_state,None,None))) | 
+
+name:Script_data_escape_start_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_escaped_dash_dash_state
+ =>  switch_to ( Script_data_escaped_dash_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_dash_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:Anything else
+Reconsume in the Script_data_state
+ =>  reconsume_in ( Script_data_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_state,None,None))) | 
+
+name:Script_data_escaped_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_escaped_dash_state
+ =>  switch_to ( Script_data_escaped_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_escaped_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_escaped_dash_dash_state
+ =>  switch_to ( Script_data_escaped_dash_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_dash_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Switch to the Script_data_escaped_state
+ =>  switch_to ( Script_data_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Switch to the Script_data_escaped_state
+ =>  switch_to ( Script_data_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_escaped_dash_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Script_data_state
+ =>  switch_to ( Script_data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_state,None,None))) | 
+Emit a U+003E GREATER-THAN SIGN character token
+ =>  emit ( U+003E_GREATER-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003E_GREATER-THAN_SIGN_character_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Switch to the Script_data_escaped_state
+ =>  switch_to ( Script_data_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Switch to the Script_data_escaped_state
+ =>  switch_to ( Script_data_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_escaped_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002F SOLIDUS (/)
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Switch to the Script_data_escaped_end_tag_open_state
+ =>  switch_to ( Script_data_escaped_end_tag_open_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_escaped_end_tag_open_state,None,None))) | 
+char:ASCII alpha
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the Script_data_double_escape_start_state
+ =>  reconsume_in ( Script_data_double_escape_start_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_double_escape_start_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+Reconsume in the Script_data_escaped_state
+ =>  reconsume_in ( Script_data_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_escaped_state,None,None))) | 
+
+name:Script_data_escaped_end_tag_open_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alpha
+Create a new end tag token [0] , set a new end tag token [0] tag name to the empty string
+ =>  create ( end_tag_token [0] . name ) 
+ => CommandVp(create,List(Noun(end_tag_token,Some(name),Some(0)))) | 
+Reconsume in the Script_data_escaped_end_tag_name_state
+ =>  reconsume_in ( Script_data_escaped_end_tag_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_escaped_end_tag_name_state,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | 
+Reconsume in the Script_data_escaped_state
+ =>  reconsume_in ( Script_data_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_escaped_state,None,None))) | 
+
+name:Script_data_escaped_end_tag_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+If the current end tag token is an appropriate end tag token , then switch to the Before_attribute_name_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Before_attribute_name_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+If the current end tag token is an appropriate end tag token , then switch to the Self_closing_start_tag_state
+ =>  if_then ( is ( current_tag_token [_] , appropriate_end_tag_token [_] ) , switch_to ( Self_closing_start_tag_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,None), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]
+ =>  if_then ( is ( current_tag_token [0] , appropriate_end_tag_token [_] ) , switch_to ( current_tag_token [0] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(current_tag_token,None,Some(0)), Noun(appropriate_end_tag_token,None,None))), CommandVp(switch_to,List(Noun(current_tag_token,None,Some(0)))))) | 
+Otherwise , treat it as per the anything else entry below
+ =>  otherwise ( treat_it_as_per_the_"_else_"_below ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(current_tag_token,Some(name),None))) | 
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+char:Anything else
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0]   ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( character_token [_] . name ) | emit ( temporary_buffer [0] ) | reconsume_in ( temporary_buffer [0] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | CommandVp(emit,List(Noun(character_token,Some(name),None))) | CommandVp(emit,List(Noun(temporary_buffer,None,Some(0)))) | CommandVp(reconsume_in,List(Noun(temporary_buffer,None,Some(0)))) | 
+Reconsume in the Script_data_escaped_state
+ =>  reconsume_in ( Script_data_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_escaped_state,None,None))) | 
+
+name:Script_data_double_escape_start_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+000A LINE FEED (LF)
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+000C FORM FEED (FF)
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+0020 SPACE
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+002F SOLIDUS (/)
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the temporary buffer
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,None,Some(0)))) | 
+Emit the current input character [0] as a character token
+ =>  emit ( current_input_character [0] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,Some(0)))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+Emit the current input character [0] as a character token
+ =>  emit ( current_input_character [0] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,Some(0)))) | 
+char:Anything else
+Reconsume in the Script_data_escaped_state
+ =>  reconsume_in ( Script_data_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_escaped_state,None,None))) | 
+
+name:Script_data_double_escaped_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_double_escaped_dash_state
+ =>  switch_to ( Script_data_double_escaped_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_double_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_double_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_less_than_sign_state,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_double_escaped_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Script_data_double_escaped_dash_dash_state
+ =>  switch_to ( Script_data_double_escaped_dash_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_dash_dash_state,None,None))) | 
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_double_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_double_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_less_than_sign_state,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Switch to the Script_data_double_escaped_state
+ =>  switch_to ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Switch to the Script_data_double_escaped_state
+ =>  switch_to ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_double_escaped_dash_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Switch to the Script_data_double_escaped_less_than_sign_state
+ =>  switch_to ( Script_data_double_escaped_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_less_than_sign_state,None,None))) | 
+Emit a U+003C LESS-THAN SIGN character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003C_LESS-THAN_SIGN_character_token,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Script_data_state
+ =>  switch_to ( Script_data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_state,None,None))) | 
+Emit a U+003E GREATER-THAN SIGN character token
+ =>  emit ( U+003E_GREATER-THAN_SIGN_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+003E_GREATER-THAN_SIGN_character_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Switch to the Script_data_double_escaped_state
+ =>  switch_to ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))) | 
+Emit a U+FFFD REPLACEMENT CHARACTER character token
+ =>  emit ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+char:EOF
+This is an eof-in-script-html-comment-like-text parse error
+ =>  is ( eof-in-script-html-comment-like-text_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-script-html-comment-like-text_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Switch to the Script_data_double_escaped_state
+ =>  switch_to ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:Script_data_double_escaped_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002F SOLIDUS (/)
+Set the temporary buffer to the empty string
+ =>  set_to ( temporary_buffer [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,None), Noun(empty_string,None,None))) | 
+Switch to the Script_data_double_escape_end_state
+ =>  switch_to ( Script_data_double_escape_end_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Script_data_double_escape_end_state,None,None))) | 
+Emit a U+002F SOLIDUS character token
+ =>  emit ( U+002F_SOLIDUS_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+002F_SOLIDUS_character_token,None,None))) | 
+char:Anything else
+Reconsume in the Script_data_double_escaped_state
+ =>  reconsume_in ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_double_escaped_state,None,None))) | 
+
+name:Script_data_double_escape_end_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+000A LINE FEED (LF)
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+000C FORM FEED (FF)
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+0020 SPACE
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+002F SOLIDUS (/)
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(temporary_buffer,None,None), Noun(string,None,None))), CommandVp(switch_to,List(Noun(Script_data_escaped_state,None,None))))) | 
+Otherwise , switch to the Script_data_double_escaped_state
+ =>  otherwise ( switch_to ( Script_data_double_escaped_state [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(switch_to,List(Noun(Script_data_double_escaped_state,None,None))))) | 
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the temporary buffer
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,None,Some(0)))) | 
+Emit the current input character [0] as a character token
+ =>  emit ( current_input_character [0] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,Some(0)))) | 
+char:ASCII lower alpha
+Append the current input character [0] to the temporary buffer
+ =>  append_to ( current_input_character [0] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,Some(0)), Noun(temporary_buffer,None,None))) | 
+Emit the current input character [0] as a character token
+ =>  emit ( current_input_character [0] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,Some(0)))) | 
+char:Anything else
+Reconsume in the Script_data_double_escaped_state
+ =>  reconsume_in ( Script_data_double_escaped_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Script_data_double_escaped_state,None,None))) | 
+
+name:Before_attribute_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:EOF
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+003D EQUALS SIGN (=)
+This is an unexpected-equals-sign-before-attribute-name parse error
+ =>  is ( unexpected-equals-sign-before-attribute-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-equals-sign-before-attribute-name_parse_error,None,None))) | 
+Start a new attribute [0] in the current tag token
+ =>  start_a_new_in_the_current_tag 
+ => CommandVp(PARSE_ERROR,List()) | 
+Set a new attribute [0] name to the current input character , and a new attribute [0] value to the empty string
+ =>  set_to ( attribute [0] . name , current_input_character [_] ) | set_to ( attribute [0] . value , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(attribute,Some(name),Some(0)), Noun(current_input_character,None,None))) | CommandVp(set_to,List(Noun(attribute,Some(value),Some(0)), Noun(empty_string,None,None))) | 
+Switch to the Attribute_name_state
+ =>  switch_to ( Attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Attribute_name_state,None,None))) | 
+char:Anything else
+Start a new attribute in the current tag token
+ =>  start_a_new_in_the_current_tag 
+ => CommandVp(PARSE_ERROR,List()) | 
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(attribute,Some(name),None), Noun(empty_string,None,None))) | CommandVp(set_to,List(Noun(value,None,None), Noun(empty_string,None,None))) | 
+Reconsume in the Attribute_name_state
+ =>  reconsume_in ( Attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Attribute_name_state,None,None))) | 
+
+name:Attribute_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+0020 SPACE
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+002F SOLIDUS (/)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:EOF
+Reconsume in the After_attribute_name_state
+ =>  reconsume_in ( After_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(After_attribute_name_state,None,None))) | 
+char:U+003D EQUALS SIGN (=)
+Switch to the Before_attribute_value_state
+ =>  switch_to ( Before_attribute_value_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_value_state,None,None))) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current attribute 's name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . attribute ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(attribute),Some(0)))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . name ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(attribute,Some(name),None))) | 
+char:U+0022 QUOTATION MARK (")
+This [0] is an unexpected-character-in-attribute-name parse error
+ =>  [0] is ( unexpected-character-in-attribute-name_parse_error [0] ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0027 APOSTROPHE (')
+This [0] is an unexpected-character-in-attribute-name parse error
+ =>  [0] is ( unexpected-character-in-attribute-name_parse_error [0] ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+This [0] is an unexpected-character-in-attribute-name parse error
+ =>  [0] is ( unexpected-character-in-attribute-name_parse_error [0] ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:Anything else
+Append the current input character to the current attribute 's name
+ =>  append_to ( current_input_character [_] , current_input_character [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_input_character,Some(name),None))) | 
+
+name:After_attribute_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+002F SOLIDUS (/)
+Switch to the Self_closing_start_tag_state
+ =>  switch_to ( Self_closing_start_tag_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))) | 
+char:U+003D EQUALS SIGN (=)
+Switch to the Before_attribute_value_state
+ =>  switch_to ( Before_attribute_value_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_value_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token
+ =>  emit ( current_tag_token [_] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,None))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Start a new attribute in the current tag token
+ =>  start_a_new_in_the_current_tag 
+ => CommandVp(PARSE_ERROR,List()) | 
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(attribute,Some(name),None), Noun(empty_string,None,None))) | CommandVp(set_to,List(Noun(value,None,None), Noun(empty_string,None,None))) | 
+Reconsume in the Attribute_name_state
+ =>  reconsume_in ( Attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Attribute_name_state,None,None))) | 
+
+name:Before_attribute_value_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0022 QUOTATION MARK (")
+Switch to the Attribute_value_double_quoted_state
+ =>  switch_to ( Attribute_value_double_quoted_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Attribute_value_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+Switch to the Attribute_value_single_quoted_state
+ =>  switch_to ( Attribute_value_single_quoted_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Attribute_value_single_quoted_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-attribute-value parse error
+ =>  is ( missing-attribute-value_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-attribute-value_parse_error,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token
+ =>  emit ( current_tag_token [_] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,None))) | 
+char:Anything else
+Reconsume in the Attribute_value_unquoted_state
+ =>  reconsume_in ( Attribute_value_unquoted_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Attribute_value_unquoted_state,None,None))) | 
+
+name:Attribute_value_double_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0022 QUOTATION MARK (")
+Switch to the After_attribute_value_quoted_state
+ =>  switch_to ( After_attribute_value_quoted_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_attribute_value_quoted_state,None,None))) | 
+char:U+0026 AMPERSAND (&amp;)
+Set the return state to the Attribute_value_double_quoted_state
+ =>  set_to ( return_state [_] , Attribute_value_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(return_state,None,None), Noun(Attribute_value_double_quoted_state,None,None))) | 
+Switch to the Character_reference_state
+ =>  switch_to ( Character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Character_reference_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's value
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . value ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(attribute,Some(value),None))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current attribute 's value
+ =>  append_to ( current_input_character [_] , current_input_character [_] . value ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_input_character,Some(value),None))) | 
+
+name:Attribute_value_single_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0027 APOSTROPHE (')
+Switch to the After_attribute_value_quoted_state
+ =>  switch_to ( After_attribute_value_quoted_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_attribute_value_quoted_state,None,None))) | 
+char:U+0026 AMPERSAND (&amp;)
+Set the return state to the Attribute_value_single_quoted_state
+ =>  set_to ( return_state [_] , Attribute_value_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(return_state,None,None), Noun(Attribute_value_single_quoted_state,None,None))) | 
+Switch to the Character_reference_state
+ =>  switch_to ( Character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Character_reference_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's value
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . value ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(attribute,Some(value),None))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current attribute 's value
+ =>  append_to ( current_input_character [_] , current_input_character [_] . value ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_input_character,Some(value),None))) | 
+
+name:Attribute_value_unquoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+0026 AMPERSAND (&amp;)
+Set the return state to the Attribute_value_unquoted_state
+ =>  set_to ( return_state [_] , Attribute_value_unquoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(return_state,None,None), Noun(Attribute_value_unquoted_state,None,None))) | 
+Switch to the Character_reference_state
+ =>  switch_to ( Character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Character_reference_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token
+ =>  emit ( current_tag_token [_] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's value
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . value ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(attribute,Some(value),None))) | 
+char:U+0022 QUOTATION MARK (")
+This [0] is an unexpected-character-in-unquoted-attribute-value parse error
+ =>  is ( unexpected-character-in-unquoted-attribute-value_parse_error [0] ) 
+ => CommandVp(is,List(Noun(unexpected-character-in-unquoted-attribute-value_parse_error,None,Some(0)))) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0027 APOSTROPHE (')
+This [0] is an unexpected-character-in-unquoted-attribute-value parse error
+ =>  is ( unexpected-character-in-unquoted-attribute-value_parse_error [0] ) 
+ => CommandVp(is,List(Noun(unexpected-character-in-unquoted-attribute-value_parse_error,None,Some(0)))) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+This [0] is an unexpected-character-in-unquoted-attribute-value parse error
+ =>  is ( unexpected-character-in-unquoted-attribute-value_parse_error [0] ) 
+ => CommandVp(is,List(Noun(unexpected-character-in-unquoted-attribute-value_parse_error,None,Some(0)))) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003D EQUALS SIGN (=)
+This [0] is an unexpected-character-in-unquoted-attribute-value parse error
+ =>  is ( unexpected-character-in-unquoted-attribute-value_parse_error [0] ) 
+ => CommandVp(is,List(Noun(unexpected-character-in-unquoted-attribute-value_parse_error,None,Some(0)))) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0060 GRAVE ACCENT (`)
+This [0] is an unexpected-character-in-unquoted-attribute-value parse error
+ =>  is ( unexpected-character-in-unquoted-attribute-value_parse_error [0] ) 
+ => CommandVp(is,List(Noun(unexpected-character-in-unquoted-attribute-value_parse_error,None,Some(0)))) | 
+Treat This [0] as per the anything else entry below
+ =>  is ( treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current attribute 's value
+ =>  append_to ( current_input_character [_] , current_input_character [_] . value ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_input_character,Some(value),None))) | 
+
+name:After_attribute_value_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_attribute_name_state
+ =>  switch_to ( Before_attribute_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_attribute_name_state,None,None))) | 
+char:U+002F SOLIDUS (/)
+Switch to the Self_closing_start_tag_state
+ =>  switch_to ( Self_closing_start_tag_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Self_closing_start_tag_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token
+ =>  emit ( current_tag_token [_] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,None))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-whitespace-between-attributes parse error
+ =>  is ( missing-whitespace-between-attributes_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-between-attributes_parse_error,None,None))) | 
+Reconsume in the Before_attribute_name_state
+ =>  reconsume_in ( Before_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Before_attribute_name_state,None,None))) | 
+
+name:Self_closing_start_tag_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+Set the self-closing flag of the current tag token [0]
+ =>  set_to ( current_tag_token [0] . self-closing_flag , current_tag_token [0] ) 
+ => CommandVp(set_to,List(Noun(current_tag_token,Some(self-closing_flag),Some(0)), Noun(current_tag_token,None,Some(0)))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current tag token [0]
+ =>  emit ( current_tag_token [0] ) 
+ => CommandVp(emit,List(Noun(current_tag_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-tag parse error
+ =>  is ( eof-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-tag_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is an unexpected-solidus-in-tag parse error
+ =>  is ( unexpected-solidus-in-tag_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-solidus-in-tag_parse_error,None,None))) | 
+Reconsume in the Before_attribute_name_state
+ =>  reconsume_in ( Before_attribute_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Before_attribute_name_state,None,None))) | 
+
+name:Bogus_comment_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+char:EOF
+Emit the comment
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the comment token 's data
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+char:Anything else
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(comment_token,Some(data),None))) | 
+
+name:Markup_declaration_open_state
+prev:
+If the next few characters are 
+ =>  if_then ( is ( next_input_character [_] , Script_data_escaped_less_than_sign_state [_] ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(next_input_character,None,None), Noun(Script_data_escaped_less_than_sign_state,None,None))))) | 
+trans:
+char:Two U+002D HYPHEN-MINUS characters (-)
+Consume those two characters , create a comment token whose data is the empty string , and switch to the Comment_start_state
+ =>  consume ( Script_data_escaped_less_than_sign_state [_] ) | create ( comment_token [_] . data ) | switch_to ( Comment_start_state [_] ) 
+ => CommandVp(consume,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | CommandVp(create,List(Noun(comment_token,Some(data),None))) | CommandVp(switch_to,List(Noun(Comment_start_state,None,None))) | 
+char:ASCII case-insensitive match for the word "DOCTYPE"
+Consume those characters and switch to the DOCTYPE_state
+ =>  consume ( Script_data_escaped_less_than_sign_state [_] ) | switch_to ( DOCTYPE_state [_] ) 
+ => CommandVp(consume,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_state,None,None))) | 
+char:The string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after)
+Consume those characters
+ =>  consume ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(consume,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+If there is an adjusted current node [0] and an adjusted current node [0] is not an element in the HTML namespace , then switch to the CDATA_section_state
+ =>  if_then ( is ( token [_] , current_tag_token [0] ) , is ( current_tag_token [0] ) | switch_to ( CDATA_section_state [_] ) ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Otherwise , this is a cdata-in-html-content parse error
+ =>  otherwise ( is ( cdata-in-html-content_parse_error [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(is,List(Noun(cdata-in-html-content_parse_error,None,None))))) | 
+Create a comment token whose data is the [ CDATA [ string
+ =>  create ( comment_token [_] . data ) 
+ => CommandVp(create,List(Noun(comment_token,Some(data),None))) | 
+Switch to the Bogus_comment_state
+ =>  switch_to ( Bogus_comment_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Bogus_comment_state,None,None))) | 
+char:Anything else
+This is an incorrectly-opened-comment parse error
+ =>  is ( incorrectly-opened-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(incorrectly-opened-comment_parse_error,None,None))) | 
+Create a comment token whose data is the empty string
+ =>  create ( comment_token [_] . data ) 
+ => CommandVp(create,List(Noun(comment_token,Some(data),None))) | 
+Switch to the Bogus_comment_state ( do n't consume anything in the current state 
+ =>  switch_to ( Bogus_comment_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Bogus_comment_state,None,None))) | 
+
+name:Comment_start_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_start_dash_state
+ =>  switch_to ( Comment_start_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_start_dash_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-closing-of-empty-comment parse error
+ =>  is ( abrupt-closing-of-empty-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-closing-of-empty-comment_parse_error,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+char:Anything else
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_start_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_end_state
+ =>  switch_to ( Comment_end_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_end_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-closing-of-empty-comment parse error
+ =>  is ( abrupt-closing-of-empty-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-closing-of-empty-comment_parse_error,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+char:EOF
+This is an eof-in-comment parse error
+ =>  is ( eof-in-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-comment_parse_error,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003C LESS-THAN SIGN (&lt;)
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(comment_token,Some(data),None))) | 
+Switch to the Comment_less_than_sign_state
+ =>  switch_to ( Comment_less_than_sign_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_less_than_sign_state,None,None))) | 
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_end_dash_state
+ =>  switch_to ( Comment_end_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_end_dash_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the comment token 's data
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+char:EOF
+This is an eof-in-comment parse error
+ =>  is ( eof-in-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-comment_parse_error,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(comment_token,Some(data),None))) | 
+
+name:Comment_less_than_sign_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0021 EXCLAMATION MARK (!)
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(comment_token,Some(data),None))) | 
+Switch to the Comment_less_than_sign_bang_state
+ =>  switch_to ( Comment_less_than_sign_bang_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_less_than_sign_bang_state,None,None))) | 
+char:U+003C LESS-THAN SIGN (&lt;)
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(comment_token,Some(data),None))) | 
+char:Anything else
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_less_than_sign_bang_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_less_than_sign_bang_dash_state
+ =>  switch_to ( Comment_less_than_sign_bang_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_less_than_sign_bang_dash_state,None,None))) | 
+char:Anything else
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_less_than_sign_bang_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_less_than_sign_bang_dash_dash_state
+ =>  switch_to ( Comment_less_than_sign_bang_dash_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_less_than_sign_bang_dash_dash_state,None,None))) | 
+char:Anything else
+Reconsume in the Comment_end_dash_state
+ =>  reconsume_in ( Comment_end_dash_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_end_dash_state,None,None))) | 
+
+name:Comment_less_than_sign_bang_dash_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+Reconsume in the Comment_end_state
+ =>  reconsume_in ( Comment_end_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_end_state,None,None))) | 
+char:EOF
+Reconsume in the Comment_end_state
+ =>  reconsume_in ( Comment_end_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_end_state,None,None))) | 
+char:Anything else
+This is a nested-comment parse error
+ =>  is ( nested-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(nested-comment_parse_error,None,None))) | 
+Reconsume in the Comment_end_state
+ =>  reconsume_in ( Comment_end_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_end_state,None,None))) | 
+
+name:Comment_end_dash_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Switch to the Comment_end_state
+ =>  switch_to ( Comment_end_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_end_state,None,None))) | 
+char:EOF
+This is an eof-in-comment parse error
+ =>  is ( eof-in-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-comment_parse_error,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_end_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+char:U+0021 EXCLAMATION MARK (!)
+Switch to the Comment_end_bang_state
+ =>  switch_to ( Comment_end_bang_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_end_bang_state,None,None))) | 
+char:U+002D HYPHEN-MINUS (-)
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+char:EOF
+This is an eof-in-comment parse error
+ =>  is ( eof-in-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-comment_parse_error,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append two U+002D HYPHEN-MINUS characters (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:Comment_end_bang_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+002D HYPHEN-MINUS (-)
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( -EXC- ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | CommandVp(append_to,List(Noun(U+0021_EXCLAMATION_MARK_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+Switch to the Comment_end_dash_state
+ =>  switch_to ( Comment_end_dash_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Comment_end_dash_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an incorrectly-closed-comment parse error
+ =>  is ( incorrectly-closed-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(incorrectly-closed-comment_parse_error,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+char:EOF
+This is an eof-in-comment parse error
+ =>  is ( eof-in-comment_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-comment_parse_error,None,None))) | 
+Emit the comment token
+ =>  emit ( comment_token [_] ) 
+ => CommandVp(emit,List(Noun(comment_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+ => CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(comment_token,Some(data),None))) | CommandVp(append_to,List(Noun(U+0021_EXCLAMATION_MARK_character_token,None,None), Noun(comment_token,Some(data),None))) | 
+Reconsume in the Comment_state
+ =>  reconsume_in ( Comment_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Comment_state,None,None))) | 
+
+name:DOCTYPE_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_DOCTYPE_name_state
+ =>  switch_to ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_DOCTYPE_name_state
+ =>  switch_to ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_DOCTYPE_name_state
+ =>  switch_to ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_DOCTYPE_name_state
+ =>  switch_to ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Reconsume in the Before_DOCTYPE_name_state
+ =>  reconsume_in ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit a new DOCTYPE token [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-whitespace-before-doctype-name parse error
+ =>  is ( missing-whitespace-before-doctype-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-before-doctype-name_parse_error,None,None))) | 
+Reconsume in the Before_DOCTYPE_name_state
+ =>  reconsume_in ( Before_DOCTYPE_name_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Before_DOCTYPE_name_state,None,None))) | 
+
+name:Before_DOCTYPE_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:ASCII upper alpha
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0] name to the lowercase version of the current input character [1] ( add 0x0020 to the current input character [1] code point 
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [1] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(name),Some(0)), Noun(current_input_character,None,Some(1)))) | 
+Switch to the DOCTYPE_name_state
+ =>  switch_to ( DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(DOCTYPE_name_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0] name to a U+FFFD REPLACEMENT CHARACTER character
+ =>  set_to ( DOCTYPE_token [0] . name , U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(name),Some(0)), Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None))) | 
+Switch to the DOCTYPE_name_state
+ =>  switch_to ( DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(DOCTYPE_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-doctype-name parse error
+ =>  is ( missing-doctype-name_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-doctype-name_parse_error,None,None))) | 
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit a new DOCTYPE token [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0]   force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit a new DOCTYPE token [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Create a new DOCTYPE token [0]
+ =>  create ( DOCTYPE_token [0] ) 
+ => CommandVp(create,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Set a new DOCTYPE token [0] name to the current input character
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(name),Some(0)), Noun(current_input_character,None,None))) | 
+Switch to the DOCTYPE_name_state
+ =>  switch_to ( DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(DOCTYPE_name_state,None,None))) | 
+
+name:DOCTYPE_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the After_DOCTYPE_name_state
+ =>  switch_to ( After_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_name_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the After_DOCTYPE_name_state
+ =>  switch_to ( After_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_name_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the After_DOCTYPE_name_state
+ =>  switch_to ( After_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_name_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the After_DOCTYPE_name_state
+ =>  switch_to ( After_DOCTYPE_name_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_name_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:ASCII upper alpha
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_input_character [0] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,Some(lowercase_version),Some(0)), Noun(current_input_character,Some(name),Some(0)))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(name),None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . name ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(name),None))) | 
+
+name:After_DOCTYPE_name_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+If the six characters starting from the current input character [0] are an ASCII case-insensitive match for the word PUBLIC , then consume the six characters starting from the current input character [0] and switch to the After_DOCTYPE_public_keyword_state
+ =>  if_then ( is ( Script_data_escaped_less_than_sign_state [_] , comment_token [_] ) , is ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) | consume ( Script_data_escaped_end_tag_open_state [0] ) | switch_to ( After_DOCTYPE_public_keyword_state [_] ) ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Otherwise , if the six characters starting from the current input character [2] are an ASCII case-insensitive match for the word SYSTEM , then consume the six characters starting from the current input character [2] and switch to the After_DOCTYPE_system_keyword_state
+ =>  otherwise ( is ( Script_data_escaped_less_than_sign_state [_] ) | emit ( current_input_character [2] . Between_DOCTYPE_public_and_system_identifiers_state ) | consume ( Script_data_escaped_end_tag_open_state [_] ) | emit ( current_input_character [2] ) | switch_to ( After_DOCTYPE_system_keyword_state [_] ) ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Otherwise , this is an invalid-character-sequence-after-doctype-name parse error
+ =>  otherwise ( is ( invalid-character-sequence-after-doctype-name_parse_error [_] ) ) 
+ => CommandIf(otherwise,List(CommandVp(is,List(Noun(invalid-character-sequence-after-doctype-name_parse_error,None,None))))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:After_DOCTYPE_public_keyword_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_DOCTYPE_public_identifier_state
+ =>  switch_to ( Before_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_DOCTYPE_public_identifier_state
+ =>  switch_to ( Before_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_DOCTYPE_public_identifier_state
+ =>  switch_to ( Before_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_DOCTYPE_public_identifier_state
+ =>  switch_to ( Before_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+0022 QUOTATION MARK (")
+This is a missing-whitespace-after-doctype-public-keyword parse error
+ =>  is ( missing-whitespace-after-doctype-public-keyword_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-after-doctype-public-keyword_parse_error,None,None))) | 
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(public_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_public_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+This is a missing-whitespace-after-doctype-public-keyword parse error
+ =>  is ( missing-whitespace-after-doctype-public-keyword_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-after-doctype-public-keyword_parse_error,None,None))) | 
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(public_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_public_identifier_single_quoted_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-doctype-public-identifier parse error
+ =>  is ( missing-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-public-identifier parse error
+ =>  is ( missing-quote-before-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:Before_DOCTYPE_public_identifier_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0022 QUOTATION MARK (")
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(public_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_public_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(public_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_public_identifier_single_quoted_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-doctype-public-identifier parse error
+ =>  is ( missing-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-public-identifier parse error
+ =>  is ( missing-quote-before-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:DOCTYPE_public_identifier_double_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0022 QUOTATION MARK (")
+Switch to the After_DOCTYPE_public_identifier_state
+ =>  switch_to ( After_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's public identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . public_identifier ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(public_identifier),None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-doctype-public-identifier parse error
+ =>  is ( abrupt-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current DOCTYPE token 's public identifier
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . public_identifier ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(public_identifier),None))) | 
+
+name:DOCTYPE_public_identifier_single_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0027 APOSTROPHE (')
+Switch to the After_DOCTYPE_public_identifier_state
+ =>  switch_to ( After_DOCTYPE_public_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_public_identifier_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's public identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . public_identifier ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(public_identifier),None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-doctype-public-identifier parse error
+ =>  is ( abrupt-doctype-public-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-doctype-public-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current DOCTYPE token 's public identifier
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . public_identifier ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(public_identifier),None))) | 
+
+name:After_DOCTYPE_public_identifier_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Between_DOCTYPE_public_and_system_identifiers_state
+ =>  switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Between_DOCTYPE_public_and_system_identifiers_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Between_DOCTYPE_public_and_system_identifiers_state
+ =>  switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Between_DOCTYPE_public_and_system_identifiers_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Between_DOCTYPE_public_and_system_identifiers_state
+ =>  switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Between_DOCTYPE_public_and_system_identifiers_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Between_DOCTYPE_public_and_system_identifiers_state
+ =>  switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Between_DOCTYPE_public_and_system_identifiers_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:U+0022 QUOTATION MARK (")
+This is a missing-whitespace-between-doctype-public-and-system-identifiers parse error
+ =>  is ( missing-whitespace-between-doctype-public-and-system-identifiers_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-between-doctype-public-and-system-identifiers_parse_error,None,None))) | 
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+This is a missing-whitespace-between-doctype-public-and-system-identifiers parse error
+ =>  is ( missing-whitespace-between-doctype-public-and-system-identifiers_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-between-doctype-public-and-system-identifiers_parse_error,None,None))) | 
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_single_quoted_state,None,None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-system-identifier parse error
+ =>  is ( missing-quote-before-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:Between_DOCTYPE_public_and_system_identifiers_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:U+0022 QUOTATION MARK (")
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_single_quoted_state,None,None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-system-identifier parse error
+ =>  is ( missing-quote-before-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:After_DOCTYPE_system_keyword_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Switch to the Before_DOCTYPE_system_identifier_state
+ =>  switch_to ( Before_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+000A LINE FEED (LF)
+Switch to the Before_DOCTYPE_system_identifier_state
+ =>  switch_to ( Before_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+000C FORM FEED (FF)
+Switch to the Before_DOCTYPE_system_identifier_state
+ =>  switch_to ( Before_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+0020 SPACE
+Switch to the Before_DOCTYPE_system_identifier_state
+ =>  switch_to ( Before_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Before_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+0022 QUOTATION MARK (")
+This is a missing-whitespace-after-doctype-system-keyword parse error
+ =>  is ( missing-whitespace-after-doctype-system-keyword_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-after-doctype-system-keyword_parse_error,None,None))) | 
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+This is a missing-whitespace-after-doctype-system-keyword parse error
+ =>  is ( missing-whitespace-after-doctype-system-keyword_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-whitespace-after-doctype-system-keyword_parse_error,None,None))) | 
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_single_quoted_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-doctype-system-identifier parse error
+ =>  is ( missing-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-system-identifier parse error
+ =>  is ( missing-quote-before-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:Before_DOCTYPE_system_identifier_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0022 QUOTATION MARK (")
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_double_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_double_quoted_state,None,None))) | 
+char:U+0027 APOSTROPHE (')
+Set the DOCTYPE token 's system identifier to the empty string ( not missing ) , then switch to the DOCTYPE_system_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . system_identifier , empty_string [_] ) | switch_to ( DOCTYPE_system_identifier_single_quoted_state [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(system_identifier),None), Noun(empty_string,None,None))) | CommandVp(switch_to,List(Noun(DOCTYPE_system_identifier_single_quoted_state,None,None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is a missing-doctype-system-identifier parse error
+ =>  is ( missing-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is a missing-quote-before-doctype-system-identifier parse error
+ =>  is ( missing-quote-before-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-quote-before-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),None), Noun(on,None,None))) | 
+Reconsume in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,None))) | 
+
+name:DOCTYPE_system_identifier_double_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0022 QUOTATION MARK (")
+Switch to the After_DOCTYPE_system_identifier_state
+ =>  switch_to ( After_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's system identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . system_identifier ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(system_identifier),None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-doctype-system-identifier parse error
+ =>  is ( abrupt-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current DOCTYPE token 's system identifier
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . system_identifier ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(system_identifier),None))) | 
+
+name:DOCTYPE_system_identifier_single_quoted_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0027 APOSTROPHE (')
+Switch to the After_DOCTYPE_system_identifier_state
+ =>  switch_to ( After_DOCTYPE_system_identifier_state [_] ) 
+ => CommandVp(switch_to,List(Noun(After_DOCTYPE_system_identifier_state,None,None))) | 
+char:U+0000 NULL
+This is an unexpected-null-character parse error
+ =>  is ( unexpected-null-character_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-null-character_parse_error,None,None))) | 
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's system identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . system_identifier ) 
+ => CommandVp(append_to,List(Noun(U+FFFD_REPLACEMENT_CHARACTER_character_token,None,None), Noun(current_tag_token,Some(system_identifier),None))) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+This is an abrupt-doctype-system-identifier parse error
+ =>  is ( abrupt-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(abrupt-doctype-system-identifier_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Append the current input character to the current DOCTYPE token 's system identifier
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . system_identifier ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(current_tag_token,Some(system_identifier),None))) | 
+
+name:After_DOCTYPE_system_identifier_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+0009 CHARACTER TABULATION (tab)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000A LINE FEED (LF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+000C FORM FEED (FF)
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+0020 SPACE
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the current DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:EOF
+This is an eof-in-doctype parse error
+ =>  is ( eof-in-doctype_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-doctype_parse_error,None,None))) | 
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+ => CommandVp(set_to,List(Noun(DOCTYPE_token,Some(force-quirks_flag),Some(0)), Noun(on,None,None))) | 
+Emit the DOCTYPE token 's [0]
+ =>  emit ( DOCTYPE_token [0] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,Some(0)))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+This is an unexpected-character-after-doctype-system-identifier parse error
+ =>  is ( unexpected-character-after-doctype-system-identifier_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unexpected-character-after-doctype-system-identifier_parse_error,None,None))) | 
+Reconsume [0] in the Bogus_DOCTYPE_state
+ =>  reconsume_in ( Bogus_DOCTYPE_state [0] ) 
+ => CommandVp(reconsume_in,List(Noun(Bogus_DOCTYPE_state,None,Some(0)))) | 
+
+ =>  reconsume_in ( state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(state,None,None))) | 
+
+name:Bogus_DOCTYPE_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+003E GREATER-THAN SIGN (&gt;)
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+Emit the DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+char:U+0000 NULL
+This [0] is an unexpected-null-character parse error
+ =>  [0] is ( unexpected-null-character_parse_error [0] ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Ignore This [0]
+ =>  ignore_the| ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+char:EOF
+Emit the DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+ => CommandVp(emit,List(Noun(DOCTYPE_token,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Ignore the character
+ =>  ignore_the 
+ => CommandVp(PARSE_ERROR,List()) | 
+
+name:CDATA_section_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+Switch to the CDATA_section_bracket_state
+ =>  switch_to ( CDATA_section_bracket_state [_] ) 
+ => CommandVp(switch_to,List(Noun(CDATA_section_bracket_state,None,None))) | 
+char:EOF
+This is an eof-in-cdata parse error
+ =>  is ( eof-in-cdata_parse_error [_] ) 
+ => CommandVp(is,List(Noun(eof-in-cdata_parse_error,None,None))) | 
+Emit an end-of-file token
+ =>  emit ( end-of-file_token [_] ) 
+ => CommandVp(emit,List(Noun(end-of-file_token,None,None))) | 
+char:Anything else
+Emit the current input character as a character token
+ =>  emit ( current_input_character [_] ) 
+ => CommandVp(emit,List(Noun(current_input_character,None,None))) | 
+
+name:CDATA_section_bracket_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+Switch to the CDATA_section_end_state
+ =>  switch_to ( CDATA_section_end_state [_] ) 
+ => CommandVp(switch_to,List(Noun(CDATA_section_end_state,None,None))) | 
+char:Anything else
+Emit a U+005D RIGHT SQUARE BRACKET character token
+ =>  emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+005D_RIGHT_SQUARE_BRACKET_character_token,None,None))) | 
+Reconsume in the CDATA_section_state
+ =>  reconsume_in ( CDATA_section_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(CDATA_section_state,None,None))) | 
+
+name:CDATA_section_end_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:U+005D RIGHT SQUARE BRACKET (])
+Emit a U+005D RIGHT SQUARE BRACKET character token
+ =>  emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+005D_RIGHT_SQUARE_BRACKET_character_token,None,None))) | 
+char:U+003E GREATER-THAN SIGN character
+Switch to the Data_state
+ =>  switch_to ( Data_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Data_state,None,None))) | 
+char:Anything else
+Emit two U+005D RIGHT SQUARE BRACKET character tokens
+ =>  emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) 
+ => CommandVp(emit,List(Noun(U+005D_RIGHT_SQUARE_BRACKET_character_token,None,None))) | 
+Reconsume in the CDATA_section_state
+ =>  reconsume_in ( CDATA_section_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(CDATA_section_state,None,None))) | 
+
+name:Character_reference_state
+prev:
+Set the temporary buffer [0] to the empty string
+ =>  set_to ( temporary_buffer [0] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,Some(0)), Noun(empty_string,None,None))) | 
+Append a U+0026 AMPERSAND ( & amp ;) character to the temporary buffer [0]
+ =>  append_to ( Script_data_escaped_less_than_sign_state [_] , temporary_buffer [0] ) 
+ => CommandVp(append_to,List(Noun(Script_data_escaped_less_than_sign_state,None,None), Noun(temporary_buffer,None,Some(0)))) | 
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alphanumeric
+Reconsume in the Named_character_reference_state
+ =>  reconsume_in ( state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(state,None,None))) | 
+char:U+0023 NUMBER SIGN (#)
+Append the current input character to the temporary buffer
+ =>  append_to ( current_input_character [_] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(temporary_buffer,None,None))) | 
+Switch to the Numeric_character_reference_state
+ =>  switch_to ( Numeric_character_reference_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Numeric_character_reference_state,None,None))) | 
+char:Anything else
+Flush code points consumed as a character reference
+ =>  multiply_the_character_by ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+Reconsume in the return state
+ =>  reconsume_in ( return_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(return_state,None,None))) | 
+
+name:Named_character_reference_state
+prev:
+Consume the maximum number of characters possible , where the consumed characters are one of the identifiers in the first column of the named character references table
+ =>  consume ( attribute [_] . name ) | emit ( U+002D_HYPHEN-MINUS_character_token [_] ) | treat_it_as_per_the_"_else_"_below 
+ => CommandVp(PARSE_ERROR,List()) | 
+Append each character [0] to the temporary buffer when each character [0] 's consumed
+ =>  append_to ( character_token [0] , temporary_buffer [0] ) 
+ => CommandVp(append_to,List(Noun(character_token,None,Some(0)), Noun(temporary_buffer,None,Some(0)))) | 
+trans:
+char:If there is a match
+If the character reference was consumed as part of an attribute , and the last character matched [0] is not a U+003B SEMICOLON character ( ;) , and the next input character is either a U+003D EQUALS SIGN character ( =) or an ASCII alphanumeric , then , for historical reasons , flush code points consumed as a character reference and switch to the return state [2]
+ =>  if_then ( is ( Between_DOCTYPE_public_and_system_identifiers_state [_] , attribute [_] ) , emit ( attribute [0] ) | emit ( U+002D_HYPHEN-MINUS_character_token [_] ) | switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) | switch_to ( Between_DOCTYPE_public_and_system_identifiers_state [_] ) ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Otherwise : If the last character matched [0] is not a U+003B SEMICOLON character ( ;) , then this is a missing-semicolon-after-character-reference parse error
+ =>  otherwise ( is ( Script_data_escaped_end_tag_name_state [0] , Script_data_escaped_dash_state [_] ) | is ( missing-semicolon-after-character-reference_parse_error [_] ) ) 
+ => CommandVp(PARSE_ERROR,List()) | 
+Set the temporary buffer [1] to the empty string
+ =>  set_to ( temporary_buffer [1] , empty_string [_] ) 
+ => CommandVp(set_to,List(Noun(temporary_buffer,None,Some(1)), Noun(empty_string,None,None))) | 
+Append one or two characters corresponding to the character reference name ( as given by the second column of the named character references table ) to the temporary buffer [1]
+ =>  append_to ( Script_data_escaped_less_than_sign_state [_] , name [_] ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , temporary_buffer [1] ) 
+ => CommandVp(append_to,List(Noun(Script_data_escaped_less_than_sign_state,None,None), Noun(name,None,None))) | CommandVp(append_to,List(Noun(U+002D_HYPHEN-MINUS_character_token,None,None), Noun(temporary_buffer,None,Some(1)))) | 
+Flush code points consumed as a character reference
+ =>  multiply_the_character_by ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+Switch to the return state [2]
+ =>  switch_to ( return_state [2] ) 
+ => CommandVp(switch_to,List(Noun(return_state,None,Some(2)))) | 
+char:Otherwise
+Flush code points consumed as a character reference
+ =>  multiply_the_character_by ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+Switch to the Ambiguous_ampersand_state
+ =>  switch_to ( Ambiguous_ampersand_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Ambiguous_ampersand_state,None,None))) | 
+
+name:Ambiguous_ampersand_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII alphanumeric
+If the character reference was consumed as part of an attribute [0] , then append the current input character [1] to an attribute [0] value
+ =>  if_then ( is ( Script_data_escaped_less_than_sign_state [_] , attribute [0] ) , append_to ( current_input_character [1] , attribute [0] . value ) ) 
+ => CommandIf(if_then,List(CommandVp(is,List(Noun(Script_data_escaped_less_than_sign_state,None,None), Noun(attribute,None,Some(0)))), CommandVp(append_to,List(Noun(current_input_character,None,Some(1)), Noun(attribute,Some(value),Some(0)))))) | 
+Otherwise , emit the current input character [1] as a character token
+ =>  otherwise ( emit ( current_input_character [1] ) ) 
+ => CommandIf(otherwise,List(CommandVp(emit,List(Noun(current_input_character,None,Some(1)))))) | 
+char:U+003B SEMICOLON (;)
+This is an unknown-named-character-reference parse error
+ =>  is ( unknown-named-character-reference_parse_error [_] ) 
+ => CommandVp(is,List(Noun(unknown-named-character-reference_parse_error,None,None))) | 
+Reconsume in the return state
+ =>  reconsume_in ( return_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(return_state,None,None))) | 
+char:Anything else
+Reconsume in the return state
+ =>  reconsume_in ( return_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(return_state,None,None))) | 
+
+name:Numeric_character_reference_state
+prev:
+Set the character reference code to zero ( 0).Consume the next input character 
+ =>  set_to ( Character_reference_state [_] , next_input_character [_] ) 
+ => CommandVp(set_to,List(Noun(Character_reference_state,None,None), Noun(next_input_character,None,None))) | 
+trans:
+char:U+0078 LATIN SMALL LETTER X
+Append the current input character to the temporary buffer
+ =>  append_to ( current_input_character [_] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(temporary_buffer,None,None))) | 
+Switch to the Hexadecimal_character_reference_start_state
+ =>  switch_to ( Hexadecimal_character_reference_start_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Hexadecimal_character_reference_start_state,None,None))) | 
+char:U+0058 LATIN CAPITAL LETTER X
+Append the current input character to the temporary buffer
+ =>  append_to ( current_input_character [_] , temporary_buffer [_] ) 
+ => CommandVp(append_to,List(Noun(current_input_character,None,None), Noun(temporary_buffer,None,None))) | 
+Switch to the Hexadecimal_character_reference_start_state
+ =>  switch_to ( Hexadecimal_character_reference_start_state [_] ) 
+ => CommandVp(switch_to,List(Noun(Hexadecimal_character_reference_start_state,None,None))) | 
+char:Anything else
+Reconsume in the Decimal_character_reference_start_state
+ =>  reconsume_in ( Decimal_character_reference_start_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Decimal_character_reference_start_state,None,None))) | 
+
+name:Hexadecimal_character_reference_start_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII hex digit
+Reconsume in the Hexadecimal_character_reference_state
+ =>  reconsume_in ( Hexadecimal_character_reference_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Hexadecimal_character_reference_state,None,None))) | 
+char:Anything else
+This is an absence-of-digits-in-numeric-character-reference parse error
+ =>  is ( absence-of-digits-in-numeric-character-reference_parse_error [_] ) 
+ => CommandVp(is,List(Noun(absence-of-digits-in-numeric-character-reference_parse_error,None,None))) | 
+Flush code points consumed as a character reference
+ =>  multiply_the_character_by ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+Reconsume in the return state
+ =>  reconsume_in ( return_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(return_state,None,None))) | 
+
+name:Decimal_character_reference_start_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII digit
+Reconsume in the Decimal_character_reference_state
+ =>  reconsume_in ( Decimal_character_reference_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(Decimal_character_reference_state,None,None))) | 
+char:Anything else
+This is an absence-of-digits-in-numeric-character-reference parse error
+ =>  is ( absence-of-digits-in-numeric-character-reference_parse_error [_] ) 
+ => CommandVp(is,List(Noun(absence-of-digits-in-numeric-character-reference_parse_error,None,None))) | 
+Flush code points consumed as a character reference
+ =>  multiply_the_character_by ( Script_data_escaped_less_than_sign_state [_] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(Script_data_escaped_less_than_sign_state,None,None))) | 
+Reconsume in the return state
+ =>  reconsume_in ( return_state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(return_state,None,None))) | 
+
+name:Hexadecimal_character_reference_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII digit
+Multiply the character reference code [1] by 16
+ =>  multiply_the_character_by ( token [1] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(token,None,Some(1)))) | 
+Add a numeric version of the current input character [0] ( subtract 0x0030 from the current input character [0] code point ) to the character reference code [1]
+ =>  add_to_the_character ( current_input_character [0] . uppercase_version ) 
+ => CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | 
+char:ASCII upper hex digit
+Multiply the character reference code [1] by 16
+ =>  multiply_the_character_by ( token [1] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(token,None,Some(1)))) | 
+Add a numeric version of the current input character [0] as a hexadecimal digit ( subtract 0x0037 from the current input character [0] code point ) to the character reference code [1]
+ =>  add_to_the_character ( current_input_character [0] . uppercase_version ) | add_to_the_character ( current_input_character [0] . uppercase_version ) 
+ => CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | 
+char:ASCII lower hex digit
+Multiply the character reference code [1] by 16
+ =>  multiply_the_character_by ( token [1] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(token,None,Some(1)))) | 
+Add a numeric version of the current input character [0] as a hexadecimal digit ( subtract 0x0057 from the current input character [0] code point ) to the character reference code [1]
+ =>  add_to_the_character ( current_input_character [0] . uppercase_version ) | add_to_the_character ( current_input_character [0] . uppercase_version ) 
+ => CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | 
+char:U+003B SEMICOLON
+Switch to the Numeric_character_reference_end_state
+ =>  switch_to ( state [_] ) 
+ => CommandVp(switch_to,List(Noun(state,None,None))) | 
+char:Anything else
+This is a missing-semicolon-after-character-reference parse error
+ =>  is ( missing-semicolon-after-character-reference_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-semicolon-after-character-reference_parse_error,None,None))) | 
+Reconsume in the Numeric_character_reference_end_state
+ =>  reconsume_in ( state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(state,None,None))) | 
+
+name:Decimal_character_reference_state
+prev:
+Consume the next input character 
+ =>  consume ( next_input_character [_] ) 
+ => CommandVp(consume,List(Noun(next_input_character,None,None))) | 
+trans:
+char:ASCII digit
+Multiply the character reference code [1] by 10
+ =>  multiply_the_character_by ( token [1] ) 
+ => CommandVp(multiply_the_character_by,List(Noun(token,None,Some(1)))) | 
+Add a numeric version of the current input character [0] ( subtract 0x0030 from the current input character [0] code point ) to the character reference code [1]
+ =>  add_to_the_character ( current_input_character [0] . uppercase_version ) 
+ => CommandVp(add_to_the_character,List(Noun(current_input_character,Some(uppercase_version),Some(0)))) | 
+char:U+003B SEMICOLON
+Switch to the Numeric_character_reference_end_state
+ =>  switch_to ( state [_] ) 
+ => CommandVp(switch_to,List(Noun(state,None,None))) | 
+char:Anything else
+This is a missing-semicolon-after-character-reference parse error
+ =>  is ( missing-semicolon-after-character-reference_parse_error [_] ) 
+ => CommandVp(is,List(Noun(missing-semicolon-after-character-reference_parse_error,None,None))) | 
+Reconsume in the Numeric_character_reference_end_state
+ =>  reconsume_in ( state [_] ) 
+ => CommandVp(reconsume_in,List(Noun(state,None,None))) | 
