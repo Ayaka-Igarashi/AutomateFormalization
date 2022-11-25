@@ -9,8 +9,9 @@ object ParsingLang {
   //LAtt(LVar("current_token"), Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var("name"), ANone))))
 
   trait Cexp
+  case class Create(lvar: Lexp, e: Eexp) extends Cexp
   case class Assign(lvar: Lexp, e: Eexp) extends Cexp
-  case class AssignIdx(lvar: Lexp, e: Eexp) extends Cexp
+  case class AssignLoc(lvar: Lexp, e: Eexp) extends Cexp
   case object Skip extends Cexp
   case class If(bexp: Bexp, c1: Cexp, c2: Cexp) extends Cexp
   case class Cons(c1: Cexp, c2: Cexp) extends Cexp
@@ -144,40 +145,36 @@ object ParsingLang {
             }
           }
           case "create" => {
-            val pid = uid.get()
             args match {
               case Noun(tok, None, Some(id)) :: Nil => {
                 val c1 = List(
-                  Assign(LVar(pid), EVal(tok)),
-                  AssignIdx(LVar("x"+id), EVal(pid)),
-                  AssignIdx(LVar("current_token"), EVal(pid))
+                  Create(LVar("x"+id), EVal(tok)),
+                  AssignLoc(LVar("current_token"), EVal("x"+id))
                 )
                 val c2 = 
-                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                if (tok == "start_tag_token") List(AssignLoc(LVar("last_start_tag_token"), EVal("x"+id)))
                 else Nil
                 cexplist2cexp(c1++c2)
               }
               case Noun(tok, _, Some(id)) :: Nil => {
-                println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
+                // println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
                 val c1 = List(
-                  Assign(LVar(pid), EVal(tok)),
-                  AssignIdx(LVar("x"+id), EVal(pid)),
-                  AssignIdx(LVar("current_token"), EVal(pid))
+                  Create(LVar("x"+id), EVal("x"+id)),
+                  AssignLoc(LVar("current_token"), EVal("x"+id))
                 )
                 val c2 = 
-                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                if (tok == "start_tag_token") List(AssignLoc(LVar("last_start_tag_token"), EVal("x"+id)))
                 else Nil
                 cexplist2cexp(c1++c2)
               }
               case Noun(tok, _, _) :: Nil => {
-                println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
+                // println("WARNING: command2ParseLang : create command invalid\n>%s".format(args))
                 val c1 = List(
-                  Assign(LVar(pid), EVal(tok)),
-                  AssignIdx(LVar("x0"), EVal(pid)),
-                  AssignIdx(LVar("current_token"), EVal(pid))
+                  Create(LVar("x0"), EVal(tok)),
+                  AssignLoc(LVar("current_token"), EVal("x0"))
                 )
                 val c2 = 
-                if (tok == "start_tag_token") List(AssignIdx(LVar("last_start_tag_token"), EVal(pid)))
+                if (tok == "start_tag_token") List(AssignLoc(LVar("last_start_tag_token"), EVal("x0")))
                 else Nil
                 cexplist2cexp(c1++c2)
               }
@@ -191,11 +188,11 @@ object ParsingLang {
               case Noun(tok, None, None) :: Nil => Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal(tok)))
               case Noun(tok, None, Some(id)) :: Nil => Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal("x"+id)))
               case Noun(tok, _, Some(id)) :: Nil => {
-                println("WARNING: command2ParseLang : emit command invalid\n>%s".format(args))
+                // println("WARNING: command2ParseLang : emit command invalid\n>%s".format(args))
                 Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal("x"+id)))
               }
               case Noun(tok, _, _) :: Nil => {
-                println("WARNING: command2ParseLang : emit command invalid\n>%s".format(args))
+                // println("WARNING: command2ParseLang : emit command invalid\n>%s".format(args))
                 Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal(tok)))
               }
               case _ => error("command2ParseLang : emit command invalid\n>%s".format(args))
@@ -300,7 +297,7 @@ object ParsingLang {
     val indents = " "*indent
     val str = cexp match {
       case Assign(l,e) => { "%s = %s".format(l,e) }
-      case AssignIdx(l,e) => "%s <- %s".format(l,e)
+      case AssignLoc(l,e) => "%s <- %s".format(l,e)
       case Skip => "Skip"
       case Cons(c1,c2) => "%s\n%s%s".format(displayCexp(c1),indents, displayCexp(c2))
       case If(b,c1,c2) => {

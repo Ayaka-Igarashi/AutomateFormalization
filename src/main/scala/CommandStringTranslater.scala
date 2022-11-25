@@ -5,6 +5,7 @@ import Convert._
 import CommandStringParser._
 import java.io.{PrintWriter}
 import org.antlr.v4.runtime._
+import Base._
 
 object CommandStringTranslater {
 
@@ -23,6 +24,8 @@ object CommandStringTranslater {
     //   throw new UnsupportedOperationException("Not supported yet.");
     // }
   }
+
+  val parseErrorLog = new ErrorLog()
 
   def parseAll() = {
     val convertOut = new PrintWriter("src/out/convertout_translate_transformer.txt")
@@ -97,7 +100,7 @@ object CommandStringTranslater {
       terms = CommandStringTranslater.transStart(tree)
     } catch {
       case e: RuntimeException => {
-        println("error at %d : %s".format(id,e))
+        parseErrorLog.add("error at %d : %s".format(id,e))
         terms = List(Function("PARSE_ERROR", Nil))
       }
     }

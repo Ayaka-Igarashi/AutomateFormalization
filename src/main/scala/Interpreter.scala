@@ -14,12 +14,12 @@ object Interpreter {
     println("\u001b[37m\u001b[46mINFO: \u001b[0m definition was set")
   }
 
-  def interpreter(str: String) = {
+  def interpreter_default(str: String) = {
     var env = initialEnv
     var state = initialState.updated(env("input"), string2charlist(str))
-    println("E = %s".format(env))
-    println("S = %s".format(state))
-    println()
+    println(displayES(env,state))
+    // println("E = %s".format(env))
+    // println("S = %s".format(state))
     var eofFlag = false
     while (!eofFlag) {
       // eofFlag = true // ここ消す
@@ -31,10 +31,32 @@ object Interpreter {
       }
       env = e
       state = s
-      println("E = %s".format(e))
-      println("S = %s".format(s))
-      println()
+      println(displayES(e,s))
+      // println("S = %s\n".format(s))
     }
+  }
+
+  def interpreter(str: String, initenv: Env, initstate: State): (Env,State) = {
+    var env = initenv
+    var state = initstate.updated(env("input"), string2charlist(str))
+    // println(displayES(env,state))
+    // println("E = %s".format(env))
+    // println("S = %s".format(state))
+    var eofFlag = false
+    while (!eofFlag) {
+      // eofFlag = true // ここ消す
+      val current_state = state(env("state")).asInstanceOf[IState].state
+      val (e,s) = interpretState(current_state, env, state)
+      s(e("output_tokens")).asInstanceOf[IList].list.lastOption match {
+        case Some(IToken("end-of-file_token",_)) => eofFlag = true
+        case _ =>
+      }
+      env = e
+      state = s
+      // println(displayES(e,s))
+      // println("S = %s\n".format(s))
+    }
+    (env,state)
   }
 
   def interpretState(current_state: String, env: Env, state: State): (Env, State) = {

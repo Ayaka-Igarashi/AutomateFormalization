@@ -6,4 +6,4 @@ target/
 .vscode
 .DS_Store
 src/np/
-src/output/
+src/output_old/

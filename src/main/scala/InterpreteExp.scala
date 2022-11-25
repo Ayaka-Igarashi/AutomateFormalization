@@ -46,32 +46,54 @@ object InterpreteExp {
 
   def interpretCexp(cexp: Cexp, env: Env, state: State): (Env, State) = {
     cexp match {
-      case Assign(lvar, e) => {
-        val (loc,state1) = interpretEexp(e,env,state)
+      case Create(lvar, e) => {
         lvar match {
           case LVar(x) => {
-            if (env.get(x) == None) {
-              ((env + (x->loc)), state1)
-            }
-            else {
-              val locx = env(x)
-              val v = state1(loc)
-              (env, state1 + (locx->v))
+            val (v,state1) = interpretEexp(e,env,state)
+            val newLoc = getNewLoc()
+            ((env + (x->newLoc)), state1+ (newLoc->v))
+          }
+          case _ => error("cant create att")
+        }
+      }
+      case Assign(lvar, e) => {
+        val (v,state1) = interpretEexp(e,env,state)
+        lvar match {
+          case LVar(x) => {
+            env.get(x) match {
+              case Some(locx) => (env, state1 + (locx->v))
+              case None => error("cant find %s in env".format(x))
             }
           }
           case LAtt(LVar(x), att) => {
-            val locx = env(x)
+            var locx: Loc = -1
+            try {
+              locx = env(x)
+            } catch {
+              case e => {
+                locx = env("current_token")
+              }
+            }
+            // val locx = env(x)
             val obj = state(locx)
-            val obje = state1(loc)
-            val newobj = substituteInAttribute(att, obje, obj)
+            val newobj = substituteInAttribute(att, v, obj)
             (env, state1 + (locx->newobj))
           }
         }
       }
-      case AssignIdx(lvar, e) => {
-        val (loc,state1) = interpretEexp(e,env,state)
+      case AssignLoc(lvar, e) => {
         lvar match {
-          case LVar(x) => ((env + (x->loc)), state1)
+          case LVar(x) => {
+            e match {
+              case EVal(variable) => {
+                env.get(variable) match {
+                  case Some(loc) => ((env + (x->loc)), state)
+                  case None => error("cant find %s in env".format(variable))
+                }
+              }
+              case _ => error("ParsingLang convertion invalid")
+            }
+          }
           case _ => error("assign idx to attribute, error")
         }
       }
@@ -94,9 +116,9 @@ object InterpreteExp {
   def interpretBexp(bexp: Bexp, env: Env, state: State): Boolean = {
     bexp match {
       case Equal(e1,e2) => {
-        val (l1, state1) = interpretEexp(e1,env,state)
-        val (l2, state2) = interpretEexp(e2,env,state1)
-        if (state2(l1) == state2(l2)) true
+        val (v1, state1) = interpretEexp(e1,env,state)
+        val (v2, state2) = interpretEexp(e2,env,state1)
+        if (v1 == v2) true
         else false
       }
       case Or(b1,b2) => {
@@ -107,77 +129,67 @@ object InterpreteExp {
     }
   }
 
-  def interpretEexp(eexp: Eexp, env: Env, state: State): (Loc, State) = {
+  def interpretEexp(eexp: Eexp, env: Env, state: State): (ParsingObject, State) = {
     eexp match {
       case EVal(x) => {
         if (env.get(x) == None) {
-          val newl = getNewLoc()
-          (newl, state+(newl->str2obj(x, env, state)))
-        } else (env(x),state)
+          (str2obj(x, env, state), state)
+        } else (state(env(x)),state)
       }
       case EAtt1(e,att) => {
-        val (l, state1) = interpretEexp(e,env,state)
-        val v = state1(l)
+        val (v, state1) = interpretEexp(e,env,state)
         val v2 = getAttributeVal(v, att)
-        val newl = getNewLoc()
-        (newl, state1+(newl->v2))
+        (v2, state1)
       }
       case EAtt2(e,A2Var(att)) => {
-        val (l, state1) = interpretEexp(e,env,state)
-        val v = state1(l)
+        val (v, state1) = interpretEexp(e,env,state)
         val v2 = interpretA2(v, att)
-        val newl = getNewLoc()
-        (newl, state+(newl->v2))
+        (v2, state)
       }
       case EPlus(e1,e2) => {
-        val (l1, state1) = interpretEexp(e1,env,state)
-        val (l2, state2) = interpretEexp(e2,env,state1)
-        val v = (state2(l1), state2(l2)) match {
+        val (v1, state1) = interpretEexp(e1,env,state)
+        val (v2, state2) = interpretEexp(e2,env,state1)
+        val v = (v1, v2) match {
           case (IInt(i1), IInt(i2)) => IInt(i1+i2)
           case _ => error("interpretEexp: EPlus: not int")
         }
-        val newl = getNewLoc()
-        (newl, state+(newl->v))
+        (v, state)
       }
       case EMul(e1,e2) => {
-        val (l1, state1) = interpretEexp(e1,env,state)
-        val (l2, state2) = interpretEexp(e2,env,state1)
-        val v = (state2(l1), state2(l2)) match {
+        val (v1, state1) = interpretEexp(e1,env,state)
+        val (v2, state2) = interpretEexp(e2,env,state1)
+        val v = (v1, v2) match {
           case (IInt(i1), IInt(i2)) => IInt(i1*i2)
           case _ => error("interpretEexp: EMul: not int")
         }
-        val newl = getNewLoc()
-        (newl, state+(newl->v))
+        (v, state)
       }
       case ECons(e1,e2) => {
-        val (l1, state1) = interpretEexp(e1,env,state)
-        val (l2, state2) = interpretEexp(e2,env,state1)
-        val v = (state2(l1), state2(l2)) match {
+        val (v1, state1) = interpretEexp(e1,env,state)
+        val (v2, state2) = interpretEexp(e2,env,state1)
+        val v = (v1, v2) match {
           case (IList(list), obj) => IList(list :+ obj)
-          case _ => error("interpretEexp: ECons: not list: %1$s %2$s->%3$s".format(e1,l1,state2(l1)))
+          case _ => error("interpretEexp: ECons: not list: %1$s %2$s".format(e1,v1))
         }
-        val newl = getNewLoc()
-        (newl, state+(newl->v))
+        (v, state)
       }
       case ELength(e) => {
-        val (l, state1) = interpretEexp(e,env,state)
-        val v = state1(l) match {
+        val (v1, state1) = interpretEexp(e,env,state)
+        val v = v1 match {
           case IList(list) => IInt(list.size)
           case IChar(_) => IInt(1)
           case _ => error("interpretEexp: ELength: not list")
         }
-        val newl = getNewLoc()
-        (newl, state+(newl->v))
+        (v, state)
       }
       case EIdxof(e1,e2) => {
-        val (l1, state1) = interpretEexp(e1,env,state)
-        val (l2, state2) = interpretEexp(e2,env,state1)
-        val v = (state2(l1), state2(l2)) match {
+        val (v1, state1) = interpretEexp(e1,env,state)
+        val (v2, state2) = interpretEexp(e2,env,state1)
+        val v = (v1, v2) match {
           case (IList(list), IInt(i)) => list(i)
           case _ => error("interpretEexp: EIdx: not (list,int)")
         }
-        val newl = getNewLoc()
-        (newl, state+(newl->v))
+        (v, state)
       }
     }
   }
@@ -202,7 +214,7 @@ object InterpreteExp {
   }
 
   def getAttributeVal(obj: ParsingObject, att: Att1): ParsingObject = {
-    println("%s , %s".format(obj,att))
+    // println("%s , %s".format(obj,att))
     getAttributeVal_sub(obj, att)
   }
   def getAttributeVal_sub(obj: ParsingObject, att: Attexp1): ParsingObject = {
@@ -302,7 +314,7 @@ object InterpreteExp {
   def str2obj(str: String, env: Env, state: State): ParsingObject = {
     if (str.endsWith("_state")) IState(str)
     else if (str == "current_tag_token") state(env("current_token"))
-    else if (str.endsWith("_token")) IToken(str,Map("name"->null, "value"->null, "attributes"->IList(Nil: List[ITokenAttribute]), "data"->IList(Nil: List[IChar])))
+    else if (str.endsWith("_token")) IToken(str,initialTokenAttributes)
     else if (str.endsWith("_parse_error")) IError(str)
     else if (str.contains("attribute")) ITokenAttribute(Map("name"->null, "value"->null))
     else if (str == "next_input_character") {

@@ -32,6 +32,17 @@ object Environment {
     initialEnv("error_list")->IList(List[IError]()),
   )
 
+  val initialTokenAttributes: Map[String, ParsingObject] = Map(
+    "name"->null,
+    "value"->null,
+    "attributes"->IList(Nil: List[ITokenAttribute]),
+    "data"->IList(Nil: List[IChar]),
+    "public_identifier"->null,
+    "system_identifier"->null,
+    "force-quirks_flag"->IBool(false),
+    "self-closing_flag"->IBool(false)
+  )
+
   trait ParsingObject
   case class IVar(v: String) extends ParsingObject
 
