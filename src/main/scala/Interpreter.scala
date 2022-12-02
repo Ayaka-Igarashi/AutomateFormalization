@@ -6,7 +6,8 @@ object Interpreter {
   type UnicodeRange = List[(Int,Int)]
   case class StateDef(prev: List[Cexp], trans: List[(UnicodeRange, List[Cexp])])
 
-  var stateList: List[String] = Nil
+  var statenameList: List[String] = Nil
+  var stateCommandList: Map[String, (List[(String,String)],List[(String, List[(String,String)])])] = null
   var definition: Map[String, StateDef] = null
 
   def loadDef() = {
@@ -142,7 +143,7 @@ object Interpreter {
           tmp2 = Nil
           tmp3 = Nil
         }
-        stateList :+= o.substring(5,o.size)
+        statenameList :+= o.substring(5,o.size)
         tmp1 = o.substring(5,o.size)
       } else if (o.startsWith("prev:")) isPrev = true
       else if (o.startsWith("trans:")) isPrev = false
@@ -150,6 +151,7 @@ object Interpreter {
       else tmp3 :+= o
     })
     if (tmp1 != null) statelist :+= (tmp1,tmp2,tmp3)
+    stateCommandList = statelist.map(s => (s._1, convertState_noConvert(s._2, s._3))).toMap
     statelist.map(s => (s._1, convertState(s._2, s._3))).toMap
   }
 
@@ -178,19 +180,44 @@ object Interpreter {
     (unirange, convertComlist(com))
   }
   def convertComlist(comlist: List[String]): List[Cexp] = {
-    val commands = comlist.zipWithIndex.filter((_,i) => i%2==1).flatMap(t => {
+    val commands = comlist.zipWithIndex.filter((_,i) => i%2==1).map(t => {
       val c = t._1.substring(5,t._1.size)
       CommandStringTranslater.parseStr(c,0)
     })
     val combined = combineIf(commands)
-    combined.map(command2ParseLang(_))
+    combined.map(coms => cexplist2cexp(coms.map(command2ParseLang(_))))
+  }
+
+  def convertState_noConvert(prev: List[String], trans: List[String]): (List[(String,String)],List[(String, List[(String,String)])]) = {
+    val partition_prev = prev.zipWithIndex.partition(ni => ni._2 % 2 == 0)
+    val prev1 = (partition_prev._1 zip partition_prev._2).map(nini => (nini._1._1, nini._2._1))
+    var translist: List[List[String]] = List()
+    var tmp: List[String] = List()
+    trans.foreach(t => {
+      if (t.startsWith("char:")) {
+        if (tmp != Nil){ 
+          translist :+= tmp
+          tmp = Nil
+        }
+        tmp :+= t.substring(5,t.size)
+      } else {
+        tmp :+= t
+      }
+    })
+    if (tmp != Nil) translist :+= tmp
+    val trans1 = translist.map(t => {
+      val partition_t = t.tail.zipWithIndex.partition(ni => ni._2 % 2 == 0)
+      val t1 = (partition_t._1 zip partition_t._2).map(nini => (nini._1._1, nini._2._1))
+      (t.head, t1)
+    })
+    (prev1, trans1)
   }
 
   //////////////////// display functions ///////////////////////////
   def displayDefinition() = {
     var outstring = ""
     def sout(s: String) = outstring += s
-    stateList.foreach(state => {
+    statenameList.foreach(state => {
       val statedef = definition(state)
       sout("name: %s\n".format(state))
       sout("%s\n\n".format(displayStatedef(statedef)))
@@ -223,6 +250,48 @@ object Interpreter {
   }
   def displayUnicodeRange(unirange: UnicodeRange): String = {
     unirange.map(r => "[%s, %s]".format(r._1,r._2)).mkString(", ")
+  }
+
+  def displayDefinitionWith() = {
+    var outstring = ""
+    def sout(s: String) = outstring += s
+    statenameList.foreach(state => {
+      val statedef = definition(state)
+      sout("name: %s\n".format(state))
+      sout("%s\n\n".format(displayStatedefWith(state, statedef)))
+    })
+    val outfile = new java.io.PrintWriter("src/out/definitionWith.txt")
+    outfile.println(outstring)
+    outfile.close
+  }
+
+  def displayStatedefWith(stateName: String, stateDef: StateDef): String = {
+    var outstring = ""
+    def sout(s: String) = outstring += s
+
+    val stateComs: (List[(String,String)],List[(String, List[(String,String)])]) = stateCommandList(stateName)
+    val prevComs: List[String] = stateComs._1.map(ss => "%s\n%s".format(ss._1,ss._2))
+    val transComs: List[(String, List[String])] = stateComs._2.map(sl => (sl._1, sl._2.map(ss => "%s\n%s".format(ss._1,ss._2))))
+    stateDef match {
+      case StateDef(prev, trans) => {
+        sout("prev:\n")
+        val clist1 = prev.map(ccons2cexplist(_))
+        val clist1_2 = clist1.map(cl => cl.map(displayCexp(_)).mkString("\n"))
+        val cout1 = (prevComs zip clist1_2).map(cc => "%s\n==>\n%s".format(cc._1,cc._2)).mkString("\n")
+        sout(cout1)
+        sout("\ntrans:\n")
+        (transComs zip trans).foreach(tt => {
+          val t = tt._2
+          sout("char: %s (%s)\n".format(displayUnicodeRange(t._1), tt._1._1))
+          val clist2 = t._2.map(ccons2cexplist(_))
+          val clist2_2 = clist2.map(cl => cl.map(displayCexp(_)).mkString("\n"))
+          val cout2 = (tt._1._2 zip clist2_2).map(cc => "%s\n==>\n%s".format(cc._1,cc._2)).mkString("\n")
+          sout(cout2)
+          sout("\n")
+        })
+      }
+    }
+    outstring
   }
 
 }

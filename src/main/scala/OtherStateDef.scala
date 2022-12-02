@@ -62,7 +62,8 @@ object OtherStateDef {
           case IInt(i) => i
           case _ => -1
         }
-        val current_input_character = input(inputIdx)
+        val current_input_character: Char = if (input.size >= inputIdx + 1) input(inputIdx) else '0'
+        // val current_input_character = input(inputIdx)
         val commands = 
         current_input_character.toInt match {
           case i if (i==0x9||i==0xa||i==0xc||i==0x20) => {
@@ -76,7 +77,7 @@ object OtherStateDef {
               CommandVp("emit", List(Noun("current_token",None,None)))
             )
           }
-          case -1 => {
+          case 0 => {
             List(
               CommandVp("this_is_parse_error", List(Noun("eof-in-doctype_parse_error",None,None))),
               CommandVp("set_to", List(Noun("current_token",Some("force-quirks_flag"),None), Noun("on",None,None))),

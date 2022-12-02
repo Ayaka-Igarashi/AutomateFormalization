@@ -103,8 +103,8 @@ object ParsingLang {
                 val e = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
                   case Noun(ev, None, None) => EVal(ev)
-                  case Noun(ev, Some(att), Some(id)) => EAtt1(EVal("x"+id),Att1(A1Var(att),ANone))
-                  case Noun(ev, Some(att), None) => EAtt1(EVal(ev),Att1(A1Var(att),ANone))
+                  case Noun(ev, Some(att), Some(id)) => replaceAtt(EAtt1(EVal("x"+id),Att1(A1Var(att),ANone)))
+                  case Noun(ev, Some(att), None) => replaceAtt(EAtt1(EVal(ev),Att1(A1Var(att),ANone)))
                 }
                 Assign(l, e)
               }
@@ -123,8 +123,8 @@ object ParsingLang {
                 val e2 = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
                   case Noun(ev, None, None) => EVal(ev)
-                  case Noun(ev, Some(att), Some(id)) => EAtt1(EVal("x"+id), Att1(A1Var(att),ANone))
-                  case Noun(ev, Some(att), None) => EAtt1(EVal(ev), Att1(A1Var(att),ANone))
+                  case Noun(ev, Some(att), Some(id)) => replaceAtt(EAtt1(EVal("x"+id), Att1(A1Var(att),ANone)))
+                  case Noun(ev, Some(att), None) => replaceAtt(EAtt1(EVal(ev), Att1(A1Var(att),ANone)))
                 }
                 Assign(l, ECons(e1,e2))
               }
@@ -279,6 +279,15 @@ object ParsingLang {
     }
   }
 
+  // 応急処置
+  def replaceAtt(eatt: EAtt1): Eexp = {
+    eatt match {
+      case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "lowercase_version" => EAtt2(ev,A2Var(n))
+      case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "numeric_version" => EAtt2(ev,A2Var(n))
+      case _ => eatt
+    }
+  }
+
   def cexplist2cexp(clist: List[Cexp]): Cexp = {
     clist match {
       case Nil => Skip
@@ -296,6 +305,7 @@ object ParsingLang {
   def displayCexp(cexp: Cexp, indent: Int = 0): String = {
     val indents = " "*indent
     val str = cexp match {
+      case Create(l,e) => { "%s = create %s".format(l,e) }
       case Assign(l,e) => { "%s = %s".format(l,e) }
       case AssignLoc(l,e) => "%s <- %s".format(l,e)
       case Skip => "Skip"
@@ -307,17 +317,17 @@ object ParsingLang {
     indents + str
   }
 
-  def combineIf(commands: List[Command]): List[Command] = {
+  def combineIf(commands: List[List[Command]]): List[List[Command]] = {
     commands match {
       case Nil => Nil
-      case CommandIf("if_then", args1) :: CommandIf("otherwise", args2) :: rst => {
-        CommandIfOtherwise("if",args1.head, args1.tail, args2) :: combineIf(rst)
+      case List(CommandIf("if_then", args1)) :: List(CommandIf("otherwise", args2)) :: rst => {
+        List(CommandIfOtherwise("if",args1.head, args1.tail, args2)) :: combineIf(rst)
       }
-      case CommandIf("if_then", args1) :: rst => {
-        CommandIfOtherwise("if_then",args1.head, args1.tail, Nil) :: combineIf(rst)
+      case List(CommandIf("if_then", args1)) :: rst => {
+        List(CommandIfOtherwise("if_then",args1.head, args1.tail, Nil)) :: combineIf(rst)
       }
-      case CommandIf("otherwise", args1) :: rst => {
-        CommandIfOtherwise("otherwise",null, Nil, args1) :: combineIf(rst)
+      case List(CommandIf("otherwise", args1)) :: rst => {
+        List(CommandIfOtherwise("otherwise",null, Nil, args1)) :: combineIf(rst)
       }
       case com :: rst => com :: combineIf(rst)
     }

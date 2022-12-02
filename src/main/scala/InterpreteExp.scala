@@ -62,7 +62,7 @@ object InterpreteExp {
           case LVar(x) => {
             env.get(x) match {
               case Some(locx) => (env, state1 + (locx->v))
-              case None => error("cant find %s in env".format(x))
+              case None => error("cant find %s in env (%s) at %s %s".format(x, Assign(lvar, e),SearchWrong.currentPos,SearchWrong.currentPosIdx))
             }
           }
           case LAtt(LVar(x), att) => {
@@ -71,7 +71,8 @@ object InterpreteExp {
               locx = env(x)
             } catch {
               case e => {
-                locx = env("current_token")
+                error("not found %s in env".format(x))
+                // locx = env("current_token")
               }
             }
             // val locx = env(x)
@@ -88,7 +89,7 @@ object InterpreteExp {
               case EVal(variable) => {
                 env.get(variable) match {
                   case Some(loc) => ((env + (x->loc)), state)
-                  case None => error("cant find %s in env".format(variable))
+                  case None => error("cant find %s in env (%s)".format(variable, AssignLoc(lvar, e)))
                 }
               }
               case _ => error("ParsingLang convertion invalid")
@@ -200,14 +201,14 @@ object InterpreteExp {
         obj match {
           case IChar(c) => IChar(c.toLower)
           case IList(List(IChar(c))) => IList(List(IChar(c.toLower)))
-          case _ => error("cant lower case")
+          case _ => error("cant lower case: %s".format(obj))
         }
       }
       case "numeric_version" => { // あってるかわからない
         obj match {
           case IChar(c) => IInt(c.toInt)
           case IList(List(IChar(c))) => IList(List(IInt(c.toInt)))
-          case _ => error("cant numeric case")
+          case _ => error("cant numeric case: %s".format(obj))
         }
       }
     }
