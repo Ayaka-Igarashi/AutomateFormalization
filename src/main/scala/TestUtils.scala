@@ -9,7 +9,8 @@ object TestUtils {
     doubleEscaped: Boolean,
     input: String,
     lastStartTagName: String,
-    outputs: List[IToken]
+    outputs: List[IToken],
+    errors: List[IError]
   )
 
   private def error(str: String) = Base.customError(str)
@@ -54,13 +55,27 @@ object TestUtils {
       case _ => error("output is not array: %s".format(json\"output"))
     }
     val correctOutputs = normalizeOutput(correctOutputs_, doubleEscaped)
+
+    val errors = json\"errors" match {
+      case JsUndefined() => Nil
+      case JsDefined(JsArray(a)) => {
+        a.toList.map(err => {
+          err\"code" match {
+            case JsDefined(JsString(s)) => IError(s+"_parse_error")
+            case _ => error("test file is invalid. error doesnt have code value")
+          }
+        })
+      }
+      case _ => error("test file is invalid. error is no array")
+    }
     
     TestJson(
       initialStates,
       doubleEscaped,
       input,
       lastStartTagName,
-      correctOutputs
+      correctOutputs,
+      errors
     )
   }
 
@@ -102,10 +117,10 @@ object TestUtils {
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   list(4) match {
-                    case JsBoolean(flag) => tokenAttributes += ("force-quirks_flag"->IBool(flag))
+                    case JsBoolean(flag) => tokenAttributes += ("force-quirks_flag"->IBool(!flag))
                     case _ => error("invalid test file: normalizeOutput")
                   }
-                  IToken(normalizedName, initialTokenAttributes ++ tokenAttributes)
+                  IToken("DOCTYPE_token", initialTokenAttributes ++ tokenAttributes)
                 }
                 case "StartTag" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()

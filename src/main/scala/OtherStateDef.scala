@@ -8,10 +8,19 @@ object OtherStateDef {
     current_state match {
       case "Markup_declaration_open_state" => {
         val input = charlist2string(state(env("input")))
-        val inputIdx = state(env("input_index")) match {
-          case IInt(i) => i
-          case _ => -1
+        val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
+          state(env("input_index")) match {
+            case IInt(i) => i-1
+            case _ => -1
+          }
+        } else {
+          state(env("input_index")) match {
+            case IInt(i) => i
+            case _ => -1
+          }
         }
+        val command_flag = if (state(env("reconsume_flag")) == IBool(true)) List(CommandVp("set_to", List(Noun("reconsume_flag",None,None), Noun("False", None,None))))
+        else Nil
         val commands = 
         if (input.size >= inputIdx + 2 && input.substring(inputIdx, inputIdx+2) == "--") {
           List(
@@ -49,7 +58,7 @@ object OtherStateDef {
             CommandVp("switch_to", List(Noun("Bogus_comment_state",None,None)))
           )
         }
-        val cexplist = commands.map(command2ParseLang(_))
+        val cexplist = (command_flag ++ commands).map(command2ParseLang(_))
         cexplist.foldLeft((env,state))((envstate, c) => {
           val e = envstate._1
           val s = envstate._2
@@ -58,10 +67,19 @@ object OtherStateDef {
       }
       case "After_DOCTYPE_name_state" => {
         val input = charlist2string(state(env("input")))
-        val inputIdx = state(env("input_index")) match {
-          case IInt(i) => i
-          case _ => -1
+        val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
+          state(env("input_index")) match {
+            case IInt(i) => i-1
+            case _ => -1
+          }
+        } else {
+          state(env("input_index")) match {
+            case IInt(i) => i
+            case _ => -1
+          }
         }
+        val command_flag = if (state(env("reconsume_flag")) == IBool(true)) List(CommandVp("set_to", List(Noun("reconsume_flag",None,None), Noun("False", None,None))))
+        else Nil
         val current_input_character: Char = if (input.size >= inputIdx + 1) input(inputIdx) else '0'
         // val current_input_character = input(inputIdx)
         val commands = 
@@ -105,7 +123,7 @@ object OtherStateDef {
             }
           }
         }
-        val cexplist = commands.map(command2ParseLang(_))
+        val cexplist = (command_flag ++ commands).map(command2ParseLang(_))
         cexplist.foldLeft((env,state))((envstate, c) => {
           val e = envstate._1
           val s = envstate._2
@@ -113,11 +131,19 @@ object OtherStateDef {
         })
       }
       case "Named_character_reference_state" => {
-        val input = charlist2string(state(env("input")))
-        val inputIdx = state(env("input_index")) match {
-          case IInt(i) => i
-          case _ => -1
+        val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
+          state(env("input_index")) match {
+            case IInt(i) => i-1
+            case _ => -1
+          }
+        } else {
+          state(env("input_index")) match {
+            case IInt(i) => i
+            case _ => -1
+          }
         }
+        val input = charlist2string(state(env("input")))
+        
         val returnState = state(env("return_state")) match {
           case IState(state) => state
           case _ => null
@@ -134,6 +160,8 @@ object OtherStateDef {
             }
           } else matched
         })
+        val command_flag = if (state(env("reconsume_flag")) == IBool(true)) List(CommandVp("set_to", List(Noun("reconsume_flag",None,None), Noun("False", None,None))))
+        else Nil
         val commands = matchedop match {
           case Some((characters_name, characters)) => {
             val com1 = List(
@@ -142,8 +170,10 @@ object OtherStateDef {
             )
             val b1 = interpretBexp(command2Bexp(CommandVp("the_character_reference_was_consumed_as_part_of_an_attribute", Nil)), env, state)
             val b2 = characters_name.last != 0x003b
-            val next_input_c = input(inputIdx+characters_name.size)
-            val b3 = next_input_c == 0x003d || (0x0030 <= next_input_c && next_input_c <= 0x0039 ) || (0x0041 <= next_input_c && next_input_c <= 0x005a) || (0x0061 <= next_input_c && next_input_c <= 0x007a)
+            val b3 = if (input.size > inputIdx+characters_name.size) {
+              val next_input_c = input(inputIdx+characters_name.size)
+              next_input_c == 0x003d || (0x0030 <= next_input_c && next_input_c <= 0x0039 ) || (0x0041 <= next_input_c && next_input_c <= 0x005a) || (0x0061 <= next_input_c && next_input_c <= 0x007a)
+            } else false
             val com2 = if (b1 && b2 && b3) {  
               List(
                 CommandVp("flush_code_points_consumed_as_a_character_reference",Nil),
@@ -167,11 +197,12 @@ object OtherStateDef {
           case None => {
             List(
               CommandVp("flush_code_points_consumed_as_a_character_reference",Nil),
-              CommandVp("switch_to", List(Noun("Ambiguous_ampersand_state",None,None)))
+              CommandVp("switch_to", List(Noun("Ambiguous_ampersand_state",None,None))),
+              CommandVp("set_to", List(Noun("reconsume_flag",None,None), Noun("True", None,None)))
             )
           }
         }
-        val cexplist = commands.map(command2ParseLang(_))
+        val cexplist = (command_flag ++ commands).map(command2ParseLang(_))
         cexplist.foldLeft((env,state))((envstate, c) => {
           val e = envstate._1
           val s = envstate._2
@@ -223,7 +254,7 @@ object OtherStateDef {
           CommandVp("set_to", List(Noun("temporary_buffer",None,None), Noun("empty_string", None,None))),
           CommandVp("append_to", List(Noun("character_reference_code",None,None), Noun("temporary_buffer", None,None))),
           CommandVp("flush_code_points_consumed_as_a_character_reference",Nil),
-          CommandVp("switch_to", List(Noun("return_state",None,None)))
+          CommandVp("switch_to", List(Noun("return_state",None,None))),
         )
         val cexplist = (commands1++commands2).map(command2ParseLang(_))
         cexplist.foldLeft((env,state))((envstate, c) => {

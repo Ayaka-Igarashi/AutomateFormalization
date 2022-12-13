@@ -36,7 +36,7 @@ object Environment {
     "name"->null,
     "value"->null,
     "attributes"->IList(Nil: List[ITokenAttribute]),
-    "data"->IList(Nil: List[IChar]),
+    "data"->null,//IList(Nil: List[IChar]),
     "public_identifier"->null,
     "system_identifier"->null,
     "force-quirks_flag"->IBool(false),

@@ -127,6 +127,18 @@ object InterpreteExp {
         val bool2 = interpretBexp(b2, env, state)
         bool1 || bool2
       }
+      case And(b1,b2) => {
+        val bool1 = interpretBexp(b1, env, state)
+        if (!bool1) return false
+        val bool2 = interpretBexp(b2, env, state)
+        bool1 || bool2
+      }
+      case Exist(EVal(v)) => {
+        state.get(env(v)) match {
+          case None => false
+          case Some(_) => true
+        }
+      }
     }
   }
 
@@ -135,7 +147,17 @@ object InterpreteExp {
       case EVal(x) => {
         if (env.get(x) == None) {
           (str2obj(x, env, state), state)
-        } else (state(env(x)),state)
+        } else {
+          try {
+            (state(env(x)),state)
+          } catch {
+            case e => {
+              // println(x)
+              // println(displayES(env,state))
+              error("cant find %s".format(x))
+            }
+          }
+        }
       }
       case EAtt1(e,att) => {
         val (v, state1) = interpretEexp(e,env,state)
@@ -170,7 +192,8 @@ object InterpreteExp {
         val (v2, state2) = interpretEexp(e2,env,state1)
         val v = (v1, v2) match {
           case (IList(list), obj) => IList(list :+ obj)
-          case _ => error("interpretEexp: ECons: not list: %1$s %2$s".format(e1,v1))
+          case (IChar(c), obj) => IList(List(IChar(c)) :+ obj)
+          case _ => error("interpretEexp: ECons: not list: %1$s %2$s %3$s".format(e1,v1,displayES(env,state2)))
         }
         (v, state)
       }
@@ -235,7 +258,7 @@ object InterpreteExp {
             }
           }
           case (IList(list), LastElem) => list.last
-          case _ => error("getAttributeVal_sub3 : error")
+          case _ => error("getAttributeVal_sub3 : error obj: %s , att: %s".format(obj,att))
         }
         getAttributeVal_sub(v, rst)
       }
@@ -275,7 +298,16 @@ object InterpreteExp {
               }
             }
           }
-          case (IList(list), LastElem) => (IList(list.slice(0, list.size-1) :+ Hole), list.last)
+          case (IList(list), LastElem) => {
+            try {
+              (IList(list.slice(0, list.size-1) :+ Hole), list.last)
+            } catch {
+              case e => {
+                println("dont exist last elem: att: %s, obj1: %s, obj2: %s, obj_s: %s".format(att, obj1,obj2,obj_s))
+                (IList(list.slice(0, list.size-1) :+ Hole), list.last)
+              }
+            }
+          }
           case _ => error("substituteInAttribute_sub : error")
         }
         val obj3 = substituteInAttribute_sub(rst, obj1, v, obj_s2)
@@ -315,6 +347,7 @@ object InterpreteExp {
   def str2obj(str: String, env: Env, state: State): ParsingObject = {
     if (str.endsWith("_state")) IState(str)
     else if (str == "current_tag_token") state(env("current_token"))
+    else if ("U\\+[0-9A-F]{4}.*_character_token".r.matches(str)) IChar(Integer.parseInt(str.substring(2,6), 16).toChar)
     else if (str.endsWith("_token")) IToken(str,initialTokenAttributes)
     else if (str.endsWith("_parse_error")) IError(str)
     else if (str.contains("attribute")) ITokenAttribute(Map("name"->null, "value"->null))

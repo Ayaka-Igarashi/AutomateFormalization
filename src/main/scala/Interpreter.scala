@@ -10,9 +10,11 @@ object Interpreter {
   var stateCommandList: Map[String, (List[(String,String)],List[(String, List[(String,String)])])] = null
   var definition: Map[String, StateDef] = null
 
-  def loadDef() = {
-    definition = makeStateDefinition("src/input/translate_1116.txt")
+  def loadDef(): Any = {
+    if (definition != null) return
+    definition = makeStateDefinition("src/out/fixed.txt")
     println("\u001b[37m\u001b[46mINFO: \u001b[0m definition was set")
+    OtherStateDef.init()
   }
 
   def interpreter_default(str: String) = {
@@ -22,7 +24,8 @@ object Interpreter {
     // println("E = %s".format(env))
     // println("S = %s".format(state))
     var eofFlag = false
-    while (!eofFlag) {
+    var loopNum = 0
+    while (!eofFlag && loopNum < 10) {
       // eofFlag = true // ここ消す
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState(current_state, env, state)
@@ -33,6 +36,7 @@ object Interpreter {
       env = e
       state = s
       println(displayES(e,s))
+      loopNum += 1
       // println("S = %s\n".format(s))
     }
   }

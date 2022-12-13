@@ -10,6 +10,9 @@ object Base {
     throw(e)
   }
 
+  class MyStopError() extends Throwable
+  def stopError() = throw(new MyStopError())
+
   val customErrorLogs = new ErrorLog()
 
   class ErrorLog() {

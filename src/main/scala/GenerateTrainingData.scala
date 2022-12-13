@@ -15,7 +15,7 @@ object GenerateTrainingData {
   val ifDataNum = 15000 //15000
   val multiDataNum = 10000
 
-  val traingDataFile = "src/trainingData.txt"
+  val traingDataFile = "src/out/trainingData.txt"
 
   def getOntologyObject_(xlist: List[String]): Map[String, List[String]] = {getOntologyObjectWithIdx(xlist)}
 

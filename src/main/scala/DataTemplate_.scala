@@ -55,7 +55,7 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 
 // this_is_parse_error(z0,z1)
 ( Function("this_is_parse_error",List(TermVariable("z0"))) ,
- "This is <det> <z0>",1),
+ "this is <det> <z0>",1),
 
 // switch_to(z0)
 ( Function("switch_to",List(TermVariable("z0"))) ,
@@ -63,7 +63,7 @@ val templates: List[(Term|List[Term], String, Int)] = List(
 
 // flush_code_points_consumed_as_a_character_reference
 ( Function("flush_code_points_consumed_as_a_character_reference",List()) ,
- "Flush code points consumed as a character reference",0),
+ "flush code points consumed as a character reference",0),
 
 // treat_it_as_per_the_"_anything_else_"_entry_below
 ( Function("treat_it_as_per_the_\"_anything_else_\"_entry_below",List()) ,

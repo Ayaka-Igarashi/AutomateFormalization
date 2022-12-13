@@ -19,6 +19,8 @@ object ParsingLang {
   trait Bexp
   case class Equal(e1: Eexp, e2: Eexp) extends Bexp
   case class Or(b1: Bexp, b2: Bexp) extends Bexp
+  case class And(b1: Bexp, b2: Bexp) extends Bexp
+  case class Exist(e: EVal) extends Bexp
 
   trait Lexp
   // case class LLexp(x: String, att: Option[Attexp1])
@@ -77,7 +79,8 @@ object ParsingLang {
         }
       }
       case CommandVp(com,args1) => {
-        val args = args1.map(normalizeNoun(_))
+        val args2 = if (com != "create" && com != "emit") args1.map(adhocFunc(_)) else args1
+        val args = if (com != "create") args2.map(adhocFunc2(_)) else args2
         com match {
           case "switch_to" => {
             args match {
@@ -97,8 +100,8 @@ object ParsingLang {
                 val l = lvar match {
                   case Noun(lv, None, Some(id)) => LVar("x"+id)
                   case Noun(lv, None, None) => LVar(lv)
-                  case Noun(lv, Some(att), Some(id)) => LAtt(LVar("x"+id),Att1(A1Var(att),ANone))
-                  case Noun(lv, Some(att), None) => LAtt(LVar(lv),Att1(A1Var(att),ANone))
+                  case Noun(lv, Some(att), Some(id)) => replaceLAtt(LAtt(LVar("x"+id),Att1(A1Var(att),ANone)))
+                  case Noun(lv, Some(att), None) => replaceLAtt(LAtt(LVar(lv),Att1(A1Var(att),ANone)))
                 }
                 val e = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
@@ -117,8 +120,8 @@ object ParsingLang {
                 val (l,e1) = lvar match {
                   case Noun(lv, None, Some(id)) => (LVar("x"+id),EVal("x"+id))
                   case Noun(lv, None, None) => (LVar(lv),EVal(lv))
-                  case Noun(lv, Some(att), Some(id)) => (LAtt(LVar("x"+id),Att1(A1Var(att),ANone)),EAtt1(EVal("x"+id), Att1(A1Var(att),ANone)))
-                  case Noun(lv, Some(att), None) => (LAtt(LVar(lv),Att1(A1Var(att),ANone)),EAtt1(EVal(lv), Att1(A1Var(att),ANone)))
+                  case Noun(lv, Some(att), Some(id)) => (replaceLAtt(LAtt(LVar("x"+id),Att1(A1Var(att),ANone))), replaceAtt(EAtt1(EVal("x"+id), Att1(A1Var(att),ANone))))
+                  case Noun(lv, Some(att), None) => (replaceLAtt(LAtt(LVar(lv),Att1(A1Var(att),ANone))), replaceAtt(EAtt1(EVal(lv), Att1(A1Var(att),ANone))))
                 }
                 val e2 = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
@@ -210,8 +213,8 @@ object ParsingLang {
                 val e = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
                   case Noun(ev, None, None) => EVal(ev)
-                  case Noun(ev, Some(att), Some(id)) => EAtt1(EVal("x"+id), Att1(A1Var(att),ANone))
-                  case Noun(ev, Some(att), None) => EAtt1(EVal(ev), Att1(A1Var(att),ANone))
+                  case Noun(ev, Some(att), Some(id)) => replaceAtt(EAtt1(EVal("x"+id), Att1(A1Var(att),ANone)))
+                  case Noun(ev, Some(att), None) => replaceAtt(EAtt1(EVal(ev), Att1(A1Var(att),ANone)))
                 }
                 Assign(LVar("character_reference_code"), EPlus(EVal("character_reference_code"), e))
               }
@@ -224,8 +227,8 @@ object ParsingLang {
                 val e = evar match {
                   case Noun(ev, None, Some(id)) => EVal("x"+id)
                   case Noun(ev, None, None) => EVal(ev)
-                  case Noun(ev, Some(att), Some(id)) => EAtt1(EVal("x"+id), Att1(A1Var(att),ANone))
-                  case Noun(ev, Some(att), None) => EAtt1(EVal(ev), Att1(A1Var(att),ANone))
+                  case Noun(ev, Some(att), Some(id)) => replaceAtt(EAtt1(EVal("x"+id), Att1(A1Var(att),ANone)))
+                  case Noun(ev, Some(att), None) => replaceAtt(EAtt1(EVal(ev), Att1(A1Var(att),ANone)))
                 }
                 Assign(LVar("character_reference_code"), EMul(EVal("character_reference_code"), e))
               }
@@ -236,9 +239,10 @@ object ParsingLang {
             Assign(LAtt(LVar("current_token"), Att1(A1Var("attributes"), ANone)), ECons(EAtt1(EVal("current_token"), Att1(A1Var("attributes"), ANone)), EVal("attribute")))
           }
           case "flush_code_points_consumed_as_a_character_reference" => {
-            If(Equal(EVal(""), EVal("")),
-                  Assign(LAtt(LVar("current_token"), Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var("value"), ANone)))), ECons(EAtt1(EVal("current_token"), Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var("value"), ANone)))),EVal("temporary_buffer"))), 
-                  Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal("temporary_buffer"))))
+            val bexp = command2Bexp(CommandVp("the_character_reference_was_consumed_as_part_of_an_attribute", Nil))
+            If(bexp,
+                Assign(LAtt(LVar("current_token"), Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var("value"), ANone)))), ECons(EAtt1(EVal("current_token"), Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var("value"), ANone)))),EVal("temporary_buffer"))), 
+                Assign(LVar("output_tokens"), ECons(EVal("output_tokens"), EVal("temporary_buffer"))))
           }
           case _ => Skip
         }
@@ -262,7 +266,8 @@ object ParsingLang {
       }
       case CommandVp("the_current_end_tag_token_is_an_appropriate_end_tag_token", args) => {
         args match {
-          case Nil => Equal(EAtt1(EVal("current_tag_token"), Att1(A1Var("name"), ANone)), EAtt1(EVal("last_start_tag_token"), Att1(A1Var("name"), ANone)))
+          case Nil => And(Exist(EVal("last_start_tag_token")),
+                      Equal(EAtt1(EVal("current_token"), Att1(A1Var("name"), ANone)), EAtt1(EVal("last_start_tag_token"), Att1(A1Var("name"), ANone))))
           case _ => error("bexp: argsnum")
         }
       }
@@ -279,12 +284,43 @@ object ParsingLang {
     }
   }
 
-  // 応急処置
+  def adhocFunc(noun: Noun): Noun = {
+    noun match {
+      case Noun(s, a, c) => {
+        // ほんとは the を含むかつ _token で終わるやつを指定したいが、学習データで the を取り除いてしまっているからこうなっている
+        if (s.endsWith("_token") && s != "end-of-file_token" && !s.endsWith("_character_token")) Noun("current_token",a,c)
+        else if (s == "current_input_character") Noun(s, a, None)
+        else if (s == "temporary_buffer") Noun(s, a, None)
+        else if (s == "attribute") Noun(s, a, None)
+        else if (s.endsWith("_parse_error")) Noun(s, a, None)
+        else noun
+      }
+    }
+  }
+  def adhocFunc2(noun: Noun): Noun = {
+    noun match {
+      case Noun(s, a, c) => {
+        if (s.endsWith("_token") && s != "end-of-file_token" && !s.endsWith("_character_token")) Noun("current_token",a,c)
+        else if (s == "current_input_character") Noun(s, a, None)
+        else if (s == "temporary_buffer") Noun(s, a, None)
+        else noun
+      }
+    }
+  }
+
+  // 
   def replaceAtt(eatt: EAtt1): Eexp = {
     eatt match {
+      case EAtt1(ev,Att1(A1Var(n), ANone)) if ev == EVal("attribute") => EAtt1(EVal("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
       case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "lowercase_version" => EAtt2(ev,A2Var(n))
       case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "numeric_version" => EAtt2(ev,A2Var(n))
       case _ => eatt
+    }
+  }
+  def replaceLAtt(latt: LAtt): Lexp = {
+    latt match {
+      case LAtt(ev,Att1(A1Var(n), ANone)) if ev == LVar("attribute") => LAtt(LVar("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
+      case _ => latt
     }
   }
 
@@ -332,4 +368,5 @@ object ParsingLang {
       case com :: rst => com :: combineIf(rst)
     }
   }
+
 }
