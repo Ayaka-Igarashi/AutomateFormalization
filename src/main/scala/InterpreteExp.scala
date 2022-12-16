@@ -101,6 +101,7 @@ object InterpreteExp {
       case Skip => (env,state)
       case If(bexp, c1, c2) => {
         val b = interpretBexp(bexp,env,state)
+        // println("%s %s %s".format(bexp,b, c2))
         if (b) {
           interpretCexp(c1,env,state)
         } else {
@@ -119,6 +120,7 @@ object InterpreteExp {
       case Equal(e1,e2) => {
         val (v1, state1) = interpretEexp(e1,env,state)
         val (v2, state2) = interpretEexp(e2,env,state1)
+        // println("%s %s %s".format(v1,v2,v1 == v2))
         if (v1 == v2) true
         else false
       }
@@ -131,7 +133,7 @@ object InterpreteExp {
         val bool1 = interpretBexp(b1, env, state)
         if (!bool1) return false
         val bool2 = interpretBexp(b2, env, state)
-        bool1 || bool2
+        bool1 && bool2
       }
       case Exist(EVal(v)) => {
         state.get(env(v)) match {
@@ -191,6 +193,7 @@ object InterpreteExp {
         val (v1, state1) = interpretEexp(e1,env,state)
         val (v2, state2) = interpretEexp(e2,env,state1)
         val v = (v1, v2) match {
+          case (IList(list), IList(list2)) => IList(list ++ list2)
           case (IList(list), obj) => IList(list :+ obj)
           case (IChar(c), obj) => IList(List(IChar(c)) :+ obj)
           case _ => error("interpretEexp: ECons: not list: %1$s %2$s %3$s".format(e1,v1,displayES(env,state2)))
@@ -210,7 +213,7 @@ object InterpreteExp {
         val (v1, state1) = interpretEexp(e1,env,state)
         val (v2, state2) = interpretEexp(e2,env,state1)
         val v = (v1, v2) match {
-          case (IList(list), IInt(i)) => list(i)
+          case (IList(list), IInt(i)) => list(i.toInt)
           case _ => error("interpretEexp: EIdx: not (list,int)")
         }
         (v, state)
@@ -227,10 +230,10 @@ object InterpreteExp {
           case _ => error("cant lower case: %s".format(obj))
         }
       }
-      case "numeric_version" => { // あってるかわからない
+      case "numeric_version" => {
         obj match {
-          case IChar(c) => IInt(c.toInt)
-          case IList(List(IChar(c))) => IList(List(IInt(c.toInt)))
+          case IChar(c) => IInt(Integer.parseInt(c.toString, 16))
+          case IList(List(IChar(c))) => IList(List(IInt(Integer.parseInt(c.toString, 16))))
           case _ => error("cant numeric case: %s".format(obj))
         }
       }
@@ -361,7 +364,7 @@ object InterpreteExp {
     else if (str == "eof") IEOF
     else if (str == "empty_string") IList(Nil)
     else if (str.startsWith("string_")) string2charlist(str.substring(8,str.size-1))
-    else if (str == "True") IBool(true)
+    else if (str == "on" || str == "True") IBool(true)
     else if (str == "False") IBool(false)
     else if (str.toIntOption != None) IInt(str.toInt)
     else if (varlist.contains(str)) IVar(str) // これいる？変数の値を取ってきた方がいい？

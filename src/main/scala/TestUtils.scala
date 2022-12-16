@@ -40,8 +40,8 @@ object TestUtils {
       case _ => error("no input error: %s".format(json\"input"))
     }
     val input = if (doubleEscaped == true) {
-      val reg = "\\\\u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]".r
-      reg.replaceAllIn(input_, m => m.toString.substring(1,6))
+      val reg = "\\\\u[0-9a-fA-F]{4}".r
+      reg.replaceAllIn(input_, m => Integer.parseInt(m.toString.substring(2,6), 16).toChar.toString)
     } else input_
 
     val lastStartTagName = json\"lastStartTag" match {
@@ -102,17 +102,26 @@ object TestUtils {
                 case "DOCTYPE" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()
                   list(1) match {
-                    case JsString(n) => tokenAttributes += ("name"->string2charlist(n))
+                    case JsString(n) => {
+                      val n1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(n, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else n
+                      tokenAttributes += ("name"->string2charlist(n1))}
                     case JsNull => 
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   list(2) match {
-                    case JsString(pubid) => tokenAttributes += ("public_identifier"->string2charlist(pubid))
+                    case JsString(pubid) => {
+                      val pubid1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(pubid, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else pubid
+                      tokenAttributes += ("public_identifier"->string2charlist(pubid1))}
                     case JsNull => 
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   list(3) match {
-                    case JsString(sysid) => tokenAttributes += ("system_identifier"->string2charlist(sysid))
+                    case JsString(sysid) => {
+                      val sysid1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(sysid, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else sysid
+                      tokenAttributes += ("system_identifier"->string2charlist(sysid1))}
                     case JsNull => 
                     case _ => error("invalid test file: normalizeOutput")
                   }
@@ -125,14 +134,20 @@ object TestUtils {
                 case "StartTag" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()
                   list(1) match {
-                    case JsString(n) => tokenAttributes += ("name"->string2charlist(n))
+                    case JsString(n) => {
+                      val n1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(n, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else n
+                      tokenAttributes += ("name"->string2charlist(n1))}
                     case JsNull => 
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   list(2) match {
                     case JsObject(attributeMap) => {
                       val attributes = attributeMap.map(att => {
-                        ITokenAttribute(Map("name"->string2charlist(att._1), "value"->string2charlist(att._2.toString)))                        
+                        att._2 match {
+                          case JsString(attval) => ITokenAttribute(Map("name"->string2charlist(att._1), "value"->string2charlist(attval)))
+                          case _ => error("invalid test file: normalizeOutput")
+                        }               
                       }).toList
                       tokenAttributes += ("attributes"->IList(attributes))
                     }
@@ -149,7 +164,10 @@ object TestUtils {
                 case "EndTag" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()
                   list(1) match {
-                    case JsString(n) => tokenAttributes += ("name"->string2charlist(n))
+                    case JsString(n) => {
+                      val n1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(n, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else n
+                      tokenAttributes += ("name"->string2charlist(n1))}
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   IToken(normalizedName, initialTokenAttributes ++ tokenAttributes)
@@ -157,7 +175,10 @@ object TestUtils {
                 case "Comment" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()
                   list(1) match {
-                    case JsString(n) => tokenAttributes += ("data"->string2charlist(n))
+                    case JsString(n) => {
+                      val n1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(n, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else n
+                      tokenAttributes += ("data"->string2charlist(n1))}
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   IToken(normalizedName, initialTokenAttributes ++ tokenAttributes)
@@ -165,7 +186,10 @@ object TestUtils {
                 case "Character" => {
                   var tokenAttributes: Map[String,ParsingObject] = Map()
                   list(1) match {
-                    case JsString(n) => tokenAttributes += ("data"->string2charlist(n))
+                    case JsString(n) => {
+                      val n1 = if (doubleEscaped) "\\\\u[0-9a-fA-F]{4}".r.replaceAllIn(n, m => Integer.parseInt(m.toString().tail.tail, 16).toChar.toString)
+                      else n
+                      tokenAttributes += ("data"->string2charlist(n1))}
                     case _ => error("invalid test file: normalizeOutput")
                   }
                   IToken(normalizedName, initialTokenAttributes ++ tokenAttributes)

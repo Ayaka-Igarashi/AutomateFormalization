@@ -10,12 +10,12 @@ object OtherStateDef {
         val input = charlist2string(state(env("input")))
         val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
           state(env("input_index")) match {
-            case IInt(i) => i-1
+            case IInt(i) => (i-1).toInt
             case _ => -1
           }
         } else {
           state(env("input_index")) match {
-            case IInt(i) => i
+            case IInt(i) => i.toInt
             case _ => -1
           }
         }
@@ -37,7 +37,7 @@ object OtherStateDef {
         } else if (input.size >= inputIdx + 7 && input.substring(inputIdx, inputIdx+7) == "[CDATA[") {
           val c1 = CommandVp("set_to", List(Noun("input_index", None,None), Noun((inputIdx+7).toString, None,None)))
           val c2 =
-          if (true) {
+          if (false) {
             List(
               CommandVp("switch_to", List(Noun("CDATA_section_state",None,None)))
             )
@@ -69,33 +69,35 @@ object OtherStateDef {
         val input = charlist2string(state(env("input")))
         val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
           state(env("input_index")) match {
-            case IInt(i) => i-1
+            case IInt(i) => (i-1).toInt
             case _ => -1
           }
         } else {
           state(env("input_index")) match {
-            case IInt(i) => i
+            case IInt(i) => i.toInt
             case _ => -1
           }
         }
         val command_flag = if (state(env("reconsume_flag")) == IBool(true)) List(CommandVp("set_to", List(Noun("reconsume_flag",None,None), Noun("False", None,None))))
         else Nil
-        val current_input_character: Char = if (input.size >= inputIdx + 1) input(inputIdx) else '0'
+        val current_input_character: Int = if (input.size >= inputIdx + 1) input(inputIdx).toInt else -1
         // val current_input_character = input(inputIdx)
         val commands = 
-        current_input_character.toInt match {
+        current_input_character match {
           case i if (i==0x9||i==0xa||i==0xc||i==0x20) => {
             List(
+              CommandVp("set_to", List(Noun("input_index", None,None), Noun((inputIdx+1).toString, None,None))),
               CommandVp("ignore_the_character", List())
             )
           }
           case 0x3e => {
             List(
+              CommandVp("set_to", List(Noun("input_index", None,None), Noun((inputIdx+1).toString, None,None))),
               CommandVp("switch_to", List(Noun("Data_state",None,None))),
               CommandVp("emit", List(Noun("current_token",None,None)))
             )
           }
-          case 0 => {
+          case -1 => {
             List(
               CommandVp("this_is_parse_error", List(Noun("eof-in-doctype_parse_error",None,None))),
               CommandVp("set_to", List(Noun("current_token",Some("force-quirks_flag"),None), Noun("on",None,None))),
@@ -116,6 +118,7 @@ object OtherStateDef {
               )
             } else {
               List(
+                CommandVp("set_to", List(Noun("input_index", None,None), Noun((inputIdx+1).toString, None,None))),
                 CommandVp("this_is_parse_error", List(Noun("invalid-character-sequence-after-doctype-name_parse_error",None,None))),
                 CommandVp("set_to", List(Noun("current_token",Some("force-quirks_flag"),None), Noun("on",None,None))),
                 CommandVp("reconsume_in", List(Noun("Bogus_DOCTYPE_state",None,None)))
@@ -133,12 +136,12 @@ object OtherStateDef {
       case "Named_character_reference_state" => {
         val inputIdx = if (state(env("reconsume_flag")) == IBool(true)) {
           state(env("input_index")) match {
-            case IInt(i) => i-1
+            case IInt(i) => (i-1).toInt
             case _ => -1
           }
         } else {
           state(env("input_index")) match {
-            case IInt(i) => i
+            case IInt(i) => i.toInt
             case _ => -1
           }
         }
@@ -238,26 +241,32 @@ object OtherStateDef {
         } else if (character_reference_code == 0x0d 
                   || (((0 <= character_reference_code && character_reference_code <=0x1f) || (0x7f<=character_reference_code && character_reference_code<=0x9f))
                       && !(List(0x9,0xa,0xc,0xd,0x20).contains(character_reference_code)))) {
-          List(
-            CommandVp("this_is_parse_error", List(Noun("control-character-reference_parse_error",None,None)))
-          )
-        } else {
-          // 表を照らし合わせ
           state80table.get(character_reference_code) match {
             case Some(code) => {
-              List(CommandVp("set_to", List(Noun("character_reference_code",None,None), Noun(code.toString, None,None))))
+              List(
+                CommandVp("this_is_parse_error", List(Noun("control-character-reference_parse_error",None,None))),
+                CommandVp("set_to", List(Noun("character_reference_code",None,None), Noun(code.toString, None,None))))
             }
-            case None => Nil
+            case None => List(CommandVp("this_is_parse_error", List(Noun("control-character-reference_parse_error",None,None))))
           }
+        } else Nil
+        val (env1,state1) = commands1.map(command2ParseLang(_)).foldLeft((env,state))((envstate, c) => {
+          val e = envstate._1
+          val s = envstate._2
+          interpretCexp(c, e, s)
+        })
+        val codePoint = state1(env1("character_reference_code")) match {
+          case IInt(i) => i.toChar
+          case _ => Base.error()
         }
         val commands2 = List(
           CommandVp("set_to", List(Noun("temporary_buffer",None,None), Noun("empty_string", None,None))),
-          CommandVp("append_to", List(Noun("character_reference_code",None,None), Noun("temporary_buffer", None,None))),
+          CommandVp("append_to", List(Noun(codePoint.toString,None,None), Noun("temporary_buffer", None,None))),
           CommandVp("flush_code_points_consumed_as_a_character_reference",Nil),
           CommandVp("switch_to", List(Noun("return_state",None,None))),
         )
-        val cexplist = (commands1++commands2).map(command2ParseLang(_))
-        cexplist.foldLeft((env,state))((envstate, c) => {
+        val cexplist = commands2.map(command2ParseLang(_))
+        cexplist.foldLeft((env1,state1))((envstate, c) => {
           val e = envstate._1
           val s = envstate._2
           interpretCexp(c, e, s)

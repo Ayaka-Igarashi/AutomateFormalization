@@ -17,7 +17,8 @@ object Interpreter {
     OtherStateDef.init()
   }
 
-  def interpreter_default(str: String) = {
+  def interpreter_default(str1: String) = {
+    val str = normalizeNewline(str1)
     var env = initialEnv
     var state = initialState.updated(env("input"), string2charlist(str))
     println(displayES(env,state))
@@ -41,7 +42,8 @@ object Interpreter {
     }
   }
 
-  def interpreter(str: String, initenv: Env, initstate: State): (Env,State) = {
+  def interpreter(str1: String, initenv: Env, initstate: State): (Env,State) = {
+    val str = normalizeNewline(str1)
     var env = initenv
     var state = initstate.updated(env("input"), string2charlist(str))
     // println(displayES(env,state))
@@ -58,10 +60,14 @@ object Interpreter {
       }
       env = e
       state = s
-      // println(displayES(e,s))
+      println(displayES(e,s))
       // println("S = %s\n".format(s))
     }
     (env,state)
+  }
+
+  def normalizeNewline(str: String): String = {
+    str.replaceAll("\u000d\u000a", "\u000a").replaceAll("\u000d", "\u000a")
   }
 
   def interpretState(current_state: String, env: Env, state: State): (Env, State) = {
@@ -122,7 +128,7 @@ object Interpreter {
       case "ASCII upper hex digit" => List((0x0030, 0x0039), (0x0041, 0x0046))
       case "ASCII lower hex digit" => List((0x0030, 0x0039), (0x0061, 0x0066))
       case "ASCII digit" => List((0x0030, 0x0039))
-      case "Anything else" => List((0,0xffff))
+      case "Anything else" => List((-1,0xffff))
       case "EOF" => List((-1,-1))
       case s"U+$x" => {
         val unicode = Integer.parseInt(x.substring(0,4), 16)
@@ -209,9 +215,30 @@ object Interpreter {
       }
     })
     if (tmp != Nil) translist :+= tmp
+
+    def combine1(list: List[String]): List[String] = {
+      list match {
+        case Nil => Nil
+        case c :: Nil => c :: Nil
+        case i::o::rst if i.startsWith("If") && o.startsWith("Otherwise") => "%s . %s".format(i,o)::combine1(rst)
+        case c :: rst => c :: combine1(rst)
+      }
+    }
+    def combine2(list: List[String]): List[String] = {
+      list match {
+        case Nil => Nil
+        case c :: Nil => c :: Nil
+        case i::o::rst if i.startsWith(" =>  if_then") && o.startsWith(" =>  otherwise") => "%s | %s".format(i,o.substring(5,o.size))::combine2(rst)
+        case c :: rst => c :: combine2(rst)
+      }
+    }
+
     val trans1 = translist.map(t => {
       val partition_t = t.tail.zipWithIndex.partition(ni => ni._2 % 2 == 0)
-      val t1 = (partition_t._1 zip partition_t._2).map(nini => (nini._1._1, nini._2._1))
+      // if otherwiseくっつけた
+      val sent1 = combine1(partition_t._1.map(ni => ni._1))
+      val sent2 = combine2(partition_t._2.map(ni => ni._1))
+      val t1 = (sent1 zip sent2).map(nn => (nn._1, nn._2))
       (t.head, t1)
     })
     (prev1, trans1)

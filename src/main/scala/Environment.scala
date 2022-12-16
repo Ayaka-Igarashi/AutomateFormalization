@@ -46,7 +46,7 @@ object Environment {
   trait ParsingObject
   case class IVar(v: String) extends ParsingObject
 
-  case class IInt(i: Int) extends ParsingObject
+  case class IInt(i: Long) extends ParsingObject
   case class IBool(b: Boolean) extends ParsingObject
   case class IChar(c: Char) extends ParsingObject
   case object IEOF extends ParsingObject
@@ -63,7 +63,18 @@ object Environment {
 
   // case class IObj[A](obj: A) extends ParsingObject
   def string2charlist(str: String): ParsingObject = {
-    IList(str.map(c => IChar(c)).toList)
+    // surrogate
+    var str_nosurrogate = ""
+    var previousIsSurrogate = false
+    str.zipWithIndex.foreach((c,i) => {
+      if (!previousIsSurrogate) {
+        if (str.codePointAt(i) != c.toInt) {
+          str_nosurrogate += str.codePointAt(i).toChar
+          previousIsSurrogate = true
+        } else str_nosurrogate += c
+      } else previousIsSurrogate = false
+    })
+    IList(str_nosurrogate.map(c => IChar(c)).toList)
   }
 
   def charlist2string(ilist: ParsingObject): String = {
