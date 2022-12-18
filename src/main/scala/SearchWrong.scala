@@ -33,11 +33,11 @@ object SearchWrong {
   def testAll() = {
     val outfile = new java.io.PrintWriter("src/out/wrongs.txt")
     loadDef()
-    // testFile("src/html_test_files/contentModelFlags.test")
-    // testFile("src/html_test_files/domjs.test")
-    // testFile("src/html_test_files/entities.test")
-    // testFile("src/html_test_files/escapeFlag.test")
-    // testFile("src/html_test_files/namedEntities.test")
+    testFile("src/html_test_files/contentModelFlags.test")
+    testFile("src/html_test_files/domjs.test")
+    testFile("src/html_test_files/entities.test")
+    testFile("src/html_test_files/escapeFlag.test")
+    testFile("src/html_test_files/namedEntities.test")
     testFile("src/html_test_files/numericEntities.test")
     testFile("src/html_test_files/pendingSpecChanges.test")
     testFile("src/html_test_files/test1.test")
@@ -79,7 +79,7 @@ object SearchWrong {
       println("> %1$4s/%2$-4s".format(i,size))
       i += 1
       val formatted = formatTest(test)
-      if (formatted.outputs.size > 1) testOne(formatted)
+      if (haveNoBadSurrogate(formatted.input) && formatted.outputs.size > 1) testOne(formatted)
       print("\u001b[1F\u001b[2K")
     }
     print("\u001b[1F\u001b[2K")
@@ -104,9 +104,10 @@ object SearchWrong {
         correctNum += 1}//
       else {
         wrongPosSet ++= wayOfPosSet
-        println(correctout)
-        println(displayES(e,s))
-        0/0
+        // println(test.description)
+        // println(correctout)
+        // println(displayES(e,s))
+        // 0/0
         // println(displayCexp(cexplist2cexp(log)))
       }
     } catch {
@@ -138,18 +139,86 @@ object SearchWrong {
     while (!eofFlag && switchNum < str.size*3+10) {
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState_log(current_state, env, state, logFunction)
+      var newS = s
       val output_tokens = s(e("output_tokens"))
       output_tokens.asInstanceOf[IList].list.lastOption match {
         case Some(IToken("end-of-file_token",_)) => eofFlag = true
+        case Some(IToken("end_tag_token", tokmap)) => {
+          tokmap("attributes") match {
+            case IList(Nil) => 
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-attributes_parse_error")))
+            }
+          }
+          tokmap("self-closing_flag") match {
+            case IBool(false) =>
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-trailing-solidus_parse_error")))
+            }
+          }
+        }
+        case Some(IToken(tokname, tokmap)) => {
+          tokmap("attributes") match {
+            case IList(Nil) => 
+            case IList(list) => {
+              //output.last更新
+              val names: List[String] = list.map(a => {
+                charlist2string(a.asInstanceOf[ITokenAttribute].attribute("name"))
+              })
+              if (names!=Nil) {
+                // 被っている->false
+                val isDupList: List[Boolean] = names.tail.zipWithIndex.map((name,i) => {
+                  if (names.slice(0,i+1).contains(name)) false
+                  else true
+                })
+                val removedDupAttList = list.head :: (list.tail zip isDupList).flatMap((att, bool) => if (bool) List(att) else Nil)
+                val outTokens = (newS(e("output_tokens")) match {
+                  case IList(tokens) => tokens
+                })
+                newS = newS + (e("output_tokens")->IList(outTokens.slice(0, outTokens.size-1) :+ IToken(tokname,tokmap + ("attributes"->IList(removedDupAttList)))))
+              }
+            }
+            case _ =>
+          }
+        }
         case _ =>
+      }
+      if (current_state=="Attribute_name_state"&&current_state!=s(e("state")).asInstanceOf[IState].state) {
+        s(e("current_token")) match {
+          case IToken(tokname, tokmap) => {
+            tokmap("attributes") match {
+              case IList(list) => {
+                val names: List[String] = list.map(a => {
+                  charlist2string(a.asInstanceOf[ITokenAttribute].attribute("name"))
+                })
+                if (names!=Nil) {
+                  if (names.slice(0,names.size-1).contains(names.last)) {
+                    val errors = newS(e("error_list")) match {
+                      case IList(errorlist) => errorlist
+                    }
+                    newS = newS + (e("error_list")->IList(errors :+ IError("duplicate-attribute_parse_error")))
+                  }
+                }
+              }
+            }
+          }
+          case _ =>
+        }
       }
 
       // println("%s %s".format(s(e("output_tokens")), correctOutputs(correctOutIdx)))
-      val output_tokensSize = output_tokens.asInstanceOf[IList].list.size 
+      val newOutput_tokens = newS(e("output_tokens"))
+      val output_tokensSize = newOutput_tokens.asInstanceOf[IList].list.size 
       val lastOutputListSize = lastOutputList.asInstanceOf[IList].list.size
       if (output_tokensSize != lastOutputListSize) {
         // val outputNum = output_tokensSize - lastOutputListSize
-        val outToks = output_tokens.asInstanceOf[IList].list.slice(lastOutputListSize, output_tokensSize)
+        val outToks = newOutput_tokens.asInstanceOf[IList].list.slice(lastOutputListSize, output_tokensSize)
         outToks.foreach(tok => {
           // println("%s".format(tok))
           // println("%s".format(correctOutputs(correctOutIdx)))
@@ -180,11 +249,42 @@ object SearchWrong {
               })
               correctOutIdx += toknum
             }
-            case _ => {
-              if (correctOutputs.size <= correctOutIdx||(correctOutputs.size > correctOutIdx && tok != correctOutputs(correctOutIdx))) {
+            case IInt(int) => {
+              val toki = IChar(int.toString.head)
+              if (correctOutputs.size <= correctOutIdx||(correctOutputs.size > correctOutIdx && toki != correctOutputs(correctOutIdx))) {
                 // println(log)
                 wrongToken = true
-              } else if (correctOutputs.size > correctOutIdx && tok == correctOutputs(correctOutIdx)) {
+              } else if (correctOutputs.size > correctOutIdx && toki == correctOutputs(correctOutIdx)) {
+                if (wrongToken == false){
+                  correctPosSet ++= wayOfPosSet
+                  wayOfPosSet = Set()}
+              }
+              correctOutIdx += 1
+            }
+            case IToken(tokname, tokmap) if tokname=="end_tag_token" => {
+              val tokmap1 = tokmap("attributes") match {
+                case IList(Nil) => tokmap
+                case _ => tokmap + ("attributes"->IList(Nil))
+              }
+              val toki = tokmap1("self-closing_flag") match {
+                case IBool(false) => IToken(tokname, tokmap1)
+                case _ => IToken(tokname, tokmap1 + ("self-closing_flag"->IBool(false)))
+              }
+              if (correctOutputs.size <= correctOutIdx||(correctOutputs.size > correctOutIdx && toki != correctOutputs(correctOutIdx))) {
+                // println(log)
+                wrongToken = true
+              } else if (correctOutputs.size > correctOutIdx && toki == correctOutputs(correctOutIdx)) {
+                if (wrongToken == false){
+                  correctPosSet ++= wayOfPosSet
+                  wayOfPosSet = Set()}
+              }
+              correctOutIdx += 1
+            }
+            case _ => {
+              if (correctOutputs.size <= correctOutIdx||(correctOutputs.size > correctOutIdx && !isEqualObjects(tok, correctOutputs(correctOutIdx)))) {
+                // println(log)
+                wrongToken = true
+              } else if (correctOutputs.size > correctOutIdx && isEqualObjects(tok, correctOutputs(correctOutIdx))) {
                 if (wrongToken == false){
                   correctPosSet ++= wayOfPosSet
                   wayOfPosSet = Set()}
@@ -193,11 +293,11 @@ object SearchWrong {
             }
           }
         })
-        lastOutputList = s(e("output_tokens"))
+        lastOutputList = newS(e("output_tokens"))
       }
       env = e
-      state = s
-      // println(displayES(e,s))
+      state = newS
+      // println(displayES(e,newS))
       wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
       switchNum += 1
     }
@@ -237,7 +337,7 @@ object SearchWrong {
       println("> %1$4s/%2$-4s".format(i,size))
       i += 1
       val formated = formatTest(test)
-      if (formated.errors != Nil) testOne_error(formated)
+      if (haveNoBadSurrogate(formated.input) && formated.errors != Nil) testOne_error(formated)
       // testOne_error(formated)
       print("\u001b[1F\u001b[2K")
     }
@@ -249,7 +349,7 @@ object SearchWrong {
     test.initialStates.foreach(initS => testOneState_error(test, initS, test.errors))
   }
   def testOneState_error(test: TestJson, initialS: String, correctErrors: List[IError]) = {
-    testNum +=1
+    // testNum +=1
     val env = initialEnv
     var state = initialState + (env("state")->IState(initialS))
     if (test.lastStartTagName != null) state += (env("last_start_tag_token")->IToken("start_tag_token", initialTokenAttributes + ("name"->string2charlist(test.lastStartTagName))))
@@ -285,11 +385,54 @@ object SearchWrong {
     while (!eofFlag && switchNum < 1000) {
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState_log(current_state, env, state, logFunction)
+      var newS = s
       s(e("output_tokens")).asInstanceOf[IList].list.lastOption match {
         case Some(IToken("end-of-file_token",_)) => eofFlag = true
+        case Some(IToken("end_tag_token", tokmap)) => {
+          tokmap("attributes") match {
+            case IList(Nil) => 
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-attributes_parse_error")))
+            }
+          }
+          tokmap("self-closing_flag") match {
+            case IBool(false) =>
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-trailing-solidus_parse_error")))
+            }
+          }
+        }
         case _ =>
       }
-      s(e("error_list")).asInstanceOf[IList].list.lastOption match {
+      if (current_state=="Attribute_name_state"&&current_state!=s(e("state")).asInstanceOf[IState].state) {
+        s(e("current_token")) match {
+          case IToken(tokname, tokmap) => {
+            tokmap("attributes") match {
+              case IList(list) => {
+                val names: List[String] = list.map(a => {
+                  charlist2string(a.asInstanceOf[ITokenAttribute].attribute("name"))
+                })
+                if (names!=Nil) {
+                  if (names.slice(0,names.size-1).contains(names.last)) {
+                    val errors = newS(e("error_list")) match {
+                      case IList(errorlist) => errorlist
+                    }
+                    newS = newS + (e("error_list")->IList(errors :+ IError("duplicate-attribute_parse_error")))
+                  }
+                }
+              }
+            }
+          }
+          case _ =>
+        }
+      }
+      newS(e("error_list")).asInstanceOf[IList].list.lastOption match {
         case Some(err) if err != lastError => {
           if (correctErrors.size <= correctOutIdx||(correctErrors.size > correctOutIdx && err != correctErrors(correctOutIdx))) {
             // println(log)
@@ -302,7 +445,7 @@ object SearchWrong {
         case _ =>
       }
       env = e
-      state = s
+      state = newS
       wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
       switchNum += 1
     }
@@ -650,5 +793,19 @@ object SearchWrong {
       outfile.println("%s\n%s\n".format(sent,henkan))
     })
     outfile.close
+  }
+
+  //////
+  def haveNoBadSurrogate(str: String): Boolean = {
+    var previousIsSurrogate = false
+    str.zipWithIndex.foreach((c,i) => {
+      if (!previousIsSurrogate) {
+        if (str.codePointAt(i) != c.toInt) {
+          if (str.codePointAt(i)!=str.codePointAt(i).toChar.toInt) return false
+          previousIsSurrogate = true
+        }
+      } else previousIsSurrogate = false
+    })
+    return true
   }
 }

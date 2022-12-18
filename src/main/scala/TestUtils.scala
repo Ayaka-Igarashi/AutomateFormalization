@@ -5,6 +5,7 @@ import play.api.libs.json._
 
 object TestUtils {
   case class TestJson(
+    description: String,
     initialStates: List[String],
     doubleEscaped: Boolean,
     input: String,
@@ -29,6 +30,10 @@ object TestUtils {
   }
 
   def formatTest(json: JsValue): TestJson = {
+    var description = (json\"description") match {
+      case JsDefined(JsString(s)) => s
+      case _ => error("no input error: %s".format(json\"description"))
+    }
     val initialStates = getInitialStates(json\"initialStates")
     val doubleEscaped = (json\"doubleEscaped") match {
       case JsUndefined() => false
@@ -70,6 +75,7 @@ object TestUtils {
     }
     
     TestJson(
+      description,
       initialStates,
       doubleEscaped,
       input,

@@ -30,16 +30,60 @@ object Interpreter {
       // eofFlag = true // ここ消す
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState(current_state, env, state)
+      var newS = s
       s(e("output_tokens")).asInstanceOf[IList].list.lastOption match {
         case Some(IToken("end-of-file_token",_)) => eofFlag = true
+        case Some(IToken("end_tag_token", tokmap)) => {
+          tokmap("attributes") match {
+            case IList(Nil) => 
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = s + (e("error_list")->IList(errors :+ IError("end-tag-with-attributes_parse_error")))
+            }
+          }
+          tokmap("self-closing_flag") match {
+            case IBool(false) =>
+            case _ => {
+              val errors = newS(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-trailing-solidus_parse_error")))
+            }
+          }
+        }
         case _ =>
       }
+      if (current_state=="Attribute_name_state"&&current_state!=s(e("state")).asInstanceOf[IState].state) {
+        s(e("current_token")) match {
+          case IToken(tokname, tokmap) => {
+            tokmap("attributes") match {
+              case IList(list) => {
+                val names: List[String] = list.map(a => {
+                  charlist2string(a.asInstanceOf[ITokenAttribute].attribute("name"))
+                })
+                if (names!=Nil) {
+                  if (names.slice(0,names.size-1).contains(names.last)) {
+                    val errors = newS(e("error_list")) match {
+                      case IList(errorlist) => errorlist
+                    }
+                    newS = newS + (e("error_list")->IList(errors :+ IError("duplicate-attribute_parse_error")))
+                  }
+                }
+              }
+            }
+          }
+          case _ =>
+        }
+      }
       env = e
-      state = s
+      state = newS
       println(displayES(e,s))
       loopNum += 1
       // println("S = %s\n".format(s))
     }
+    (env,state)
   }
 
   def interpreter(str1: String, initenv: Env, initstate: State): (Env,State) = {
@@ -54,12 +98,55 @@ object Interpreter {
       // eofFlag = true // ここ消す
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState(current_state, env, state)
+      var newS = s
       s(e("output_tokens")).asInstanceOf[IList].list.lastOption match {
         case Some(IToken("end-of-file_token",_)) => eofFlag = true
+        case Some(IToken("end_tag_token", tokmap)) => {
+          tokmap("attributes") match {
+            case IList(Nil) => 
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-attributes_parse_error")))
+            }
+          }
+          tokmap("self-closing_flag") match {
+            case IBool(false) =>
+            case _ => {
+              val errors = s(e("error_list")) match {
+                case IList(errorlist) => errorlist
+              }
+              newS = newS + (e("error_list")->IList(errors :+ IError("end-tag-with-trailing-solidus_parse_error")))
+            }
+          }
+        }
         case _ =>
       }
+      if (current_state=="Attribute_name_state"&&current_state!=s(e("state")).asInstanceOf[IState].state) {
+        s(e("current_token")) match {
+          case IToken(tokname, tokmap) => {
+            tokmap("attributes") match {
+              case IList(list) => {
+                val names: List[String] = list.map(a => {
+                  charlist2string(a.asInstanceOf[ITokenAttribute].attribute("name"))
+                })
+                if (names!=Nil) {
+                  if (names.slice(0,names.size-1).contains(names.last)) {
+                    val errors = newS(e("error_list")) match {
+                      case IList(errorlist) => errorlist
+                    }
+                    newS = newS + (e("error_list")->IList(errors :+ IError("duplicate-attribute_parse_error")))
+                  }
+                }
+              }
+            }
+          }
+          case _ =>
+        }
+      }
       env = e
-      state = s
+      state = newS
       println(displayES(e,s))
       // println("S = %s\n".format(s))
     }

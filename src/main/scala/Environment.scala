@@ -91,6 +91,58 @@ object Environment {
     }
   }
 
+  def isEqualObjects(obj1: ParsingObject, obj2: ParsingObject): Boolean = {
+    (obj1,obj2) match {
+      case (IToken(n1,m1), IToken(n2,m2)) => isEqualTokens(IToken(n1,m1), IToken(n2,m2))
+      case (ITokenAttribute(a1), ITokenAttribute(a2)) => isEqualITokenAttribute(ITokenAttribute(a1), ITokenAttribute(a2))
+      case _ => obj1 == obj2
+    }
+  }
+  def isEqualTokens(tok1: IToken, tok2: IToken): Boolean = {
+    (tok1, tok2) match {
+      case (IToken(name1,map1), IToken(name2,map2)) => {
+        if (name1 != name2) return false
+        val attributeList = initialTokenAttributes.map(amap => amap._1)
+        attributeList.foreach(attribute => {
+          (map1(attribute), map2(attribute)) match {
+            case (IBool(b1), IBool(b2)) => if (b1!=b2) return false
+            case (IList(list1),IList(list2)) => if(!isEqualIList(IList(list1),IList(list2))) return false
+            case (IChar(c1), IList(List(IChar(c2)))) => if (c1!=c2) return false
+            case (IList(List(IChar(c1))), IChar(c2)) => if (c1!=c2) return false
+            case (i1,i2) => if (i1!=i2) return false
+          }
+        })
+      }
+    }
+    true
+  }
+  def isEqualITokenAttribute(itokatt1: ITokenAttribute, itokatt2: ITokenAttribute): Boolean = {
+    (itokatt1,itokatt2) match {
+      case (ITokenAttribute(a1), ITokenAttribute(a2)) => {
+        List("name","value").foreach(key => {
+          (a1(key),a2(key)) match {
+            case (IList(list1),IList(list2)) => if(!isEqualIList(IList(list1),IList(list2))) return false
+            case (IChar(c1), IList(List(IChar(c2)))) => if (c1!=c2) return false
+            case (IList(List(IChar(c1))), IChar(c2)) => if (c1!=c2) return false
+            case (i1,i2) => if (i1!=i2) return false
+          }
+        })
+      }
+    }
+    true
+  }
+  def isEqualIList(ilist1: IList, ilist2: IList): Boolean = {
+    (ilist1, ilist2) match {
+      case (IList(list1),IList(list2)) => {
+        if (list1.size != list2.size) return false
+        (list1 zip list2).foreach((o1,o2) => {
+          if (!isEqualObjects(o1,o2)) return false
+        })
+      }
+    }
+    true
+  }
+
   ///////////////////// display function ///////////////////////////
   def displayES(env: Env, state: State): String = {
     val o = Out()
