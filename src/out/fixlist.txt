@@ -1,0 +1,87 @@
+Append a U+0026 AMPERSAND ( & amp ;) character to the temporary buffer [0]
+ =>  append_to ( incorrectly-opened-comment_parse_error [_] , temporary_buffer [0] ) 
+ (o) append_to ( U+0026_AMPERSAND_character [_] , temporary_buffer [_] ) 
+
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( lowercase_version [0] , current_tag_token [_] . name ) 
+ (o) append_to ( current_input_character [_] . lowercase_version , current_tag_token [_] . name ) 
+
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current DOCTYPE token 's name
+ =>  append_to ( lowercase_version [_] , DOCTYPE_token [_] . name ) 
+ (o) append_to ( current_input_character [_] . lowercase_version , DOCTYPE_token [_] . name ) 
+
+Create a comment token whose data is the empty string
+ =>  create ( comment_token [_] . data ) 
+ (o) create ( comment_token [_] ) | set_to ( comment_token [_] . data , empty_string [_] ) 
+
+Set the character reference code to zero ( 0).Consume the next input character 
+ =>  set_to ( Decimal_character_reference_state [_] , next_input_character [_] ) 
+ (o) set_to ( character_reference_code [_] , 0 [_] ) | consume ( next_input_character [_] )
+
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( Comment_less_than_sign_bang_dash_dash_state [_] ) | reconsume_in ( temporary_buffer [0] ) | add_to_the_character_reference_code ( temporary_buffer [0] ) 
+ (o) emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+ (o) set_to ( attribute [_] . name , empty_string [_] ) | set_to ( attribute [_] . value , empty_string [_] ) 
+
+Set the self-closing flag of the current tag token [0]
+ =>  set_to ( self-closing_flag [_] , current_tag_token [0] ) 
+ (o) set_to ( current_tag_token [_] . self-closing_flag , on [_] ) 
+
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0]   ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( Comment_less_than_sign_bang_dash_dash_state [_] ) | reconsume_in ( temporary_buffer [0] ) | add_to_the_character_reference_code ( temporary_buffer [0] ) 
+ (o) emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+
+Multiply the character reference code [1] by 16
+ =>  multiply_the_character_reference_code_by ( state [1] ) 
+ (o) multiply_the_character_reference_code_by ( 16 [_] ) 
+
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+ (o) if_then ( is ( temporary_buffer [_] , string_"script" [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+
+If the temporary buffer is the string script , then switch to the Script_data_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+ (o) if_then ( is ( temporary_buffer [_] , string_"script" [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+ (o) append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+ (o) append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( -EXC- ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+ (o) append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+Emit two U+005D RIGHT SQUARE BRACKET character tokens
+ =>  emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) 
+ (o) emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) | emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] )
+
+Start a new attribute [0] in the current tag token
+ =>  start_a_new_attribute_in_the_current_tag_token| 
+ (o) start_a_new_attribute_in_the_current_tag_token
+
+Start a new attribute in the current tag token
+ =>  start_a_new_attribute_in_the_current_tag_token| 
+ (o) start_a_new_attribute_in_the_current_tag_token
+
+Reconsume in the Named_character_reference_state
+ =>  reconsume_in ( state [_] ) 
+ (o) reconsume_in ( Named_character_reference_state [_] ) 
+
+Multiply the character reference code [1] by 10
+ =>  multiply_the_character_reference_code_by ( 10 [1] ) 
+ (o) multiply_the_character_reference_code_by ( 10 [_] ) 
+
+Append the current input character to the current attribute 's name
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . name ) 
+ (o) append_to ( current_input_character [_] , attribute [_] . name ) 
+
+If the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]
+ =>  if_then ( the_current_end_tag_token_is_an_appropriate_end_tag_token , switch_to ( Data_state [_] ) , emit ( current_tag_token [0] ) ) 
+ (o) if_then ( the_current_end_tag_token_is_an_appropriate_end_tag_token , switch_to ( Data_state [_] ) , emit ( current_tag_token [_] ) ) 

@@ -1,0 +1,46 @@
+[Before_attribute_name_state / Some(List((-1,65535))) / 1]
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+
+[Before_DOCTYPE_name_state / Some(List((65,90))) / 1]
+Set a new DOCTYPE token [0] name to the lowercase version of the current input character [1] ( add 0x0020 to the current input character [1] code point 
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [1] . lowercase_version ) | add_to_the_character_reference_code ( current_input_character [1] . force-quirks_flag ) 
+
+[Self_closing_start_tag_state / Some(List((62,62))) / 0]
+Set the self-closing flag of the current tag token [0]
+ =>  set_to ( self-closing_flag [_] , tag_token [0] . self-closing_flag ) 
+
+[Before_attribute_name_state / Some(List((61,61))) / 2]
+Set a new attribute [0] name to the current input character , and a new attribute [0] value to the empty string
+ =>  set_to ( attribute [0] . name , current_input_character [_] ) | set_to ( attribute [0] . value , empty_string [_] ) | set_to ( empty_string [_] , empty_string [_] ) 
+
+[Bogus_comment_state / Some(List((-1,65535))) / 0]
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+[Bogus_comment_state / Some(List((0,0))) / 1]
+Append a U+FFFD REPLACEMENT CHARACTER character to the comment token 's data
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , comment_token [_] . data ) 
+
+
+
+-----------------
+
+Set a new attribute [0] name to the current input character , and a new attribute [0] value to the empty string
+ =>  set_to ( attribute [0] . name , current_input_character [_] ) | set_to ( attribute [0] . value , empty_string [_] ) | set_to ( empty_string [_] , empty_string [_] ) 
+
+Set a new DOCTYPE token [0] name to the lowercase version of the current input character [1] ( add 0x0020 to the current input character [1] code point 
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [1] . lowercase_version ) | add_to_the_character_reference_code ( current_input_character [1] . force-quirks_flag ) 
+
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the comment token 's data
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , comment_token [_] . data ) 
+
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+
+Set the self-closing flag of the current tag token [0]
+ =>  set_to ( self-closing_flag [_] , tag_token [0] . self-closing_flag ) 
+

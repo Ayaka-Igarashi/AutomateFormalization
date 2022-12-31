@@ -103,6 +103,7 @@ object SearchWrong {
         correctPosSet ++= wayOfPosSet
         correctNum += 1}//
       else {
+        wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
         wrongPosSet ++= wayOfPosSet
         // println(test.description)
         // println(correctout)
@@ -114,12 +115,19 @@ object SearchWrong {
       case e: Base.MyError => {
         errorNum += 1
         // println("interpreter実行エラー: %s".format(e.message))
+        wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
         wrongPosSet ++= wayOfPosSet
         wrongPosSet1 += (currentPos._1, currentPos._2, currentPosIdx)
         // println(displayCexp(cexplist2cexp(log)))
         // if (test.input.size < 10){
-        println(test.input)
-        Base.error()//}
+        // println(test.input)
+        // Base.error()//}
+      }
+      case e => {
+        errorNum += 1
+        wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
+        wrongPosSet ++= wayOfPosSet
+        wrongPosSet1 += (currentPos._1, currentPos._2, currentPosIdx)
       }
     }
     0
@@ -370,6 +378,7 @@ object SearchWrong {
       } 
     } catch {
       case e: Base.MyError => 
+      case e => 
     }
   }
 
@@ -382,7 +391,7 @@ object SearchWrong {
     var lastError: ParsingObject = null
     var switchNum = 0
     wayOfPosSet = Set()
-    while (!eofFlag && switchNum < 1000) {
+    while (!eofFlag && switchNum < str.size*3+10) {
       val current_state = state(env("state")).asInstanceOf[IState].state
       val (e,s) = interpretState_log(current_state, env, state, logFunction)
       var newS = s
@@ -590,12 +599,25 @@ object SearchWrong {
   def importFixCommands() = {
     val outfile = new java.io.PrintWriter("src/out/fixed.txt")
     val translated = OutputParse.load_file("src/input/translate_125.txt")
-    val outputline = OutputParse.load_file("src/out/wrongs126.txt")
+    val outputline = OutputParse.load_file("src/out/fixlist.txt")
     val fixList = outputline.zipWithIndex.groupBy(s => s._2/4).map(s => s._2.map(s2=>s2._1))
     val fixList2 = fixList.map(s => ("%s\n%s".format(s(0),s(1)), "%s\n%s".format(s(0),s(2).replace(" (o) ", " =>  "))))
     var t = translated.mkString("\n")
     fixList2.foreach(s => {
       t = t.replace(s._1,s._2)
+    })
+    outfile.println(t)
+    outfile.close
+  }
+
+  def generateFixTrainingData() = {
+    val outfile = new java.io.PrintWriter("src/out/fixTrainingData.txt")
+    val outputline = OutputParse.load_file("src/out/fixlist.txt")
+    val fixList = outputline.zipWithIndex.groupBy(s => s._2/4).map(s => s._2.map(s2=>s2._1))
+    val fixList2 = fixList.map(s => "%s\t%s".format(s(0).head.toString.toLowerCase()+s(0).tail,s(2).replace(" (o) ", "")))
+    var t = ""
+    fixList2.foreach(s => {
+      t += s+"\n"
     })
     outfile.println(t)
     outfile.close

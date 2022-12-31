@@ -1,0 +1,23 @@
+append a U+0026 AMPERSAND ( & amp ;) character to the temporary buffer [0]	append_to ( U+0026_AMPERSAND_character [_] , temporary_buffer [_] ) 
+emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 	emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+if the temporary buffer is the string script , then switch to the Script_data_double_escaped_state	if_then ( is ( temporary_buffer [_] , string_"script" [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 
+append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( -EXC- ) to the comment token 's data	append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+append the current input character to the current attribute 's name	append_to ( current_input_character [_] , attribute [_] . name ) 
+append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name	append_to ( current_input_character [_] . lowercase_version , current_tag_token [_] . name ) 
+set that attribute name and value to the empty string	set_to ( attribute [_] . name , empty_string [_] ) | set_to ( attribute [_] . value , empty_string [_] ) 
+if the current end tag token [0] is an appropriate end tag token , then switch to the Data_state and emit the current end tag token [0]	if_then ( the_current_end_tag_token_is_an_appropriate_end_tag_token , switch_to ( Data_state [_] ) , emit ( current_tag_token [_] ) ) 
+multiply the character reference code [1] by 16	multiply_the_character_reference_code_by ( 16 [_] ) 
+append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data	append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current DOCTYPE token 's name	append_to ( current_input_character [_] . lowercase_version , DOCTYPE_token [_] . name ) 
+start a new attribute in the current tag token	start_a_new_attribute_in_the_current_tag_token
+append two U+002D HYPHEN-MINUS characters (-) to the comment token 's data	append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+set the self-closing flag of the current tag token [0]	set_to ( current_tag_token [_] . self-closing_flag , on [_] ) 
+create a comment token whose data is the empty string	create ( comment_token [_] ) | set_to ( comment_token [_] . data , empty_string [_] ) 
+reconsume in the Named_character_reference_state	reconsume_in ( Named_character_reference_state [_] ) 
+start a new attribute [0] in the current tag token	start_a_new_attribute_in_the_current_tag_token
+if the temporary buffer is the string script , then switch to the Script_data_escaped_state	if_then ( is ( temporary_buffer [_] , string_"script" [_] ) , switch_to ( Script_data_escaped_state [_] ) ) 
+emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0]   ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 	emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+multiply the character reference code [1] by 10	multiply_the_character_reference_code_by ( 10 [_] ) 
+set the character reference code to zero ( 0).Consume the next input character 	set_to ( character_reference_code [_] , 0 [_] ) | consume ( next_input_character [_] )
+emit two U+005D RIGHT SQUARE BRACKET character tokens	emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) | emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] )
+

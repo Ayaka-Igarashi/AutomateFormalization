@@ -1,0 +1,112 @@
+Emit the current input character [0] as a character token
+ =>  emit ( current_input_character [0] ) 
+
+Emit the DOCTYPE token
+ =>  emit ( DOCTYPE_token [_] ) 
+
+Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS character token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current tag token 's tag name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , current_tag_token [_] . name ) 
+
+Add a numeric version of the current input character [0] as a hexadecimal digit ( subtract 0x0057 from the current input character [0] code point ) to the character reference code [1]
+ =>  add_to_the_character_reference_code ( current_input_character [0] . numeric_version ) 
+
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0]   ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . name ) 
+
+Emit the comment
+ =>  emit ( comment_token [_] ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+Emit a U+003C LESS-THAN SIGN character token and an end-of-file token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( end-of-file_token [_] ) 
+
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+
+Reconsume in the Script_data_escaped_state
+ =>  reconsume_in ( Script_data_escaped_state [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current attribute 's value
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , attribute [_] . value ) 
+
+Emit a U+002D HYPHEN-MINUS character token
+ =>  emit ( U+002D_HYPHEN-MINUS_character_token [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the comment token 's data
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , comment_token [_] . data ) 
+
+Set a new DOCTYPE token [0] name to a U+FFFD REPLACEMENT CHARACTER character
+ =>  set_to ( DOCTYPE_token [0] . name , U+FFFD_REPLACEMENT_CHARACTER_character_token [_] ) 
+
+
+ =>  
+
+Otherwise , switch to the Script_data_escaped_state
+ =>  otherwise ( switch_to ( Script_data_escaped_state [_] ) ) 
+
+Emit a U+005D RIGHT SQUARE BRACKET character token
+ =>  emit ( U+005D_RIGHT_SQUARE_BRACKET_character_token [_] ) 
+
+Reconsume in the Comment_end_dash_state
+ =>  reconsume_in ( Comment_end_dash_state [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's public identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , DOCTYPE_token [_] . public_identifier ) 
+
+Set a new DOCTYPE token [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+
+Emit a U+003E GREATER-THAN SIGN character token
+ =>  emit ( U+003E_GREATER-THAN_SIGN_character_token [_] ) 
+
+Emit the DOCTYPE token 's [0]
+ =>  emit ( current_token [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's system identifier
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , DOCTYPE_token [_] . system_identifier ) 
+
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_single_quoted_state [_] ) 
+
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current attribute 's name
+ =>  append_to ( lowercase_version [_] , attribute [_] . name ) 
+
+Set the DOCTYPE token 's [0] force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [0] . force-quirks_flag , on [_] ) 
+
+Reconsume in the Script_data_escaped_end_tag_name_state
+ =>  reconsume_in ( Script_data_escaped_end_tag_name_state [_] ) 
+
+If the current end tag token is an appropriate end tag token , then switch to the Self_closing_start_tag_state
+ =>  if_then ( the_current_end_tag_token_is_an_appropriate_end_tag_token , switch_to ( Self_closing_start_tag_state [_] ) ) 
+
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token and an end-of-file token
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( end-of-file_token [_] ) 
+
+Switch to the Script_data_escaped_end_tag_open_state
+ =>  switch_to ( Script_data_escaped_end_tag_open_state [_] ) 
+
+Append a U+FFFD REPLACEMENT CHARACTER character to the current DOCTYPE token 's name
+ =>  append_to ( U+FFFD_REPLACEMENT_CHARACTER_character_token [_] , DOCTYPE_token [_] . name ) 
+
+Set a new attribute [0] name to the current input character , and a new attribute [0] value to the empty string
+ =>  set_to ( attribute [0] . name , current_input_character [_] ) | set_to ( attribute [0] . value , empty_string [_] ) 
+
+Treat This [0] as per the anything else entry below
+ =>  treat_it_as_per_the_"_anything_else_"_entry_below 
+
+Emit a U+003C LESS-THAN SIGN character token , a U+002F SOLIDUS character token , and a character token for each of the characters in the temporary buffer [0] ( in the order the characters in the temporary buffer [0] were added to the temporary buffer [1] 
+ =>  emit ( U+003C_LESS-THAN_SIGN_character_token [_] ) | emit ( U+002F_SOLIDUS_character_token [_] ) | emit ( temporary_buffer [_] ) 
+
+
+
+If the temporary buffer is the string script , then switch to the Script_data_double_escaped_state
+ =>  if_then ( is ( temporary_buffer [_] , string [_] ) , switch_to ( Script_data_double_escaped_state [_] ) ) 

@@ -1,0 +1,9 @@
+Flush code points consumed as a character reference
+ =>  flush_code_points_consumed_as_a_character_reference 
+
+If the character reference was consumed as part of an attribute [0] , then append the current input character [1] to an attribute [0] value . Otherwise , emit the current input character [1] as a character token
+ =>  if_then ( the_character_reference_was_consumed_as_part_of_an_attribute , append_to ( current_input_character [1] , attribute [0] . value ) )  | otherwise ( emit ( current_input_character [1] ) ) 
+
+Set the return state to the Attribute_value_unquoted_state
+ =>  set_to ( return_state [_] , Attribute_value_unquoted_state [_] ) 
+

@@ -1,0 +1,281 @@
+[Comment_state / Some(List((60,60))) / 0]
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+[Tag_name_state / Some(List((-1,-1))) / 0]
+This is an eof-in-tag parse error
+ =>  append_to ( eof-in-tag_parse_error [_] , parse_error [_] ) 
+
+[DOCTYPE_state / Some(List((0,65535))) / 0]
+This is a missing-whitespace-before-doctype-name parse error
+ =>  append_to ( missing-whitespace-before-doctype-name_parse_error [_] , missing-whitespace-before-doctype-name_parse_error [_] ) 
+
+[Comment_end_bang_state / Some(List((45,45))) / 0]
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( -EXC- ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+[Before_DOCTYPE_system_identifier_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[After_DOCTYPE_public_keyword_state / Some(List((34,34))) / 1]
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_double_quoted_state [_] ) 
+
+[After_DOCTYPE_system_keyword_state / Some(List((39,39))) / 0]
+This is a missing-whitespace-after-doctype-system-keyword parse error
+ =>  append_to ( missing-whitespace-after-doctype-system-keyword_parse_error [_] , missing-whitespace-after-doctype-system-keyword_parse_error [_] ) 
+
+[DOCTYPE_name_state / Some(List((0,65535))) / 0]
+Append the current input character to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . name ) 
+
+[Before_attribute_name_state / Some(List((0,65535))) / 1]
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+
+[Tag_open_state / Some(List((63,63))) / 0]
+This is an unexpected-question-mark-instead-of-tag-name parse error
+ =>  append_to ( unexpected-question-mark-instead-of-tag-name_parse_error [_] , unexpected-question-mark-instead-of-tag-name_parse_error [_] ) 
+
+[Comment_end_state / Some(List((45,45))) / 0]
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+[Self_closing_start_tag_state / Some(List((-1,-1))) / 0]
+This is an eof-in-tag parse error
+ =>  append_to ( eof-in-tag_parse_error [_] , parse_error [_] ) 
+
+[Tag_name_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[Character_reference_state / None / 0]
+Set the temporary buffer [0] to the empty string
+ =>  set_to ( temporary_buffer [0] , empty_string [_] ) 
+
+[Comment_start_state / Some(List((62,62))) / 0]
+This is an abrupt-closing-of-empty-comment parse error
+ =>  append_to ( abrupt-closing-of-empty-comment_parse_error [_] , abrupt-closing-of-empty-comment_parse_error [_] ) 
+
+[End_tag_open_state / Some(List((-1,-1))) / 0]
+This is an eof-before-tag-name parse error
+ =>  append_to ( eof-before-tag-name_parse_error [_] , eof-before-tag-name_parse_error [_] ) 
+
+[Before_DOCTYPE_name_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[Before_DOCTYPE_public_identifier_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[Comment_state / Some(List((0,65535))) / 0]
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+[End_tag_open_state / Some(List((0,65535))) / 0]
+This is an invalid-first-character-of-tag-name parse error
+ =>  append_to ( invalid-first-character-of-tag-name_parse_error [_] , invalid-first-character-of-tag-name_parse_error [_] ) 
+
+[DOCTYPE_name_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[Before_DOCTYPE_name_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[Bogus_comment_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[Before_DOCTYPE_name_state / Some(List((65,90))) / 1]
+Set a new DOCTYPE token [0] name to the lowercase version of the current input character [1] ( add 0x0020 to the current input character [1] code point 
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [1] . lowercase_version ) 
+
+[Before_attribute_name_state / Some(List((61,61))) / 0]
+This is an unexpected-equals-sign-before-attribute-name parse error
+ =>  append_to ( unexpected-equals-sign-before-attribute-name_parse_error [_] , unexpected-equals-sign-before-attribute-name_parse_error [_] ) 
+
+[Tag_open_state / Some(List((-1,-1))) / 0]
+This is an eof-before-tag-name parse error
+ =>  append_to ( eof-before-tag-name_parse_error [_] , eof-before-tag-name_parse_error [_] ) 
+
+[Tag_open_state / Some(List((0,65535))) / 0]
+This is an invalid-first-character-of-tag-name parse error
+ =>  append_to ( invalid-first-character-of-tag-name_parse_error [_] , invalid-first-character-of-tag-name_parse_error [_] ) 
+
+[After_DOCTYPE_public_keyword_state / Some(List((39,39))) / 1]
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_single_quoted_state [_] ) 
+
+[Before_DOCTYPE_system_identifier_state / Some(List((0,65535))) / 1]
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+
+[DOCTYPE_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[Data_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[After_DOCTYPE_system_keyword_state / Some(List((62,62))) / 0]
+This is a missing-doctype-system-identifier parse error
+ =>  append_to ( missing-doctype-system-identifier_parse_error [_] , missing-doctype-system-identifier_parse_error [_] ) 
+
+[After_attribute_name_state / Some(List((-1,-1))) / 0]
+This is an eof-in-tag parse error
+ =>  append_to ( eof-in-tag_parse_error [_] , parse_error [_] ) 
+
+[Comment_end_bang_state / Some(List((0,65535))) / 0]
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+[Bogus_comment_state / Some(List((0,65535))) / 0]
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+[Comment_end_state / Some(List((0,65535))) / 0]
+Append two U+002D HYPHEN-MINUS characters (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+[After_DOCTYPE_system_keyword_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[DOCTYPE_name_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[After_DOCTYPE_public_keyword_state / Some(List((0,65535))) / 1]
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+
+[After_DOCTYPE_system_keyword_state / Some(List((34,34))) / 0]
+This is a missing-whitespace-after-doctype-system-keyword parse error
+ =>  append_to ( missing-whitespace-after-doctype-system-keyword_parse_error [_] , missing-whitespace-after-doctype-system-keyword_parse_error [_] ) 
+
+[After_DOCTYPE_public_keyword_state / Some(List((-1,-1))) / 0]
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+[Comment_start_dash_state / Some(List((0,65535))) / 0]
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+[After_DOCTYPE_system_keyword_state / Some(List((0,65535))) / 1]
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+
+[Bogus_DOCTYPE_state / Some(List((0,0))) / 0]
+This [0] is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [0] , unexpected-null-character_parse_error [_] ) 
+
+[DOCTYPE_name_state / Some(List((65,90))) / 0]
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_tag_token [_] . name ) 
+
+[Comment_state / Some(List((0,0))) / 0]
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+[Comment_start_dash_state / Some(List((62,62))) / 0]
+This is an abrupt-closing-of-empty-comment parse error
+ =>  append_to ( abrupt-closing-of-empty-comment_parse_error [_] , abrupt-closing-of-empty-comment_parse_error [_] ) 
+
+[Tag_name_state / Some(List((65,90))) / 0]
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_tag_token [_] . name ) 
+
+[Self_closing_start_tag_state / Some(List((0,65535))) / 0]
+This is an unexpected-solidus-in-tag parse error
+ =>  append_to ( unexpected-solidus-in-tag_parse_error [_] , unexpected-solidus-in-tag_parse_error [_] ) 
+
+
+
+-----------------
+
+This is a missing-whitespace-before-doctype-name parse error
+ =>  append_to ( missing-whitespace-before-doctype-name_parse_error [_] , missing-whitespace-before-doctype-name_parse_error [_] ) 
+
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_double_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_double_quoted_state [_] ) 
+
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_tag_token [_] . name ) 
+
+Append a U+002D HYPHEN-MINUS character (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+Append the current input character to the comment token 's data
+ =>  append_to ( current_input_character [_] , comment_token [_] . data ) 
+
+This [0] is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [0] , unexpected-null-character_parse_error [_] ) 
+
+Set the DOCTYPE token 's public identifier to the empty string ( not missing ) , then switch to the DOCTYPE_public_identifier_single_quoted_state
+ =>  set_to ( DOCTYPE_token [_] . public_identifier , empty_string [_] ) | switch_to ( DOCTYPE_public_identifier_single_quoted_state [_] ) 
+
+This is an eof-in-tag parse error
+ =>  append_to ( eof-in-tag_parse_error [_] , parse_error [_] ) 
+
+This is an invalid-first-character-of-tag-name parse error
+ =>  append_to ( invalid-first-character-of-tag-name_parse_error [_] , invalid-first-character-of-tag-name_parse_error [_] ) 
+
+Set the DOCTYPE token 's force-quirks flag to on
+ =>  set_to ( DOCTYPE_token [_] . force-quirks_flag , on [_] ) 
+
+Append the lowercase version of the current input character [0] ( add 0x0020 to the current input character [0] code point ) to the current tag token 's tag name
+ =>  append_to ( current_input_character [0] . lowercase_version , current_tag_token [_] . name ) 
+
+This is an unexpected-question-mark-instead-of-tag-name parse error
+ =>  append_to ( unexpected-question-mark-instead-of-tag-name_parse_error [_] , unexpected-question-mark-instead-of-tag-name_parse_error [_] ) 
+
+This is a missing-doctype-system-identifier parse error
+ =>  append_to ( missing-doctype-system-identifier_parse_error [_] , missing-doctype-system-identifier_parse_error [_] ) 
+
+Set a new DOCTYPE token [0] name to the lowercase version of the current input character [1] ( add 0x0020 to the current input character [1] code point 
+ =>  set_to ( DOCTYPE_token [0] . name , current_input_character [1] . lowercase_version ) 
+
+Set that attribute name and value to the empty string
+ =>  set_to ( attribute [_] . name , empty_string [_] ) | set_to ( value [_] , empty_string [_] ) 
+
+Append the current input character to the current DOCTYPE token 's name
+ =>  append_to ( current_input_character [_] , current_tag_token [_] . name ) 
+
+Set the temporary buffer [0] to the empty string
+ =>  set_to ( temporary_buffer [0] , empty_string [_] ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) 
+
+This is an unexpected-equals-sign-before-attribute-name parse error
+ =>  append_to ( unexpected-equals-sign-before-attribute-name_parse_error [_] , unexpected-equals-sign-before-attribute-name_parse_error [_] ) 
+
+This is a missing-whitespace-after-doctype-system-keyword parse error
+ =>  append_to ( missing-whitespace-after-doctype-system-keyword_parse_error [_] , missing-whitespace-after-doctype-system-keyword_parse_error [_] ) 
+
+This is an abrupt-closing-of-empty-comment parse error
+ =>  append_to ( abrupt-closing-of-empty-comment_parse_error [_] , abrupt-closing-of-empty-comment_parse_error [_] ) 
+
+This is an eof-in-doctype parse error
+ =>  append_to ( eof-in-doctype_parse_error [_] , eof-in-doctype_parse_error [_] ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( -EXC- ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION MARK character ( ! ) to the comment token 's data
+ =>  append_to ( U+002D_HYPHEN-MINUS_character_token [_] , comment_token [_] . data ) | append_to ( U+0021_EXCLAMATION_MARK_character_token [_] , comment_token [_] . data ) 
+
+This is an eof-before-tag-name parse error
+ =>  append_to ( eof-before-tag-name_parse_error [_] , eof-before-tag-name_parse_error [_] ) 
+
+This is an unexpected-null-character parse error
+ =>  append_to ( unexpected-null-character_parse_error [_] , unexpected-null-character_parse_error [_] ) 
+
+This is an unexpected-solidus-in-tag parse error
+ =>  append_to ( unexpected-solidus-in-tag_parse_error [_] , unexpected-solidus-in-tag_parse_error [_] ) 
+
