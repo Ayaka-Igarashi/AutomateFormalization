@@ -1172,7 +1172,7 @@ Reconsume in the return state.
 #
 #name:Numeric_character_reference_state
 #prev:
-Set the character reference code to zero (0).Consume the next input character:
+Set the character reference code to zero (0). Consume the next input character:
 #trans:
 #char:U+0078 LATIN SMALL LETTER X
 Append the current input character to the temporary buffer. Switch to the Hexadecimal_character_reference_start_state.
