@@ -1,8 +1,10 @@
-## sbt project compiled with Scala 3
-## 実行方法
+## 修論のプログラム
+sbt project compiled with Scala 3
+
+### 実行方法
 > sbt run
 
-## dependency parseの実行
+### dependency parseの実行
 > sbt console
 > Main.dependency_keisikika()
 
