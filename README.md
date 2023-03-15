@@ -6,7 +6,7 @@
 > sbt console
 > Main.dependency_keisikika()
 
-# 出力ファイル(src直下のファイル)
+### 出力ファイル
 <h5>deptreeOut.txt</h5>
 仕様書全体のdependency parse結果
 
