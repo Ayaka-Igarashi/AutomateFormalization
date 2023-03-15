@@ -16,11 +16,20 @@ object Ontology {
   def makeOntology = () => {
     ontology = ONode("_", Nil, List(
       ONode("temporary_buffer", Nil, Nil),
+      ONode("character_reference_code", Nil, Nil),
       ONode("state", Nil, List(
         ONode("return_state", Nil, Nil),
         ONode("Numeric_character_reference_end_state", Nil, Nil),
+        ONode("Named_character_reference_state", Nil, Nil),
       )++stateTree()),
       ONode("token", Nil, List(
+        ONode("current_token", List(
+          ONode("name"), 
+          ONode("data"), 
+          ONode("self-closing_flag"),
+          ONode("force-quirks_flag"),
+          ONode("attribute")
+        ),Nil),
         ONode("DOCTYPE_token", List(
           ONode("name"),
           ONode("public_identifier"),
@@ -65,9 +74,16 @@ object Ontology {
         )),
         ONode("character_token", List(
           ONode("data")
-        ), characterTree()),
+        ), List(
+          ONode("U+0026_AMPERSAND_character_token", Nil, Nil),
+          ONode("two_U+0026_AMPERSAND_character_token", Nil, Nil),
+        )++characterTree()),
         ONode("end-of-file_token", Nil, Nil)
       )),
+      ONode("current_attribute", List(
+        ONode("name"),
+        ONode("value")
+      ), Nil),
       ONode("input_character", Nil, List(
         ONode("current_input_character", List(
           ONode("lowercase_version"),
@@ -83,13 +99,15 @@ object Ontology {
         ONode("string_\"script\"")
       )),
       ONode("on"),ONode("off"),
-      ONode("10"),ONode("16"),
+      ONode("number", Nil, List(
+        ONode("0"),ONode("10"),ONode("16")
+      )),
     ))
   }
 
   def characterTree = () => {
     // Main.unicodeList.map(u => ONode(u+"_character_token")).toList
-    Main.unicodeList.toList.map(u => ONode(u.replace(" ", "_")))
+    Main.unicodeList.toList.flatMap(u => List(ONode(u.replace(" ", "_")),ONode("two_"+u.replace(" ", "_"))))
   }
   def stateTree = () => {
     Main.stateList.map(s => ONode(s))

@@ -351,6 +351,8 @@ object InterpreteExp {
     if (str.endsWith("_state")) IState(str)
     else if (str == "current_tag_token") state(env("current_token"))
     else if ("U\\+[0-9A-F]{4}.*_character_token".r.matches(str)) IChar(Integer.parseInt(str.substring(2,6), 16).toChar)
+    else if ("two_U\\+[0-9A-F]{4}.*_character_token".r.matches(str)) IList(List(IChar(Integer.parseInt(str.substring(6,10), 16).toChar),IChar(Integer.parseInt(str.substring(6,10), 16).toChar)))
+    // else if ("U\\+[0-9A-F]{4}.*_character".r.matches(str)) IChar(Integer.parseInt(str.substring(2,6), 16).toChar)
     else if (str.endsWith("_token")) IToken(str,initialTokenAttributes)
     else if (str.endsWith("_parse_error")) IError(str)
     else if (str.contains("attribute")) ITokenAttribute(Map("name"->null, "value"->null))

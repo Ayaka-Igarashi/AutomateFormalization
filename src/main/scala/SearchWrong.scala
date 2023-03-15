@@ -6,15 +6,18 @@ import InterpreteExp._
 import TestUtils._
 
 object SearchWrong {
-  // type CexpNum = (Cexp, Int)
-  // case class StateDefNum(prev: List[CexpNum], trans: List[(UnicodeRange, List[CexpNum])])
-  
   var wrongPosSet1: Set[(String,Option[UnicodeRange],Int)] = Set()
   var wrongToken: Boolean = false
+
   var testNum = 0
   var correctNum = 0
   var errorNum = 0
   var stopNum = 0
+
+  var testNum_E = 0
+  var correctNum_E = 0
+  var errorNum_E = 0
+  var stopNum_E = 0
 
   var correctPosSet: Set[(String, Option[UnicodeRange])] = Set()
   var wrongPosSet: Set[(String,Option[UnicodeRange])] = Set()
@@ -28,6 +31,7 @@ object SearchWrong {
     testAll_error()
     testAll()
     displayAllInMd()
+    displayAllWrong()
   }
 
   def testAll() = {
@@ -64,7 +68,7 @@ object SearchWrong {
     })
     outfile.close
 
-    println("correct: %1$s/%2$s\nerror: %3$s/%2$s\nstop: %4$s/%2$s".format(correctNum, testNum, errorNum, stopNum))
+    println("[OUTPUTTEST]\ncorrect: %1$s/%2$s\nwrong: %5$s/%2$s\nerror: %3$s/%2$s\nstop: %4$s/%2$s".format(correctNum, testNum, errorNum, stopNum, testNum-correctNum))
     println((wrongPosSet--correctPosSet).size)
   }
 
@@ -334,6 +338,8 @@ object SearchWrong {
     testFile_error("src/html_test_files/test4.test")
     testFile_error("src/html_test_files/unicodeChars.test")
     testFile_error("src/html_test_files/unicodeCharsProblematic.test")
+
+    println("[ERRORLISTTEST]\ncorrect: %1$s/%2$s\nwrong: %5$s/%2$s\nerror: %3$s/%2$s\nstop: %4$s/%2$s".format(correctNum_E, testNum_E, errorNum_E, stopNum_E, testNum_E-correctNum_E))
   }
   def testFile_error(file: String) = {
     println("> testing file: %s".format(file))
@@ -357,7 +363,7 @@ object SearchWrong {
     test.initialStates.foreach(initS => testOneState_error(test, initS, test.errors))
   }
   def testOneState_error(test: TestJson, initialS: String, correctErrors: List[IError]) = {
-    // testNum +=1
+    testNum_E +=1
     val env = initialEnv
     var state = initialState + (env("state")->IState(initialS))
     if (test.lastStartTagName != null) state += (env("last_start_tag_token")->IToken("start_tag_token", initialTokenAttributes + ("name"->string2charlist(test.lastStartTagName))))
@@ -365,6 +371,7 @@ object SearchWrong {
     try {
       val (e,s) = searchWrong_error(test.input, env, state, correctErrors)
       if (wrongToken == false) {
+        correctNum_E += 1
         correctErrorPosSet ++= wayOfPosSet.map(su => {
           val count = getCommandsCount(su._1,su._2)
           val iset = (0 to count-1).toList.flatMap(i =>{
@@ -375,10 +382,14 @@ object SearchWrong {
           }).toSet
           (su._1, (su._2, iset))
         }).toSet
-      } 
+      } else {
+        // println(test.description)
+        // println(displayES(e,s))
+        // 0/0
+      }
     } catch {
-      case e: Base.MyError => 
-      case e => 
+      case e: Base.MyError => errorNum_E += 1
+      case e => errorNum_E += 1
     }
   }
 
@@ -457,6 +468,10 @@ object SearchWrong {
       state = newS
       wayOfPosSet = wayOfPosSet ++ Set(currentPos, (currentPos._1, None))
       switchNum += 1
+    }
+    if (!eofFlag) {
+      stopNum_E += 1
+      wrongToken = true
     }
     (env,state)
   }
@@ -811,6 +826,11 @@ object SearchWrong {
     // val sents = getAllWrongSents()
     // println(sents.size)
     allWrongSentences.foreach(sent => {
+      val henkan = getCom(stateCommandList, sent)
+      outfile.println("%s\n%s\n".format(sent,henkan))
+    })
+    outfile.println("---white----\n\n\n")
+    allWhiteSentences.foreach(sent => {
       val henkan = getCom(stateCommandList, sent)
       outfile.println("%s\n%s\n".format(sent,henkan))
     })

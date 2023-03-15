@@ -12,7 +12,7 @@ object Interpreter {
 
   def loadDef(): Any = {
     if (definition != null) return
-    definition = makeStateDefinition("src/input/translate_1227.txt")
+    definition = makeStateDefinition("src/input/translate_fix_119_5_fix.txt")
     println("\u001b[37m\u001b[46mINFO: \u001b[0m definition was set")
     OtherStateDef.init()
   }

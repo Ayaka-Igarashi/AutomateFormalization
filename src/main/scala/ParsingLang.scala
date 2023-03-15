@@ -204,6 +204,7 @@ object ParsingLang {
           case "this_is_parse_error" => {
             args match {
               case Noun(e, None, _) :: Nil => Assign(LVar("error_list"), ECons(EVal("error_list"), EVal(e)))
+              case Noun(e, _, _) :: Nil => Assign(LVar("error_list"), ECons(EVal("error_list"), EVal(e)))
               case _ => error("command2ParseLang : error command invalid\n>%s".format(args))
             }
           }
@@ -290,6 +291,7 @@ object ParsingLang {
         // ほんとは the を含むかつ _token で終わるやつを指定したいが、学習データで the を取り除いてしまっているからこうなっている
         if (s.endsWith("_token") && s != "end-of-file_token" && !s.endsWith("_character_token")) Noun("current_token",a,c)
         else if (s == "current_input_character") Noun(s, a, None)
+        else if (s == "0" || s=="10" || s=="16") Noun(s, a, None)
         else if (s == "temporary_buffer") Noun(s, a, None)
         else if (s == "attribute") Noun(s, a, None)
         else if (s.endsWith("_parse_error")) Noun(s, a, None)
@@ -302,6 +304,7 @@ object ParsingLang {
       case Noun(s, a, c) => {
         if (s.endsWith("_token") && s != "end-of-file_token" && !s.endsWith("_character_token")) Noun("current_token",a,c)
         else if (s == "current_input_character") Noun(s, a, None)
+        else if (s == "0" || s=="10" || s=="16") Noun(s, a, None)
         else if (s == "temporary_buffer") Noun(s, a, None)
         else noun
       }
@@ -311,7 +314,7 @@ object ParsingLang {
   // 
   def replaceAtt(eatt: EAtt1): Eexp = {
     eatt match {
-      case EAtt1(ev,Att1(A1Var(n), ANone)) if ev == EVal("attribute") => EAtt1(EVal("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
+      case EAtt1(ev,Att1(A1Var(n), ANone)) if ev == EVal("attribute")||ev == EVal("current_attribute") => EAtt1(EVal("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
       case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "lowercase_version" => EAtt2(ev,A2Var(n))
       case EAtt1(ev,Att1(A1Var(n), ANone)) if n == "numeric_version" => EAtt2(ev,A2Var(n))
       case _ => eatt
@@ -319,7 +322,7 @@ object ParsingLang {
   }
   def replaceLAtt(latt: LAtt): Lexp = {
     latt match {
-      case LAtt(ev,Att1(A1Var(n), ANone)) if ev == LVar("attribute") => LAtt(LVar("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
+      case LAtt(ev,Att1(A1Var(n), ANone)) if ev == LVar("attribute")||ev == LVar("current_attribute") => LAtt(LVar("current_token"),Att1(A1Var("attributes"), Att1(LastElem, Att1(A1Var(n), ANone))))
       case _ => latt
     }
   }

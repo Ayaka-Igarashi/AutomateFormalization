@@ -12,7 +12,7 @@ object GenerateTrainingData {
   val multiDataNum_ev = 1000
 
   val normalDataNum = 25000 //25000 simple:40000 if:30000
-  val ifDataNum = 15000 //15000
+  val ifDataNum = 15000
   val multiDataNum = 10000
 
   val traingDataFile = "src/out/trainingData.txt"
@@ -33,6 +33,7 @@ object GenerateTrainingData {
       val termStr = m._2._2
       dataOut.println("%s\t%s".format(natStr, termStr))
     })
+    // fixp
     generateData_if(dataOut)
     generateData_multi(dataOut)
     dataOut.close()
@@ -294,13 +295,55 @@ object GenerateTrainingData {
     }).toMap
   }
 
+  var countObj: Set[Int] = Set()
+
+  def kakunin() = {
+    for (i <- 0 to Ontology.ontology.i - 1) {
+      if (!countObj.contains(i)) {
+        println(i)
+      }
+    }
+  }
+
   def getOntologyObjectWithIdx(xlist: List[String]): Map[String, List[String]] = {
     val random = new Random
     xlist.map(x => {
       var i = 0
       var min: Int = 0
       var max: Int = Ontology.ontology.i - 1
+      var nopos: Boolean = false
+      var noref: Boolean = false
+      var withref: Boolean = false
       x match {
+        case s"z${num}:${str}#nopos#ref" => {
+          i = num.toInt
+          val stri = OntologyMatch.searchIndex(str)
+          val (min2, max2) = Ontology.getSubtreeIndexRange(stri)
+          min = min2
+          max = max2
+          nopos = true
+          withref = true
+        }
+        case s"z${num}:${str}#nopos" => {
+          i = num.toInt
+          val stri = OntologyMatch.searchIndex(str)
+          val (min2, max2) = Ontology.getSubtreeIndexRange(stri)
+          min = min2
+          max = max2
+          nopos = true
+        }
+        case s"z${num}#nopos" => {
+          i = num.toInt
+          nopos = true
+        }
+        case s"z${num}:${str}#noref" => {
+          i = num.toInt
+          val stri = OntologyMatch.searchIndex(str)
+          val (min2, max2) = Ontology.getSubtreeIndexRange(stri)
+          min = min2
+          max = max2
+          noref = true
+        }
         case s"z${num}:${str}" => {
           i = num.toInt
           val stri = OntologyMatch.searchIndex(str)
@@ -316,11 +359,20 @@ object GenerateTrainingData {
       val obji = min + random.nextInt(max-min)
       var objs: List[String] = List() 
 
+      countObj += obji
+
       OntologyMatch.getRandomAttribute(obji) match {
-        case None => objs :+= (OntologyMatch.searchValue(obji) + getIndex(2))
+        case None => {
+          if (noref) objs :+= (OntologyMatch.searchValue(obji) + getIndex(0))
+          else if (withref) objs :+= (OntologyMatch.searchValue(obji) + " [0]")
+          else objs :+= (OntologyMatch.searchValue(obji) + getIndex(2))
+        }
         case Some(atti) => {
-          objs :+= (OntologyMatch.searchValue(obji) + getIndex(5))
-          objs :+= (OntologyMatch.searchValue(atti))
+          if (noref) objs :+= (OntologyMatch.searchValue(obji) + getIndex(0))
+          else if (withref) objs :+= (OntologyMatch.searchValue(obji) + " [0]")
+          else objs :+= (OntologyMatch.searchValue(obji) + getIndex(5))
+          // fixp
+          if (!nopos) objs :+= (OntologyMatch.searchValue(atti))
         }
       }
       (x.format(i), objs)
@@ -339,15 +391,18 @@ object GenerateTrainingData {
   }
 
   def generateVpTerm(n: Int): Map[String, (String,String)] = {
+    // fixp
     import DataTemplate._
+    import DataTemplateFix._
+    val template = templates ++ templatesfix
     val random = new Random
     // 引数の個数に関して確率の重みをつける(引数が多いほど出やすくなる)
-    val weights = ruleWeights(templates.map(t => t._3))
+    val weights = ruleWeights(template.map(t => t._3))
     val randomMax = weights.last
     List.range(0,n).map(i => {
       val randomValue = random.nextInt(randomMax)
       val ruleidx = searchRuleIdx(weights, randomValue)
-      val rule = templates(ruleidx)
+      val rule = template(ruleidx)
       // 引数の個数文オントロジーの単語を採ってくる
       // return Map[String, List[String]]  e.g. Map("z0" -> List("character_token", "data"))
       val subs = rule._1 match {
@@ -391,9 +446,10 @@ object GenerateTrainingData {
   }
 
   def ruleWeights(list: List[Int]): List[Int] = {
-    val w0 = 5
-    val w1 = 100
-    val w2 = 1000
+    // fixp
+    val w0 = 7//5
+    val w1 = 100//100
+    val w2 = 1000//1000
     var acc = 0
     list.map(n => {
       if (n == 0) {acc += w0; acc}
